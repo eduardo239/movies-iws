@@ -1,7 +1,19 @@
-import '../styles/globals.css'
+import { useEffect, useState } from 'react';
+import '../styles/reset.css';
+import '../styles/globals.scss';
+import '../styles/style.scss';
+import Layout from '../components/ui/Layout';
+import { UserContextProvider } from '../utils/useUser';
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+function App({ Component, pageProps }) {
+  useEffect(() => {}, []);
+
+  return (
+    <UserContextProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </UserContextProvider>
+  );
 }
-
-export default MyApp
+export default App;

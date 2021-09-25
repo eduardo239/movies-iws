@@ -1,0 +1,35 @@
+.container {
+  padding: 0 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.header,
+.main,
+.footer {
+  width: 100%;
+  padding: 0.75rem;
+}
+
+.header {
+  background-color: var(--light-00);
+}
+
+.main {
+  background-color: var(--light-20);
+  /* border: 3px solid var(--light-00); */
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer {
+  height: 100px;
+  border-top: 1px solid var(--light-60);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
