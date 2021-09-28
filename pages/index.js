@@ -11,7 +11,7 @@ export default function Home({}) {
   const [opacity, setOpacity] = useState(false);
   const [page, setPage] = useState(1);
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&sort_by=popularity.desc&page=${page}`
+    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&sort_by=popularity.desc&page=${page}`
   );
   if (data) console.log(data);
   if (isLoading) return <Spinner />;
@@ -21,7 +21,7 @@ export default function Home({}) {
     <section className="flex-center">
       <div>
         <Search setOpacity={setOpacity}></Search>
-        <h1 className="text-center">Filmes em Exibição</h1>
+        <h1 className="text-center">Filmes Popular</h1>
         <div className={`flex-0  mb-20 ${opacity ? 'opacity-20' : ''}`}>
           {data.results.map((m) => (
             <div key={m.id} className="movie-item">

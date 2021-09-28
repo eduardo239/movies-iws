@@ -12,6 +12,7 @@ import Message from '../../components/Message';
 import poster from '../../assets/p.png';
 import video from '../../assets/v.png';
 import thumb from '../../assets/b.png';
+import star from '../../assets/star.png';
 import eye from '../../assets/bi_eye.svg';
 import calendar from '../../assets/bi_calendar.svg';
 import poster_default from '../../assets/p.png';
@@ -178,10 +179,14 @@ export default function Movie() {
           starList.slice(0, 5).map((c) => (
             <div key={c.id}>
               <Image
-                src={`http://image.tmdb.org/t/p/w342${c.profile_path}`}
+                src={`${
+                  c.profile_path
+                    ? `http://image.tmdb.org/t/p/w342${c.profile_path}`
+                    : star.src
+                }`}
                 alt={c.original_name}
-                width="128"
-                height="175"
+                width="148"
+                height="222"
               />
               <p className="p-small">{c.original_name}</p>
             </div>
