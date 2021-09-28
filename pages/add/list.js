@@ -5,7 +5,7 @@ import { containsObjectId } from '../../utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import Message from '../../components/Message';
-import poster_default from '../../assets/p.png';
+import poster_default from '../../assets/poster.png';
 
 const List = () => {
   const { user } = useUser();
@@ -141,11 +141,11 @@ const List = () => {
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label htmlFor="list-item">Nome do Item</label>
+          <label htmlFor="list-items">Nome do Item</label>
           <input
             required
             type="text"
-            id="list-item"
+            id="list-items"
             value={term}
             onChange={(e) => setTerm(e.target.value)}
           />

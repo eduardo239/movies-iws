@@ -248,7 +248,7 @@ form .form-group {
   justify-content: flex-start;
 }
 
-.list-item {
+.list-items {
   display: flex;
   background: var(--light-20);
   margin-bottom: 0.25rem;
@@ -289,13 +289,37 @@ form .form-group {
   color: var(--light-80);
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - REMAKE
+.flex-center,
+.flex-start {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.flex-center {
+  justify-content: center;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - SEARCH
+.search-field {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  padding: 1rem 2rem;
+}
 .search-result {
   position: absolute;
   display: flex;
-  background: var(--light-00);
-  // outline: 4px solid var(--primary);
-  // padding: 10px;
-
+  background: var(--light-100);
+  padding: 1rem;
   z-index: 100;
   top: 70;
   left: 0;
@@ -303,6 +327,9 @@ form .form-group {
   margin-left: auto;
   margin-right: auto;
 }
+
+// - - - - - - - - - - - - - - - - - - - - - - - - SPACE
+
 .mb-1 {
   margin-bottom: 0.1rem;
 }

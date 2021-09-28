@@ -4,7 +4,7 @@ import useFetch from '../utils/useFetch';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
-import poster_default from '../assets/p.png';
+import poster_default from '../assets/poster.png';
 
 export default function Upcoming() {
   const [page, setPage] = useState(1);
@@ -19,8 +19,8 @@ export default function Upcoming() {
   return (
     <section className="flex-center">
       <div>
-        <h1>Em Breve</h1>
-        <div className="flex-0 mb-20">
+        <h1 className="text-center">Em Breve</h1>
+        <div className="flex-center gap-10 mb-20">
           {data.results.map((m) => (
             <div key={m.id} className="movie-item">
               <Link href={`/movie/${m.id}`} passHref>

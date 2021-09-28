@@ -37,7 +37,7 @@ const Lists = ({ lists }) => {
       </div>
       <div className="flex-2">
         {items.map((m) => (
-          <section key={m.id} className="list-item">
+          <section key={m.id} className="list-items">
             <Image
               src={fig1.src}
               alt="List Poster"

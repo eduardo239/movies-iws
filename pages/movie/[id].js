@@ -9,13 +9,13 @@ import { supabase } from '../../utils/supabase';
 import { containsObjectId } from '../../utils';
 import { useEffect, useState } from 'react';
 import Message from '../../components/Message';
-import poster from '../../assets/p.png';
+import poster from '../../assets/poster.png';
 import video from '../../assets/v.png';
 import thumb from '../../assets/b.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/bi_eye.svg';
 import calendar from '../../assets/bi_calendar.svg';
-import poster_default from '../../assets/p.png';
+import poster_default from '../../assets/poster.png';
 
 export default function Movie() {
   const router = useRouter();
@@ -103,6 +103,9 @@ export default function Movie() {
     }
   };
 
+  console.log(`videoList`);
+  console.log(videoList);
+
   return (
     <section>
       {message && (
@@ -117,11 +120,11 @@ export default function Movie() {
             src={`${
               data.poster_path
                 ? 'http://image.tmdb.org/t/p/w342' + data.poster_path
-                : poster_default.src
+                : poster.src
             }`}
           />
         </div>
-        {/* TODO: empty space */}
+
         <div style={{ minWidth: `684px` }}>
           {videos?.results?.length > 0 && (
             <iframe
@@ -174,7 +177,7 @@ export default function Movie() {
       <hr />
 
       <h3 className="mb-10">Cast</h3>
-      <div className="mb-20 flex-start" style={{ gap: '1rem' }}>
+      <div className="mb-20 flex-start " style={{ gap: '1rem' }}>
         {starList.length > 0 &&
           starList.slice(0, 5).map((c) => (
             <div key={c.id}>
@@ -214,27 +217,33 @@ export default function Movie() {
         </p>
       </div>
 
-      <hr />
-      {videoList.length < 1 && (
+      {videoList.length > 1 && (
         <>
-          <h3 className="mb-5">Mais Vídeos</h3>
-          <div className="videos-grid">
-            {videoList.slice(1, 3).map((v) => (
-              <iframe
-                key={v.id}
-                width="456"
-                height="234"
-                src={`//www.youtube.com/embed/${v.key}?rel=0`}
-                frameBorder="0"
-                allowFullScreen
-              ></iframe>
-            ))}
-          </div>
+          <hr />
+          <h3 className="mb-10 text-center">Mais Vídeos</h3>
+          {videoList.length > 1 && (
+            <div className="flex-center gap-10 mb-20">
+              <div className="videos-grid">
+                {videoList.slice(1, 3).map((v) => (
+                  <iframe
+                    key={v.id}
+                    width="456"
+                    height="234"
+                    src={`//www.youtube.com/embed/${v.key}?rel=0`}
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
 
       {similarList.length > 0 && (
         <>
+          <hr />
+
           <h3 className="mb-5 text-center">Filmes Similares</h3>
           <div
             className="videos-grid"
