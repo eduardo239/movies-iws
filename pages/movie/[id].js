@@ -2,6 +2,7 @@ import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
@@ -21,6 +22,8 @@ export default function Movie() {
   const { user, profile } = useUser();
   const [message, setMessage] = useState(false);
   const [videoList, setVideosList] = useState([]);
+  const [similarList, setSimilarList] = useState([]);
+  const [starList, setStarList] = useState([]);
 
   const { data, isLoading, isError } = useFetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
@@ -33,12 +36,17 @@ export default function Movie() {
   const { data: stars } = useFetch(
     `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
   );
-  console.log(stars);
+
+  const { data: similar } = useFetch(
+    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+  );
+
   useEffect(() => {
     //videos?.results?.length
-    if (videos?.results && videos.results?.length > 0)
-      setVideosList(videos.results);
-  }, [videos]);
+    if (videos?.results?.length > 0) setVideosList(videos.results);
+    if (stars?.cast?.length > 0) setStarList(stars.cast);
+    if (similar?.results?.length > 0) setSimilarList(similar.results);
+  }, [videos, stars, similar]);
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error />;
@@ -166,9 +174,8 @@ export default function Movie() {
 
       <h3 className="mb-10">Cast</h3>
       <div className="mb-20 flex-start" style={{ gap: '1rem' }}>
-        {stars &&
-          stars?.cast.length > 0 &&
-          stars.cast.slice(0, 5).map((c) => (
+        {starList.length > 0 &&
+          starList.slice(0, 5).map((c) => (
             <div key={c.id}>
               <Image
                 src={`http://image.tmdb.org/t/p/w342${c.profile_path}`}
@@ -203,20 +210,53 @@ export default function Movie() {
       </div>
 
       <hr />
+      {videoList.length < 1 && (
+        <>
+          <h3 className="mb-5">Mais Vídeos</h3>
+          <div className="videos-grid">
+            {videoList.slice(1, 3).map((v) => (
+              <iframe
+                key={v.id}
+                width="456"
+                height="234"
+                src={`//www.youtube.com/embed/${v.key}?rel=0`}
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+            ))}
+          </div>
+        </>
+      )}
 
-      <h3 className="mb-5">Mais Vídeos</h3>
-      <div className="videos-grid">
-        {videoList.slice(1, 3).map((v) => (
-          <iframe
-            key={v.id}
-            width="456"
-            height="234"
-            src={`//www.youtube.com/embed/${v.key}?rel=0`}
-            frameBorder="0"
-            allowFullScreen
-          ></iframe>
-        ))}
-      </div>
+      {similarList.length > 0 && (
+        <>
+          <h3 className="mb-5 text-center">Filmes Similares</h3>
+          <div
+            className="videos-grid"
+            style={{ gap: '1rem', justifyContent: 'center' }}
+          >
+            {similarList.slice(0, 6).map((m) => (
+              <div key={m.id} className="movie-item">
+                <Link href={`/movie/${m.id}`} passHref>
+                  <a>
+                    <Image
+                      width="140"
+                      height="210"
+                      alt={m.original_title}
+                      src={`${
+                        m.poster_path
+                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                          : poster_default.src
+                      }`}
+                    />
+                    <span>{m.original_title}</span>
+                  </a>
+                </Link>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </section>
   );
 }
