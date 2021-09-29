@@ -41,7 +41,7 @@ export default function Upcoming() {
             </div>
           ))}
         </div>
-        <div className="flex-0 mb-20">
+        <div className="flex-center gap-10 mb-20">
           <button
             className="btn btn-300"
             onClick={() => setPage(page - 1)}

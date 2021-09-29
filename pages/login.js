@@ -76,7 +76,7 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <button className="btn btn-primary">Login</button>
+            <button className="btn btn-primary w-100">Login</button>
           </div>
         </form>
 

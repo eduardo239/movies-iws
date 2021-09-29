@@ -5,7 +5,7 @@ http://google.github.io/material-design-icons/
 */
 
 :root {
-  --primary: #279af1;
+  --primary: #3cba92;
 
   --light-100: #f2f2f2;
   --light-80: #bebebe;
@@ -126,7 +126,7 @@ small,
 .small {
   color: var(--light-60);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 0.75rem;
   line-height: 16px;
   letter-spacing: 0.035rem;
@@ -192,6 +192,9 @@ b {
 .block {
   display: block;
 }
+.justify-center {
+  justify-content: center;
+}
 .opacity-20 {
   opacity: 0.2;
 }
@@ -200,78 +203,12 @@ b {
   gap: 1rem;
 }
 
-// TODO: move section
-// .horizontal-links {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 0.1rem;
-// }
-
-// TODO:
-// .flex-0 {
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 0.5rem;
-//   justify-content: center;
-//   max-width: 800px;
-//   // margin: 0 auto;
-// }
-
-// .flex-1 {
-//   display: flex;
-//   gap: 0.2rem;
-//   padding: 0.5rem 0;
-// }
-
-// .flex-2 {
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .flex-3 {
-//   flex: 1;
-// }
-
-// .grid-0 {
-//   display: grid;
-//   grid-template-columns: auto 1fr;
-//   gap: 1rem;
-// }
-
 @media screen and(max-width: 600px) {
   .grid-0 {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-}
-
-//
-.movie-item {
-  outline: 1px solid var(--light-00);
-  box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.12);
-  max-width: 150px;
-  padding: 0.5rem;
-  // line-height: 1.5;
-  &:hover {
-    outline: 1px solid var(--light-60);
-  }
-  a,
-  span {
-    color: var(--light-80);
-    letter-spacing: 0.04rem;
-    font-size: 0.875rem;
-  }
-}
-
-.movie-grid-buttons {
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: flex-start;
-  flex-wrap: wrap;
 }
 
 ::-moz-selection {

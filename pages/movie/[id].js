@@ -244,7 +244,7 @@ export default function Movie() {
         <>
           <hr />
 
-          <h3 className="mb-5 text-center">Filmes Similares</h3>
+          <h3 className="mb-5 text-center">Outros Filmes</h3>
           <div
             className="videos-grid"
             style={{ gap: '1rem', justifyContent: 'center' }}

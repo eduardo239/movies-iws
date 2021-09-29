@@ -24,7 +24,7 @@ const Navbar = () => {
 
       {user && (
         <Link href={`/user/${user?.id ?? ''}`}>
-          <a>{profile?.username ?? `profile`}</a>
+          <a>@{profile?.username ?? `profile`}</a>
         </Link>
       )}
 

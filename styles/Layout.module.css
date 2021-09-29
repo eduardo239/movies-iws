@@ -23,7 +23,7 @@
   /* border: 3px solid var(--light-00); */
   flex: 1;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .footer {

@@ -130,8 +130,8 @@ const List = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={search}>
+    <section>
+      <form onSubmit={search} className="new-list">
         <div className="form-group">
           <label htmlFor="list-name">Nome da lista</label>
           <input
@@ -140,72 +140,74 @@ const List = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-
-          <label htmlFor="list-items">Nome do Item</label>
-          <input
-            required
-            type="text"
-            id="list-items"
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-          />
         </div>
 
-        <div className="flex-1">
-          <div className="form-group-checkbox">
+        <div>
+          <div className="form-group">
+            <label htmlFor="list-items">Nome do Item</label>
             <input
-              id="lists-search-movies"
-              type="checkbox"
-              defaultChecked={options.movie}
-              onChange={() =>
-                setOptions({
-                  movie: !options.movie,
-                  tv: options.tv,
-                })
-              }
+              required
+              type="text"
+              id="list-items"
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
             />
-            <label htmlFor="lists-search-movies">Movies</label>
           </div>
 
-          <div className="form-group-checkbox">
-            <input
-              id="lists-search-tvs"
-              type="checkbox"
-              defaultChecked={options.tv}
-              onChange={() =>
-                setOptions({
-                  movie: options.movie,
-                  tv: !options.tv,
-                })
-              }
-            />
-            <label htmlFor="lists-search-tvs">TV</label>
-          </div>
-        </div>
+          <div className="flex-center gap-10">
+            <div className="form-group-checkbox">
+              <input
+                id="lists-search-movies"
+                type="checkbox"
+                defaultChecked={options.movie}
+                onChange={() =>
+                  setOptions({
+                    movie: !options.movie,
+                    tv: options.tv,
+                  })
+                }
+              />
+              <label htmlFor="lists-search-movies">Movies</label>
+            </div>
 
-        <div className="form-group">
-          <button onClick={search} className="btn btn-primary btn-100">
-            Buscar
-          </button>
+            <div className="form-group-checkbox">
+              <input
+                id="lists-search-tvs"
+                type="checkbox"
+                defaultChecked={options.tv}
+                onChange={() =>
+                  setOptions({
+                    movie: options.movie,
+                    tv: !options.tv,
+                  })
+                }
+              />
+              <label htmlFor="lists-search-tvs">TV</label>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <button onClick={search} className="btn btn-primary w-100">
+              Buscar
+            </button>
+          </div>
         </div>
       </form>
 
-      <section className="flex-1">
-        <div style={{ flex: '3' }}>
-          {/* side e */}
-
+      <section className="flex-center">
+        <div>
           {data.results?.length > 0 && (
             <div>
               <h4>Resultados:</h4>
 
-              <div className="flex-0">
+              <div className="flex-center gap-10 mb-20">
                 {data.results.map((m) => (
-                  <div key={m.id} className="movie-item flex-2">
+                  <div key={m.id} className="movie-item ">
                     <Link
                       href={`/${m.original_title ? 'movie' : 'tv'}/${m.id}`}
                       passHref
                     >
-                      <a className="flex-3">
+                      <a className="mb-20">
                         <Image
                           width="140"
                           height="210"
@@ -240,7 +242,7 @@ const List = () => {
                     </p>
                     <button
                       onClick={() => handleAdd(m)}
-                      className="btn btn-secondary"
+                      className="btn-small w-100 btn-primary"
                     >
                       adicionar
                     </button>
@@ -251,9 +253,7 @@ const List = () => {
           )}
         </div>
 
-        <div style={{ flex: '1' }}>
-          {/* side r */}
-          <h3>lista: {name}</h3>
+        <div>
           <div>
             {items.length > 0 && (
               <div>
@@ -305,7 +305,7 @@ const List = () => {
           )}
         </div>
       </section>
-    </div>
+    </section>
   );
 };
 

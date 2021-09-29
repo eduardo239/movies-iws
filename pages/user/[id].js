@@ -39,7 +39,7 @@ const Profile = ({ profile }) => {
     return (
       <div>
         <section>
-          <h1>Conta: @{profile.username}</h1>
+          <h1>Conta: @{profile?.username}</h1>
         </section>
 
         <hr />
@@ -49,13 +49,13 @@ const Profile = ({ profile }) => {
           )}
         </div>
 
-        <h2>Vistos - {watched.length}</h2>
-        <section className="flex-0">
+        <h2 className="mb-10">Filmes já vistos.</h2>
+        <section className="flex-center gap-10">
           {watched
             .map((m) => (
               <div key={m.id} className="movie-item flex-2">
                 <Link href={`/movie/${m.id}`} passHref>
-                  <a className="flex-3">
+                  <a className="mb-20">
                     <Image
                       width="140"
                       height="210"
@@ -67,7 +67,7 @@ const Profile = ({ profile }) => {
                 </Link>
                 <div>
                   <button
-                    className="btn btn-danger"
+                    className="btn-small w-100 btn-secondary"
                     onClick={() => removeFromWatched(m)}
                   >
                     remover
@@ -78,14 +78,14 @@ const Profile = ({ profile }) => {
             .reverse()}
         </section>
 
-        <h2>Para ver - {toSee.length}</h2>
+        <h2 className="mb-10">Filmes para ver.</h2>
 
-        <section className="flex-0">
+        <section className="flex-center gap-10">
           {toSee
             .map((m) => (
               <div key={m.id} className="movie-item flex-2">
                 <Link href={`/movie/${m.id}`} passHref>
-                  <a className="flex-3">
+                  <a className="mb-20">
                     <Image
                       width="140"
                       height="210"
@@ -97,7 +97,7 @@ const Profile = ({ profile }) => {
                 </Link>
                 <div>
                   <button
-                    className="btn btn-danger"
+                    className="btn-small w-100 btn-secondary"
                     onClick={() => removeFromToSee(m)}
                   >
                     remover
@@ -109,7 +109,7 @@ const Profile = ({ profile }) => {
         </section>
 
         <section>
-          <h2>Listas - {profile.lists.length}</h2>
+          <h2 className="mb-10">Minhas listas</h2>
         </section>
       </div>
     );

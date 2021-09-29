@@ -26,7 +26,7 @@ export default function Movie({ list }) {
   return (
     <section>
       <h1>{list?.listname ?? 'Lista'}</h1>
-      <div className="flex-0">
+      <div className="flex-center gap-10">
         {items.length > 0 &&
           items.map((m) => (
             <div key={m.id} className="movie-item">
