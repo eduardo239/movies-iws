@@ -53,7 +53,7 @@ const Profile = ({ profile }) => {
         <section className="flex-center gap-10">
           {watched
             .map((m) => (
-              <div key={m.id} className="movie-item flex-2">
+              <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a className="mb-20">
                     <Image

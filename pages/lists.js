@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { dateFormat } from '../utils';
 import fig1 from '../assets/fig1.png';
 import fig2 from '../assets/fig2.png';
+import list from '../assets/eva_list-outline.svg';
 
 const Lists = ({ lists }) => {
   const [items, setItems] = useState([]);
@@ -23,7 +24,10 @@ const Lists = ({ lists }) => {
           e outros usuários.
         </p>
         <Link href={`/add/list`} passHref>
-          <a className="btn btn-primary btn-200">Criar Lista</a>
+          <a className="btn-icon btn-primary">
+            <Image src={list.src} alt="See" width="24" height="24" /> Criar
+            Lista
+          </a>
         </Link>
       </div>
 

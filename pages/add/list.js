@@ -6,6 +6,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Message from '../../components/Message';
 import poster_default from '../../assets/poster.png';
+import searchIcon from '../../assets/eva_search-outline.svg';
+import trashIcon from '../../assets/eva_trash-outlineb.svg';
+import saveIcon from '../../assets/eva_save-outline.svg';
+import closeIcon from '../../assets/eva_close-outline.svg';
+import Masonry from 'react-masonry-css';
 
 const List = () => {
   const { user } = useUser();
@@ -67,34 +72,52 @@ const List = () => {
       const { data: listsData, error: listsDataError } = await supabase
         .from('lists')
         .insert([body])
-        .eq('user_id', user.id);
+        .eq('user_id', user.id)
+        .single();
 
       if (listsDataError) alert(`listsDataError`);
       if (data) {
         // pega o id da nova linha da tabela lists
-        const newListId = listsData[0].id;
+        const newListId = listsData.id;
 
         // pega as listas do profile
         const { data: profileLists, error: profileListsError } = await supabase
           .from('profiles')
           .select('lists')
-          .eq('user_id', user.id)
-          .single();
-        if (profileListsError) alert(`profileListsError`);
-        if (profileLists) {
-          // adicionar o novo item nas listas
-          const newArray = [...profileLists.lists, newListId];
+          .eq('user_id', user.id);
 
-          // atualiza o profile com a nova array
-          const { data, error } = await supabase
-            .from('profiles')
-            .update({ lists: newArray })
-            .eq('user_id', user.id);
+        console.log('profileLists');
+        console.log(profileLists);
 
-          if (error) alert(error);
-          setMessage(true);
-          setTimeout(() => setMessage(false), 2000);
+        if (profileListsError) {
+          alert(`profileListsError`);
+          return;
         }
+        let newArray = [];
+        console.log(profileLists[0].lists.length === 0);
+
+        // FIXME:
+        if (profileLists.lists !== null && profileLists[0].lists.length === 0) {
+          newArray = [newListId];
+          console.log(1);
+        } else {
+          // adicionar o novo item nas listas
+          newArray = [...profileLists.lists, newListId];
+          console.log(2);
+        }
+
+        console.log('newArray');
+        console.log(newArray);
+
+        // atualiza o profile com a nova array
+        const { data, error } = await supabase
+          .from('profiles')
+          .update({ lists: newArray })
+          .eq('user_id', user.id);
+
+        if (error) alert(error);
+        setMessage(true);
+        setTimeout(() => setMessage(false), 2000);
       }
     }
   };
@@ -130,138 +153,168 @@ const List = () => {
   };
 
   return (
-    <section>
-      <form onSubmit={search} className="new-list">
-        <div className="form-group">
-          <label htmlFor="list-name">Nome da lista</label>
-          <input
-            type="text"
-            id="list-name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
+    <section className="w-100">
+      {/* a left top */}
+      <div className="flex-start gap-10 w-100 mb-20">
+        <div className="flex-1 mr-10">
+          <form onSubmit={search} className="new-list">
+            <div className="form-group w-100">
+              <label htmlFor="list-items">Nome do Item</label>
+              <input
+                required
+                type="text"
+                id="list-items"
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
+              />
+            </div>
+
+            <div className="flex-center w-100">
+              <div className="form-group-checkbox flex-1 mr-10">
+                <input
+                  id="lists-search-movies"
+                  type="checkbox"
+                  defaultChecked={options.movie}
+                  onChange={() =>
+                    setOptions({
+                      movie: !options.movie,
+                      tv: options.tv,
+                    })
+                  }
+                />
+                <label htmlFor="lists-search-movies">Movies</label>
+              </div>
+
+              <div className="form-group-checkbox flex-1 mr-10">
+                <input
+                  id="lists-search-tvs"
+                  type="checkbox"
+                  defaultChecked={options.tv}
+                  onChange={() =>
+                    setOptions({
+                      movie: options.movie,
+                      tv: !options.tv,
+                    })
+                  }
+                />
+                <label htmlFor="lists-search-tvs">TV</label>
+              </div>
+
+              <button
+                onClick={search}
+                className="btn-icon btn-primary w-100 flex-1"
+              >
+                <Image
+                  src={searchIcon.src}
+                  alt="Search"
+                  width="24"
+                  height="24"
+                />
+                Buscar
+              </button>
+            </div>
+          </form>
         </div>
 
-        <div>
-          <div className="form-group">
-            <label htmlFor="list-items">Nome do Item</label>
+        {/* b right top */}
+        <div className="flex-1">
+          <div className="form-group w-100 mb-10">
+            <label htmlFor="list-name">Nome da lista</label>
             <input
-              required
               type="text"
-              id="list-items"
-              value={term}
-              onChange={(e) => setTerm(e.target.value)}
+              id="list-name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
           </div>
-
-          <div className="flex-center gap-10">
-            <div className="form-group-checkbox">
-              <input
-                id="lists-search-movies"
-                type="checkbox"
-                defaultChecked={options.movie}
-                onChange={() =>
-                  setOptions({
-                    movie: !options.movie,
-                    tv: options.tv,
-                  })
-                }
-              />
-              <label htmlFor="lists-search-movies">Movies</label>
-            </div>
-
-            <div className="form-group-checkbox">
-              <input
-                id="lists-search-tvs"
-                type="checkbox"
-                defaultChecked={options.tv}
-                onChange={() =>
-                  setOptions({
-                    movie: options.movie,
-                    tv: !options.tv,
-                  })
-                }
-              />
-              <label htmlFor="lists-search-tvs">TV</label>
-            </div>
-          </div>
-
-          <div className="form-group">
-            <button onClick={search} className="btn btn-primary w-100">
-              Buscar
-            </button>
-          </div>
+          <p>Lista: {name}</p>
+          <hr />
+          <p>Quantidade de items: {items.length}</p>
+          <hr />
         </div>
-      </form>
+      </div>
 
-      <section className="flex-center">
-        <div>
+      {/* c main left bottom */}
+      <section className="flex-start">
+        <main className="mr-10">
           {data.results?.length > 0 && (
-            <div>
-              <h4>Resultados:</h4>
-
+            <div className="flex-start">
               <div className="flex-center gap-10 mb-20">
-                {data.results.map((m) => (
-                  <div key={m.id} className="movie-item ">
-                    <Link
-                      href={`/${m.original_title ? 'movie' : 'tv'}/${m.id}`}
-                      passHref
-                    >
-                      <a className="mb-20">
-                        <Image
-                          width="140"
-                          height="210"
-                          alt={
-                            m.original_title
-                              ? m.original_title
-                              : m.original_name
-                              ? m.original_name
-                              : `none`
-                          }
-                          src={`${
-                            m.poster_path
-                              ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                              : poster_default.src
-                          }`}
-                        />
+                <Masonry
+                  breakpointCols={5}
+                  className="my-masonry-grid"
+                  columnClassName="my-masonry-grid_column"
+                >
+                  {data.results.map((m) => (
+                    <div key={m.id} className="movie-item ">
+                      <Link
+                        href={`/${m.original_title ? 'movie' : 'tv'}/${m.id}`}
+                        passHref
+                      >
+                        <a className="mb-20">
+                          <Image
+                            width="140"
+                            height="210"
+                            alt={
+                              m.original_title
+                                ? m.original_title
+                                : m.original_name
+                                ? m.original_name
+                                : `none`
+                            }
+                            src={`${
+                              m.poster_path
+                                ? 'http://image.tmdb.org/t/p/w185' +
+                                  m.poster_path
+                                : poster_default.src
+                            }`}
+                          />
 
-                        {m.original_title
-                          ? m.original_title
-                          : m.original_name
-                          ? m.original_name
-                          : `none`}
-                      </a>
-                    </Link>
+                          {m.original_title
+                            ? m.original_title
+                            : m.original_name
+                            ? m.original_name
+                            : `none`}
+                        </a>
+                      </Link>
 
-                    <p className="small">
-                      {m.release_date
-                        ? m.release_date
-                        : m.first_air_date
-                        ? m.first_air_date
-                        : 'none'}
-                    </p>
-                    <button
-                      onClick={() => handleAdd(m)}
-                      className="btn-small w-100 btn-primary"
-                    >
-                      adicionar
-                    </button>
-                  </div>
-                ))}
+                      <p className="small">
+                        {m.release_date
+                          ? m.release_date
+                          : m.first_air_date
+                          ? m.first_air_date
+                          : 'none'}
+                      </p>
+                      <button
+                        onClick={() => handleAdd(m)}
+                        className="btn-small w-100 btn-primary"
+                      >
+                        adicionar
+                      </button>
+                    </div>
+                  ))}
+                </Masonry>
               </div>
             </div>
           )}
-        </div>
+        </main>
 
-        <div>
+        <aside>
           <div>
             {items.length > 0 && (
               <div>
-                <p>Quantidade de items: {items.length}</p>
-                <hr />
                 {items.length > 0 && (
                   <>
-                    <button onClick={handleReset} className="btn btn-secondary">
+                    <button
+                      onClick={handleReset}
+                      className="btn-icon btn-secondary w-100"
+                    >
+                      <Image
+                        src={closeIcon.src}
+                        alt="Delete"
+                        width="24"
+                        height="24"
+                      />{' '}
                       limpar lista
                     </button>
                     <hr />
@@ -277,7 +330,16 @@ const List = () => {
                         ? m.original_name
                         : `none`}
                     </h6>
-                    <button onClick={() => handleRemove(m)} className="btn">
+                    <button
+                      onClick={() => handleRemove(m)}
+                      className="btn-icon btn-light w-100"
+                    >
+                      <Image
+                        src={trashIcon.src}
+                        alt="Delete"
+                        width="24"
+                        height="24"
+                      />{' '}
                       remover
                     </button>
                     <hr />
@@ -290,8 +352,12 @@ const List = () => {
           {items.length > 0 && (
             <>
               <div>
-                <button onClick={handleSave} className="btn btn-primary">
-                  salvar lista
+                <button
+                  onClick={handleSave}
+                  className="btn-icon btn-primary w-100"
+                >
+                  <Image src={saveIcon.src} alt="Save" width="24" height="24" />
+                  Salvar
                 </button>
               </div>
               <br />
@@ -303,7 +369,7 @@ const List = () => {
               </div>
             </>
           )}
-        </div>
+        </aside>
       </section>
     </section>
   );

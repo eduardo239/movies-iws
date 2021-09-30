@@ -8,7 +8,6 @@
   outline: none;
 
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
 
   align-items: center;
@@ -22,33 +21,39 @@
 .btn-icon,
 .btn {
   padding: 12px 24px;
-  letter-spacing: 0rem;
+  letter-spacing: 0.02rem;
 
-  font-weight: 700;
-  font-size: 1rem;
-  line-height: 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 22px;
 }
 
 .btn {
   justify-content: center;
-  line-height: 22px;
-  text-align: center;
 }
 
 .btn-small {
   padding: 4px 12px;
 
-  letter-spacing: 0.01rem;
-  line-height: 24px;
+  letter-spacing: 0.02rem;
+  line-height: 22px;
 
   font-weight: 500;
   font-size: 0.85rem;
 }
 
 .btn-icon {
+  padding: 12px 24px 12px 12px;
   justify-content: flex-start;
-  font-weight: 600;
-  line-height: 22px;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.25rem;
+
+  border-radius: var(--border-radius);
+
+  & svg {
+    margin-right: 10px;
+  }
 }
 
 .btn,
@@ -69,6 +74,27 @@
       filter: brightness(120%);
     }
   }
+  &.btn-tertiary {
+    color: var(--light-00);
+    background: var(--tertiary);
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+  &.btn-light {
+    color: var(--light-00);
+    background: var(--light-100);
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
+  &.btn-dark {
+    color: var(--light-100);
+    background: var(--light-00);
+    &:hover {
+      filter: brightness(120%);
+    }
+  }
   &.btn-disabled {
     color: var(--dark-80);
     background: var(--dark-20);
@@ -79,32 +105,16 @@
   }
 }
 
-// - - - - - - - - btn icon - - - - - - - -
-.btn-icon {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  gap: 0.5rem;
-
-  background: var(--primary);
-  border-radius: var(--border-radius);
-
-  & svg {
-    margin-right: 10px;
-  }
+.mw-100 {
+  min-width: 100px;
 }
 
-.btn-100 {
-  max-width: 100px;
+.mw-200 {
+  min-width: 200px;
 }
 
-.btn-200 {
-  max-width: 200px;
-}
-
-.btn-300 {
-  max-width: 300px;
+.mw-300 {
+  min-width: 300px;
 }
 
 .btn--link {
@@ -249,32 +259,26 @@
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
+  transition: 0.2s;
   &:hover {
-    outline: 1px solid var(--light-60);
+    outline: 1px solid var(--primary);
   }
   a,
   span {
     color: var(--light-80);
     letter-spacing: 0.04rem;
-    font-size: 0.875rem;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
   }
   p {
     flex: 1;
   }
 }
 
-.movie-grid-buttons {
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
 // - - - - - - - - - - - - - - - - - - - - - - - - REMAKE
 .flex-center,
-.flex-start {
+.flex-start,
+.flex-column {
   display: flex;
   align-items: flex-start;
   flex-wrap: wrap;
@@ -285,6 +289,10 @@
 
 .flex-start {
   justify-content: flex-start;
+}
+
+.flex-column {
+  flex-direction: column;
 }
 
 .flex-1 {
@@ -337,7 +345,7 @@ form .form-group {
     font-style: normal;
     font-weight: 500;
     line-height: 17px;
-    color: --var(dark-80);
+    color: var(--light-80);
   }
   input {
     display: block;
@@ -348,7 +356,7 @@ form .form-group {
     color: var(--light-80);
     background-color: transparent;
     background-clip: padding-box;
-    border: 1px solid var(--light-60);
+    border: 1px solid var(--light-40);
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     &:focus {
@@ -361,20 +369,19 @@ form .form-group {
 
 .form-group-checkbox {
   flex: 1;
-  max-width: 200px;
   display: flex;
   align-items: center;
-  border: 1px solid var(--light-80);
-  margin-bottom: 1rem;
-  padding: 4px 8px;
+  border: 1px solid var(--light-40);
+
+  padding: 5px 8px 6px;
   border-radius: var(--border-radius);
 
   label {
     padding: 0.5rem 0.15rem;
     display: inline-block;
-    letter-spacing: 0.01rem;
+    letter-spacing: 0.03rem;
     font-family: var(--ss);
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     font-style: normal;
     font-weight: 600;
     line-height: 17px;
@@ -425,4 +432,19 @@ form .form-group {
 }
 .mr-20 {
   margin-right: 2rem;
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - MASONRY
+.my-masonry-grid {
+  display: flex;
+  margin-left: -10px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 10px; /* gutter size */
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  /* change div to reference your elements you put in <Masonry> */
+  // margin-bottom: 10px;
 }

@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Search from '../components/Search';
 import { useState } from 'react';
 import poster_default from '../assets/poster.png';
+import Masonry from 'react-masonry-css';
 
 export default function Home({}) {
   const [opacity, setOpacity] = useState(false);
@@ -23,28 +24,34 @@ export default function Home({}) {
       <div>
         <Search setOpacity={setOpacity}></Search>
         <h1 className="text-center">Filmes Populares</h1>
-        <div
-          className={`flex-center gap-10 mb-20 ${opacity ? 'opacity-20' : ''}`}
-        >
-          {data.results.map((m) => (
-            <div key={m.id} className="movie-item">
-              <Link href={`/movie/${m.id}`} passHref>
-                <a>
-                  <Image
-                    width="140"
-                    height="210"
-                    alt={m.original_title}
-                    src={`${
-                      m.poster_path
-                        ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                        : poster_default.src
-                    }`}
-                  />
-                  <span>{m.original_title}</span>
-                </a>
-              </Link>
-            </div>
-          ))}
+        <div className={`mb-20 ${opacity ? 'opacity-20' : ''}`}>
+          <Masonry
+            breakpointCols={5}
+            className="my-masonry-grid"
+            columnClassName="my-masonry-grid_column"
+          >
+            {/* array of JSX items */}
+
+            {data.results.map((m) => (
+              <div key={m.id} className="movie-item mb-10">
+                <Link href={`/movie/${m.id}`} passHref>
+                  <a>
+                    <Image
+                      width="140"
+                      height="210"
+                      alt={m.original_title}
+                      src={`${
+                        m.poster_path
+                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                          : poster_default.src
+                      }`}
+                    />
+                    <span>{m.original_title}</span>
+                  </a>
+                </Link>
+              </div>
+            ))}
+          </Masonry>
         </div>
         <div className="flex-center gap-10 mb-20">
           <button

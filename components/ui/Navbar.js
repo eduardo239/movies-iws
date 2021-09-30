@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { supabase } from '../../utils/supabase';
 import { useUser } from '../../utils/useUser';
-import logo from '../../assets/logo.svg';
+import logo from '../../assets/eva_home-outline.svg';
 import Image from 'next/image';
 
 const Navbar = () => {
@@ -12,7 +12,7 @@ const Navbar = () => {
     <div className="menu-nav">
       <Link href="/">
         <a>
-          <Image src={logo.src} alt="Logo" width="67" height="30" />
+          <Image src={logo.src} alt="Logo" width="24" height="24" />
         </a>
       </Link>
       <Link href="/upcoming">

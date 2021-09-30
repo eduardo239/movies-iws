@@ -13,8 +13,8 @@ import poster from '../../assets/poster.png';
 import video from '../../assets/v.png';
 import thumb from '../../assets/b.png';
 import star from '../../assets/star.png';
-import eye from '../../assets/bi_eye.svg';
-import calendar from '../../assets/bi_calendar.svg';
+import eye from '../../assets/eva_eye-outline.svg';
+import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 
 export default function Movie() {
@@ -103,9 +103,6 @@ export default function Movie() {
     }
   };
 
-  console.log(`videoList`);
-  console.log(videoList);
-
   return (
     <section>
       {message && (
@@ -136,21 +133,27 @@ export default function Movie() {
             ></iframe>
           )}
         </div>
-        <div className="movie-grid-buttons">
-          <button
-            onClick={() => addMovie(0)}
-            className={`btn-icon ${'btn-primary'}`}
+        <div className="flex-column gap-5 flex-1">
+          {/* TODO: media query */}
+          <div
+            className="flex-column w-100 gap-5"
+            style={{ padding: '0 10px' }}
           >
-            <Image src={eye.src} alt="See" width="16" height="16" /> Já vi
-          </button>
+            <button
+              onClick={() => addMovie(0)}
+              className={`btn-icon w-100 mw-100 ${'btn-primary'}`}
+            >
+              <Image src={eye.src} alt="See" width="24" height="24" /> Já vi
+            </button>
 
-          <button
-            onClick={() => addMovie(1)}
-            className={`btn-icon ${'btn-primary'}`}
-          >
-            <Image src={calendar.src} alt="Calendar" width="16" height="16" />
-            Vou ver
-          </button>
+            <button
+              onClick={() => addMovie(1)}
+              className={`btn-icon w-100 ${'btn-primary'}`}
+            >
+              <Image src={calendar.src} alt="Calendar" width="24" height="24" />
+              Vou ver
+            </button>
+          </div>
         </div>
       </div>
       {/* primeira linha */}
