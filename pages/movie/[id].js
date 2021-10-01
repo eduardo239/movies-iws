@@ -6,22 +6,27 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
-import { containsObjectId } from '../../utils';
+import { addMovieTo, containsObjectId } from '../../utils';
 import { useEffect, useState } from 'react';
 import Message from '../../components/Message';
 import poster from '../../assets/poster.png';
-import video from '../../assets/v.png';
+import video from '../../assets/video.png';
 import thumb from '../../assets/b.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
+import Modal from '../../components/Modal';
 
 export default function Movie() {
   const router = useRouter();
   const { id } = router.query;
   const { user, profile } = useUser();
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState({
+    show: false,
+    message: '',
+    type: 'success',
+  });
   const [videoList, setVideosList] = useState([]);
   const [similarList, setSimilarList] = useState([]);
   const [starList, setStarList] = useState([]);
@@ -53,60 +58,22 @@ export default function Movie() {
   if (isError) return <Error />;
 
   const addMovie = async (action) => {
-    if (action === 0) {
-      // busca os filmes já vistos pelo usuário
-      let { data: p, error } = await supabase
-        .from('profiles')
-        .select('movies_watched')
-        .eq('user_id', user.id);
-
-      // verifica se já está na lista
-      const array = p[0]?.movies_watched ?? [];
-      const watched = containsObjectId(data.id, array);
-      const newArray = [...array, data];
-
-      // se não, insere
-      if (!watched) {
-        const body = { movies_watched: newArray };
-        const { data, error } = await supabase
-          .from('profiles')
-          .update([body])
-          .eq('user_id', user.id);
-        if (error) alert('erro !watched');
-        setMessage(true);
-        setTimeout(() => setMessage(false), 2000);
-      } else {
-        alert('ja tem esse filme');
-      }
-    } else if (action == 1) {
-      // busca os filmes já está na lista do usuário
-      let { data: s, error } = await supabase
-        .from('profiles')
-        .select('movies_to_see')
-        .eq('user_id', user.id);
-
-      // verifica se já está na lista
-      const array = s[0]?.movies_to_see ?? [];
-      const to_see = containsObjectId(data.id, array);
-      const newArray = [...array, data];
-
-      // se não, insere
-      if (!to_see) {
-        const body = { movies_to_see: newArray };
-        const { data, error } = await supabase.from('profiles').update([body]);
-        if (error) alert('erro !to_see');
-        setMessage(true);
-        setTimeout(() => setMessage(false), 2000);
-      } else {
-        alert('ja tem esse filme');
-      }
-    }
+    // TODO: mensagem quando o item já estiver na lista
+    setMessage({
+      show: true,
+      message: 'Item adicionado com sucesso.',
+      type: 'success',
+    });
+    await addMovieTo(action, user.id, data);
+    setTimeout(() => {
+      setMessage({ show: false, message: '', type: 'success' });
+    }, 2000);
   };
 
   return (
     <section>
-      {message && (
-        <Message type="success" message="Item adicionado com sucesso." />
+      {message.show && (
+        <Modal message={'Item adicionado com sucesso.'} type={'success'} />
       )}
       <div className="movie-grid">
         <div>
@@ -123,7 +90,7 @@ export default function Movie() {
         </div>
 
         <div style={{ minWidth: `684px` }}>
-          {videos?.results?.length > 0 && (
+          {videos?.results?.length > 0 ? (
             <iframe
               width="684"
               height="386"
@@ -131,6 +98,8 @@ export default function Movie() {
               frameBorder="0"
               allowFullScreen
             ></iframe>
+          ) : (
+            <Image src={video.src} alt="Trailer" width="684" height="386" />
           )}
         </div>
         <div className="flex-column gap-5 flex-1">
@@ -229,7 +198,7 @@ export default function Movie() {
               <div className="videos-grid">
                 {videoList.slice(1, 3).map((v) => (
                   <iframe
-                    key={v.id}
+                    key={Math.random()}
                     width="456"
                     height="234"
                     src={`//www.youtube.com/embed/${v.key}?rel=0`}

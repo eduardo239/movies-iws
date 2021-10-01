@@ -433,6 +433,47 @@ form .form-group {
 .mr-20 {
   margin-right: 2rem;
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - MODAL
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 100vh;
+
+  z-index: 100;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
+  margin-top: 2rem;
+
+  .modal-message__success {
+    border-radius: var(--border-radius);
+    background-color: var(--light-00);
+    border: 3px solid var(--primary);
+    color: var(--light-100);
+    padding: 10px 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .modal-message__alert {
+    border-radius: var(--border-radius);
+    background-color: var(--light-00);
+    border: 3px solid var(--tertiary);
+    color: var(--light-100);
+    padding: 10px 30px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - MASONRY
 .my-masonry-grid {
   display: flex;
