@@ -7,6 +7,7 @@ import Search from '../components/Search';
 import { useState } from 'react';
 import poster_default from '../assets/poster.png';
 import Masonry from 'react-masonry-css';
+import { breakpointColumnsObj } from '../utils/constants';
 
 export default function Home({}) {
   const [opacity, setOpacity] = useState(false);
@@ -26,7 +27,7 @@ export default function Home({}) {
         <h1 className="text-center">Filmes Populares</h1>
         <div className={`mb-20 ${opacity ? 'opacity-20' : ''}`}>
           <Masonry
-            breakpointCols={5}
+            breakpointCols={breakpointColumnsObj}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >

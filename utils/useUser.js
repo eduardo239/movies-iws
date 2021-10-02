@@ -44,8 +44,6 @@ export const UserContextProvider = (props) => {
         // const body = JSON.stringify({
         //   request_token: `${process.env.NEXT_PUBLIC_TMDB_KEY_V4}`,
         // });
-        // console.log(url);
-
         // const options = {
         //   method: 'POST',
         //   body,

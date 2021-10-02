@@ -13,6 +13,7 @@ export default function Search({ setOpacity }) {
   const { data, isLoading, isError } = useFetch(
     `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&page=1&include_adult=false&query=${term}`
   );
+
   const handleClear = () => {
     setTerm('');
   };
@@ -26,8 +27,7 @@ export default function Search({ setOpacity }) {
       setOpacity(false);
     }
   }, [term, data]);
-  console.log(data);
-  console.log(items);
+
   if (isError) return <Error />;
   return (
     <section>

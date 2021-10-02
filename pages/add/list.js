@@ -86,28 +86,25 @@ const List = () => {
           .select('lists')
           .eq('user_id', user.id);
 
-        console.log('profileLists');
-        console.log(profileLists);
+
 
         if (profileListsError) {
           alert(`profileListsError`);
           return;
         }
         let newArray = [];
-        console.log(profileLists[0].lists.length === 0);
 
         // FIXME:
         if (profileLists.lists !== null && profileLists[0].lists.length === 0) {
           newArray = [newListId];
-          console.log(1);
+
         } else {
           // adicionar o novo item nas listas
           newArray = [...profileLists.lists, newListId];
-          console.log(2);
+
         }
 
-        console.log('newArray');
-        console.log(newArray);
+
 
         // atualiza o profile com a nova array
         const { data, error } = await supabase

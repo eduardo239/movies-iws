@@ -208,6 +208,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: flex-start;
+  row-gap: 10px;
 }
 
 .list-items {
@@ -275,6 +276,21 @@
   }
 }
 
+.person-movies-grid {
+  display: grid;
+  grid-template-columns: 40% 30% 1fr auto;
+  border-bottom: 1px solid var(--light-40);
+  padding: 10px;
+  font-size: 0.8rem;
+  align-items: center;
+  gap: 5px;
+  a:hover {
+    color: var(--primary);
+  }
+  div {
+    letter-spacing: 0.05rem;
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - REMAKE
 .flex-center,
 .flex-start,
@@ -488,4 +504,29 @@ form .form-group {
 .my-masonry-grid_column > div {
   /* change div to reference your elements you put in <Masonry> */
   // margin-bottom: 10px;
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - svg
+.score {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.65rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--light-00);
+  font-weight: 700;
+  font-style: normal;
+  border: 3px solid var(--light-100);
+  &.high {
+    background: #00ffb3;
+  }
+
+  &.mid {
+    background: #ffe600;
+  }
+
+  &.bad {
+    background: #ff0055;
+  }
 }

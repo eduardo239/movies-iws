@@ -1,9 +1,17 @@
 import { supabase } from './supabase';
 
-export function containsObjectId(obj_id, list) {
+
+
+/**
+ *
+ * @param {UUID} object_id
+ * @param {Array} list
+ * @returns
+ */
+export function containsObjectId(object_id, list) {
   var i;
   for (i = 0; i < list.length; i++) {
-    if (list[i].id === obj_id) {
+    if (list[i].id === parseInt(object_id)) {
       return true;
     }
   }
@@ -32,6 +40,11 @@ export function containsObjectId(obj_id, list) {
 //   return false;
 // }
 
+/**
+ *
+ * @param {Date} date
+ * @returns
+ */
 export function dateFormat(date) {
   const D = new Date(date);
   return D.toLocaleString('en-US', {
@@ -46,19 +59,25 @@ export function dateFormat(date) {
   // return newDate;
 }
 
-export async function addMovieTo(section, user_id, item) {
-  let table = section === 0 ? 'movies_watched' : 'movies_to_see';
+/**
+ *
+ * @param {String} table database 0 = `movies_watched` ? 1 = `movies_to_see`
+ * @param {UUID} user_id
+ * @param {Object} item
+ */
+export async function addMovieTo(table, user_id, item) {
+  let table_name = table === 0 ? 'movies_watched' : 'movies_to_see';
 
   let { data: movies_list, error: error_movies_list } = await supabase
     .from('profiles')
-    .select(table)
+    .select(table_name)
     .eq('user_id', user_id)
     .single();
 
-  if (error_movies_list) console.log(error_movies_list);
+  if (error_movies_list) console.error(error_movies_list);
 
   let array =
-    table === 'movies_watched'
+    table_name === 'movies_watched'
       ? movies_list.movies_watched
       : movies_list.movies_to_see;
 
@@ -69,20 +88,28 @@ export async function addMovieTo(section, user_id, item) {
 
   if (!watched) {
     let body =
-      table === 'movies_watched'
+      table_name === 'movies_watched'
         ? { movies_watched: newArray }
         : { movies_to_see: newArray };
 
     const { data, error: error_profile } = await supabase
       .from('profiles')
       .update([body])
-      .eq('user_id', user_id);
-    if (error_profile) console.log(error_profile);
+      .eq('user_id', user_id)
+      .single();
+
+    if (error_profile) {
+      console.log(error_profile);
+      return false;
+    } else {
+      return true;
+    }
   } else {
-    alert('Este filme já está na sua lista.');
+    console.error('Este filme já está na sua lista.');
+    return false;
   }
 }
 
-export function removeMovieTo(section) {
-  console.log(section);
+export function removeMovieFrom(table) {
+  console.warning(table);
 }

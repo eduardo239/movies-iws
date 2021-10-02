@@ -67,7 +67,7 @@ export async function getStaticProps(context) {
     .select('*')
     .limit(10)
     .order('inserted_at', { ascending: false });
-  console.log(lists);
+
   return {
     revalidate: 420,
     props: { lists },

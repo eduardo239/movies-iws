@@ -5,13 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
-import { supabase } from '../../utils/supabase';
-import { addMovieTo, containsObjectId } from '../../utils';
+import { addMovieTo, removeMovieFrom } from '../../utils';
 import { useEffect, useState } from 'react';
-import Message from '../../components/Message';
 import poster from '../../assets/poster.png';
 import video from '../../assets/video.png';
-import thumb from '../../assets/b.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
@@ -31,6 +28,11 @@ export default function Movie() {
   const [similarList, setSimilarList] = useState([]);
   const [starList, setStarList] = useState([]);
 
+  const [alreadyOnTheList, setAlreadyOnTheList] = useState({
+    moviesWatched: false,
+    moviesToSee: false,
+  });
+
   const { data, isLoading, isError } = useFetch(
     `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
   );
@@ -48,23 +50,53 @@ export default function Movie() {
   );
 
   useEffect(() => {
-    //videos?.results?.length
     if (videos?.results?.length > 0) setVideosList(videos.results);
     if (stars?.cast?.length > 0) setStarList(stars.cast);
     if (similar?.results?.length > 0) setSimilarList(similar.results);
-  }, [videos, stars, similar]);
+  }, [videos, stars, similar, profile]);
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error />;
 
   const addMovie = async (action) => {
-    // TODO: mensagem quando o item já estiver na lista
-    setMessage({
-      show: true,
-      message: 'Item adicionado com sucesso.',
-      type: 'success',
-    });
-    await addMovieTo(action, user.id, data);
+    // TODO: mensagem quando se o item está na lista
+    const response = await addMovieTo(action, user.id, data);
+
+    if (response) {
+      setMessage({
+        show: true,
+        message: 'Item adicionado com sucesso.',
+        type: 'success',
+      });
+    } else {
+      setMessage({
+        show: true,
+        message: 'Houve um erro ao adicionar o item.',
+        type: 'alert',
+      });
+    }
+    setTimeout(() => {
+      setMessage({ show: false, message: '', type: 'success' });
+    }, 2000);
+  };
+
+  const removeMovie = async (action) => {
+    // TODO: mensagem quando se o item está na lista
+    const response = await removeMovieFrom(action, user.id, data);
+
+    if (response) {
+      setMessage({
+        show: true,
+        message: 'Item adicionado com sucesso.',
+        type: 'success',
+      });
+    } else {
+      setMessage({
+        show: true,
+        message: 'Houve um erro ao adicionar o item.',
+        type: 'alert',
+      });
+    }
     setTimeout(() => {
       setMessage({ show: false, message: '', type: 'success' });
     }, 2000);
@@ -72,10 +104,9 @@ export default function Movie() {
 
   return (
     <section>
-      {message.show && (
-        <Modal message={'Item adicionado com sucesso.'} type={'success'} />
-      )}
+      {message.show && <Modal message={message.message} type={message.type} />}
       <div className="movie-grid">
+        {/* POSTER */}
         <div>
           <Image
             width="261"
@@ -89,6 +120,7 @@ export default function Movie() {
           />
         </div>
 
+        {/* TRAILER */}
         <div style={{ minWidth: `684px` }}>
           {videos?.results?.length > 0 ? (
             <iframe
@@ -102,36 +134,69 @@ export default function Movie() {
             <Image src={video.src} alt="Trailer" width="684" height="386" />
           )}
         </div>
-        <div className="flex-column gap-5 flex-1">
+
+        {/* BUTTONS */}
+        <div className="flex-column flex-1">
           {/* TODO: media query */}
           <div
             className="flex-column w-100 gap-5"
             style={{ padding: '0 10px' }}
           >
-            <button
-              onClick={() => addMovie(0)}
-              className={`btn-icon w-100 mw-100 ${'btn-primary'}`}
-            >
-              <Image src={eye.src} alt="See" width="24" height="24" /> Já vi
-            </button>
+            {!alreadyOnTheList.moviesWatched ? (
+              <button
+                onClick={() => addMovie(0)}
+                className={`btn-icon w-100 mw-100 ${'btn-primary'}`}
+              >
+                <Image src={eye.src} alt="See" width="24" height="24" /> Já vi
+              </button>
+            ) : (
+              <button
+                onClick={() => removeMovie(0)}
+                className={`btn-icon w-100 mw-100 ${'btn-secondary'}`}
+              >
+                <Image src={eye.src} alt="See" width="24" height="24" /> Remover
+              </button>
+            )}
 
-            <button
-              onClick={() => addMovie(1)}
-              className={`btn-icon w-100 ${'btn-primary'}`}
-            >
-              <Image src={calendar.src} alt="Calendar" width="24" height="24" />
-              Vou ver
-            </button>
+            {!alreadyOnTheList.moviesToSee ? (
+              <button
+                onClick={() => addMovie(1)}
+                className={`btn-icon w-100 ${'btn-primary'}`}
+              >
+                <Image
+                  src={calendar.src}
+                  alt="Calendar"
+                  width="24"
+                  height="24"
+                />
+                Vou ver
+              </button>
+            ) : (
+              <button
+                onClick={() => removeMovie(1)}
+                className={`btn-icon w-100 ${'btn-secondary'}`}
+              >
+                <Image
+                  src={calendar.src}
+                  alt="Calendar"
+                  width="24"
+                  height="24"
+                />
+                Remover
+              </button>
+            )}
           </div>
         </div>
       </div>
       {/* primeira linha */}
 
+      {/* TITLE */}
       <div className="mb-10">
         <h1 className="mb-1">{data.original_title}</h1>
         <small>2021 - PG-13 - 1h 55min</small>
       </div>
 
+      {/* TAGS */}
       <div className="mb-20 tags">
         {data.genres
           ? data.genres.map((g) => (
@@ -142,33 +207,43 @@ export default function Movie() {
           : ''}
       </div>
 
+      {/* PLOT */}
       <div className="mb-20">
         <p>{data.overview}</p>
       </div>
 
       <hr />
 
+      {/* CAST */}
+
       <h3 className="mb-10">Cast</h3>
       <div className="mb-20 flex-start " style={{ gap: '1rem' }}>
         {starList.length > 0 &&
-          starList.slice(0, 5).map((c) => (
-            <div key={c.id}>
-              <Image
-                src={`${
-                  c.profile_path
-                    ? `http://image.tmdb.org/t/p/w342${c.profile_path}`
-                    : star.src
-                }`}
-                alt={c.original_name}
-                width="148"
-                height="222"
-              />
-              <p className="p-small">{c.original_name}</p>
+          starList.slice(0, 5).map((p) => (
+            <div key={p.id}>
+              <Link href={`/person/${p.id}`} passHref>
+                <a>
+                  <Image
+                    src={`${
+                      p.profile_path
+                        ? `http://image.tmdb.org/t/p/w342${p.profile_path}`
+                        : star.src
+                    }`}
+                    alt={p.original_name}
+                    width="148"
+                    height="222"
+                  />
+                </a>
+              </Link>
+              <p className="p-small">{p.original_name}</p>
             </div>
           ))}
       </div>
 
       <hr />
+
+      {/* INFO */}
+      <h3 className="mb-10">Info</h3>
       <div className="mb-20">
         <p className="mb-5">
           <b>Homepage: </b> {data?.homepage}
@@ -176,7 +251,7 @@ export default function Movie() {
         <p className="mb-5">
           <b>País de produção: </b>{' '}
           {data?.production_countries?.map((p) => (
-            <span className="mr-5" key={p}>
+            <span className="mr-5" key={p.name}>
               {p.name + ','}
             </span>
           ))}
@@ -189,7 +264,8 @@ export default function Movie() {
         </p>
       </div>
 
-      {videoList.length > 1 && (
+      {/* TODO: videos */}
+      {false && videoList.length > 1 && (
         <>
           <hr />
           <h3 className="mb-10 text-center">Mais Vídeos</h3>
