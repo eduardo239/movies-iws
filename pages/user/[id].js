@@ -2,9 +2,10 @@ import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { containsObjectId } from '../../utils';
 import Message from '../../components/Message';
+import { containsObjectId } from '../../utils';
 import { removeItemFromProfile } from '../../utils/movies';
+import closeIcon from '../../assets/eva_close-outline.svg';
 
 const Profile = ({ profile }) => {
   const [message, setMessage] = useState(false);
@@ -39,7 +40,7 @@ const Profile = ({ profile }) => {
     return (
       <div>
         <section>
-          <h1>Conta: @{profile?.username}</h1>
+          <h4>Conta: @{profile?.username}</h4>
         </section>
 
         <hr />
@@ -49,7 +50,7 @@ const Profile = ({ profile }) => {
           )}
         </div>
 
-        <h2 className="mb-10">Filmes já vistos.</h2>
+        <h2 className="mb-10 text-center">Filmes já vistos.</h2>
         <section className="flex-center gap-10">
           {watched
             .map((m) => (
@@ -67,10 +68,15 @@ const Profile = ({ profile }) => {
                 </Link>
                 <div>
                   <button
-                    className="btn-small w-100 btn-secondary"
+                    className="btn-icon-only btn-secondary"
                     onClick={() => removeFromWatched(m)}
                   >
-                    remover
+                    <Image
+                      width="24"
+                      height="24"
+                      alt={m.original_title}
+                      src={closeIcon.src}
+                    />
                   </button>
                 </div>
               </div>
@@ -78,7 +84,7 @@ const Profile = ({ profile }) => {
             .reverse()}
         </section>
 
-        <h2 className="mb-10">Filmes para ver.</h2>
+        <h2 className="mb-10 text-center">Filmes para ver.</h2>
 
         <section className="flex-center gap-10">
           {toSee
@@ -97,10 +103,15 @@ const Profile = ({ profile }) => {
                 </Link>
                 <div>
                   <button
-                    className="btn-small w-100 btn-secondary"
+                    className="btn-icon-only btn-secondary"
                     onClick={() => removeFromToSee(m)}
                   >
-                    remover
+                    <Image
+                      width="24"
+                      height="24"
+                      alt={m.original_title}
+                      src={closeIcon.src}
+                    />
                   </button>
                 </div>
               </div>

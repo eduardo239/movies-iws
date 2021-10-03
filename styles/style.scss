@@ -1,6 +1,7 @@
 .btn,
 .btn-icon,
-.btn-small {
+.btn-small,
+.btn-icon-only {
   cursor: pointer;
   transition: 0.3s ease-out;
 
@@ -56,9 +57,19 @@
   }
 }
 
+.btn-icon-only {
+  border-radius: 50%;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .btn,
 .btn-icon,
-.btn-small {
+.btn-small,
+.btn-icon-only {
   &.btn-primary {
     color: var(--light);
     background: var(--primary);
