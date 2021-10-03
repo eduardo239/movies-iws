@@ -107,7 +107,7 @@ export default function Movie() {
       {message.show && <Modal message={message.message} type={message.type} />}
       <div className="movie-grid">
         {/* POSTER */}
-        <div>
+        <div className="movie-grid__a">
           <Image
             width="261"
             height="386"
@@ -121,7 +121,7 @@ export default function Movie() {
         </div>
 
         {/* TRAILER */}
-        <div style={{ minWidth: `684px` }}>
+        <div className="movie-grid__b video-container">
           {videos?.results?.length > 0 ? (
             <iframe
               width="684"
@@ -136,23 +136,19 @@ export default function Movie() {
         </div>
 
         {/* BUTTONS */}
-        <div className="flex-column flex-1">
-          {/* TODO: media query */}
-          <div
-            className="flex-column w-100 gap-5"
-            style={{ padding: '0 10px' }}
-          >
+        <div className="flex-1 movie-grid__c">
+          <div className="movie-grid__buttons w-100 gap-5">
             {!alreadyOnTheList.moviesWatched ? (
               <button
                 onClick={() => addMovie(0)}
-                className={`btn-icon w-100 mw-100 ${'btn-primary'}`}
+                className={`btn-icon mw-100 ${'btn-primary'}`}
               >
                 <Image src={eye.src} alt="See" width="24" height="24" /> Já vi
               </button>
             ) : (
               <button
                 onClick={() => removeMovie(0)}
-                className={`btn-icon w-100 mw-100 ${'btn-secondary'}`}
+                className={`btn-icon mw-100 ${'btn-secondary'}`}
               >
                 <Image src={eye.src} alt="See" width="24" height="24" /> Remover
               </button>
@@ -161,7 +157,7 @@ export default function Movie() {
             {!alreadyOnTheList.moviesToSee ? (
               <button
                 onClick={() => addMovie(1)}
-                className={`btn-icon w-100 ${'btn-primary'}`}
+                className={`btn-icon ${'btn-primary'}`}
               >
                 <Image
                   src={calendar.src}
@@ -271,7 +267,7 @@ export default function Movie() {
           <h3 className="mb-10 text-center">Mais Vídeos</h3>
           {videoList.length > 1 && (
             <div className="flex-center gap-10 mb-20">
-              <div className="videos-grid">
+              <div>
                 {videoList.slice(1, 3).map((v) => (
                   <iframe
                     key={Math.random()}
@@ -293,10 +289,7 @@ export default function Movie() {
           <hr />
 
           <h3 className="mb-5 text-center">Outros Filmes</h3>
-          <div
-            className="videos-grid"
-            style={{ gap: '1rem', justifyContent: 'center' }}
-          >
+          <div className="flex-center gap-10">
             {similarList.slice(0, 6).map((m) => (
               <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
