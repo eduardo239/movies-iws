@@ -369,6 +369,15 @@
     letter-spacing: 0.05rem;
   }
 }
+
+@media screen and (max-width: 990px) {
+  .person-movies-grid {
+    grid-template-columns: 45% 1fr auto;
+    div:nth-child(3) {
+      display: none;
+    }
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - REMAKE
 .flex-center,
 .flex-start,
@@ -574,11 +583,23 @@ form .form-group {
     gap: 10px;
   }
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - FOOTER
+
+@media screen and (max-width: 990px) {
+  .footer {
+    max-width: 220px;
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - MASONRY
 .my-masonry-grid {
   display: flex;
   margin-left: -10px; /* gutter size offset */
   width: auto;
+}
+@media screen and (max-width: 990px) {
+  .my-masonry-grid {
+    margin-left: 0;
+  }
 }
 .my-masonry-grid_column {
   padding-left: 10px; /* gutter size */

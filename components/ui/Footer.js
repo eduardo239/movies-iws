@@ -6,7 +6,9 @@ const Footer = ({ children }) => {
       <div className="mb-10">
         <small>API</small>
       </div>
-      <Image width="349" height="25" alt={'TMDB Api'} src={TMDBLogo} />
+      <div className="footer">
+        <Image width="349" height="25" alt={'TMDB Api'} src={TMDBLogo} />
+      </div>
     </div>
   );
 };

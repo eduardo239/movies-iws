@@ -33,7 +33,7 @@ export default function Upcoming() {
             columnClassName="my-masonry-grid_column"
           >
             {data.results.map((m) => (
-              <div key={m.id} className="movie-item">
+              <div key={m.id} className="movie-item mb-10">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a>
                     <Image

@@ -146,6 +146,13 @@ a {
   color: var(--light-100);
 }
 
+@media screen and (max-width: 990px) {
+  h1 {
+    font-size: 38px;
+  }
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - NAV
+
 .menu-nav {
   display: flex;
   gap: 1rem;

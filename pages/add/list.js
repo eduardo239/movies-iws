@@ -11,6 +11,7 @@ import trashIcon from '../../assets/eva_trash-outlineb.svg';
 import saveIcon from '../../assets/eva_save-outline.svg';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import Masonry from 'react-masonry-css';
+import { breakpointColumnsObj } from '../../utils/constants';
 
 const List = () => {
   const { user } = useUser();
@@ -84,9 +85,8 @@ const List = () => {
         const { data: profileLists, error: profileListsError } = await supabase
           .from('profiles')
           .select('lists')
-          .eq('user_id', user.id);
-
-
+          .eq('user_id', user.id)
+          .single();
 
         if (profileListsError) {
           alert(`profileListsError`);
@@ -94,17 +94,12 @@ const List = () => {
         }
         let newArray = [];
 
-        // FIXME:
-        if (profileLists.lists !== null && profileLists[0].lists.length === 0) {
+        if (profileLists.lists == null && profileLists[0].lists.length === 0) {
           newArray = [newListId];
-
         } else {
           // adicionar o novo item nas listas
           newArray = [...profileLists.lists, newListId];
-
         }
-
-
 
         // atualiza o profile com a nova array
         const { data, error } = await supabase
@@ -238,12 +233,12 @@ const List = () => {
             <div className="flex-start">
               <div className="flex-center gap-10 mb-20">
                 <Masonry
-                  breakpointCols={5}
+                  breakpointCols={breakpointColumnsObj}
                   className="my-masonry-grid"
                   columnClassName="my-masonry-grid_column"
                 >
                   {data.results.map((m) => (
-                    <div key={m.id} className="movie-item ">
+                    <div key={m.id} className="movie-item mb-10">
                       <Link
                         href={`/${m.original_title ? 'movie' : 'tv'}/${m.id}`}
                         passHref

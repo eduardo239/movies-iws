@@ -26,7 +26,7 @@ export default function Person() {
     return movieCredits?.cast?.map((m) => (
       <div key={m.credit_id} className="person-movies-grid">
         <Link href={`/movie/${m.id}`} passHref>
-          <a>{m.title}</a>
+          <a className="person-movies-grid__link">{m.title}</a>
         </Link>
         <div>{m.character}</div>
         <div>{dateFormat(m.release_date)}</div>
@@ -83,6 +83,20 @@ export default function Person() {
       </div>
 
       <div>
+        <div className="person-movies-grid">
+          <div>
+            <b>Título</b>
+          </div>
+          <div>
+            <b>Personagem</b>
+          </div>
+          <div>
+            <b>Data</b>
+          </div>
+          <div>
+            <b>Nota</b>
+          </div>
+        </div>
         {movieCredits?.cast?.length === 0 ? (
           <p>Não há conteúdo aqui.</p>
         ) : (
