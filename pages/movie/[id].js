@@ -136,7 +136,7 @@ export default function Movie() {
         </div>
 
         {/* BUTTONS */}
-        <div className="flex-1 movie-grid__c">
+        <div className="movie-grid__c">
           <div className="movie-grid__buttons w-100 gap-5">
             {!alreadyOnTheList.moviesWatched ? (
               <button
@@ -188,8 +188,10 @@ export default function Movie() {
 
       {/* TITLE */}
       <div className="mb-10">
-        <h1 className="mb-1">{data.original_title}</h1>
-        <small>2021 - PG-13 - 1h 55min</small>
+        <h1 className="mb-1">{data.title}</h1>
+        <small>
+          {data?.release_date?.split('-')[0]} - {data?.runtime} min
+        </small>
       </div>
 
       {/* TAGS */}
@@ -212,7 +214,7 @@ export default function Movie() {
 
       {/* CAST */}
       <h3 className="mb-10">Cast</h3>
-      <div className="mb-20 flex-start cast" style={{ gap: '1rem' }}>
+      <div className="mb-20 flex-start cast">
         {starList.length > 0 &&
           starList.slice(0, 5).map((p) => (
             <div key={p.id}>
@@ -239,7 +241,13 @@ export default function Movie() {
 
       {/* INFO */}
       <h3 className="mb-10">Info</h3>
-      <div className="mb-20">
+      <div className="mb-20 info">
+        <p className="mb-5">
+          <b>Título: </b> {data?.title}
+        </p>
+        <p className="mb-5">
+          <b>Título Original: </b> {data?.original_title}
+        </p>
         <p className="mb-5">
           <b>Homepage: </b> {data?.homepage}
         </p>
@@ -252,32 +260,36 @@ export default function Movie() {
           ))}
         </p>
         <p className="mb-5">
+          <b>Original language: </b> {data?.original_language}
+        </p>
+        <p className="mb-5">
+          <b>Duração: </b> {data?.runtime} min
+        </p>
+        <p className="mb-5">
           <b>Status: </b> {data?.status}
         </p>
         <p className="mb-5">
-          <b>Vote average: </b> {data?.vote_average}
+          <b>Média dos votos: </b> {data?.vote_average}
         </p>
       </div>
 
       {/* TODO: videos */}
-      {false && videoList.length > 1 && (
+      {videoList.length > 1 && (
         <>
           <hr />
           <h3 className="mb-10 text-center">Mais Vídeos</h3>
           {videoList.length > 1 && (
             <div className="flex-center gap-10 mb-20">
-              <div>
-                {videoList.slice(1, 3).map((v) => (
-                  <iframe
-                    key={Math.random()}
-                    width="456"
-                    height="234"
-                    src={`//www.youtube.com/embed/${v.key}?rel=0`}
-                    frameBorder="0"
-                    allowFullScreen
-                  ></iframe>
-                ))}
-              </div>
+              {videoList.slice(1, 3).map((v) => (
+                <iframe
+                  key={Math.random()}
+                  width="456"
+                  height="234"
+                  src={`//www.youtube.com/embed/${v.key}?rel=0`}
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+              ))}
             </div>
           )}
         </>
@@ -287,7 +299,7 @@ export default function Movie() {
         <>
           <hr />
 
-          <h3 className="mb-5 text-center">Outros Filmes</h3>
+          <h3 className="mb-10 text-center">Outros Filmes</h3>
           <div className="flex-center gap-10">
             {similarList.slice(0, 6).map((m) => (
               <div key={m.id} className="movie-item">

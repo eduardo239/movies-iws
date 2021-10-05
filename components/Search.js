@@ -42,11 +42,9 @@ export default function Search({ setOpacity }) {
           />
         </div>
         {term.length > 0 && (
-          <div className="form-group">
-            <button className="btn btn-secondary" onClick={handleClear}>
-              Limpar Busca
-            </button>
-          </div>
+          <button className="btn btn-secondary" onClick={handleClear}>
+            Limpar Busca
+          </button>
         )}
       </form>
 

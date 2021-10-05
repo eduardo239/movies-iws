@@ -38,7 +38,7 @@ const Profile = ({ profile }) => {
 
   if (profile)
     return (
-      <div>
+      <div className="w-100">
         <section>
           <h4>Conta: @{profile?.username}</h4>
         </section>
@@ -51,8 +51,9 @@ const Profile = ({ profile }) => {
         </div>
 
         <h2 className="mb-10 text-center">Filmes já vistos.</h2>
-        <section className="flex-center gap-10">
+        <section className="flex-center mb-20 gap-10">
           {watched
+            .splice(0, 5)
             .map((m) => (
               <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
@@ -84,12 +85,14 @@ const Profile = ({ profile }) => {
             .reverse()}
         </section>
 
-        <h2 className="mb-10 text-center">Filmes para ver.</h2>
+        <hr />
 
-        <section className="flex-center gap-10">
+        <h2 className="mb-10 text-center">Filmes para ver.</h2>
+        <section className="flex-center mb-20 gap-10">
           {toSee
+            .splice(0, 5)
             .map((m) => (
-              <div key={m.id} className="movie-item flex-2">
+              <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a className="mb-20">
                     <Image
@@ -103,7 +106,7 @@ const Profile = ({ profile }) => {
                 </Link>
                 <div>
                   <button
-                    className="btn-icon-only btn-secondary"
+                    className="btn-icon-only btn-secondary "
                     onClick={() => removeFromToSee(m)}
                   >
                     <Image
@@ -119,9 +122,10 @@ const Profile = ({ profile }) => {
             .reverse()}
         </section>
 
-        <section>
-          <h2 className="mb-10">Minhas listas</h2>
-        </section>
+        <hr />
+
+        <h2 className="mb-10 text-center">Minhas listas.</h2>
+        <section className="flex-center mb-20 gap-10">2</section>
       </div>
     );
 

@@ -72,9 +72,10 @@ export default function Person() {
       <div>
         <h1>{data.name}</h1>
         <p>{data.biography}</p>
-        <p>{data.place_of_birth}</p>
         <p>
-          <small>{data.birthday}</small>
+          <small>Local de nascimento: {data.place_of_birth}</small>
+          <br />
+          <small>Data de aniversário: {data.birthday}</small>
         </p>
       </div>
 

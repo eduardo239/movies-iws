@@ -148,30 +148,30 @@
   }
 }
 // - - - - - - - - link - - - - - - - -
-.link {
-  font-family: var(--ss);
-  font-style: normal;
-  font-weight: 500;
-  font-size: 1rem;
+// .link {
+//   font-family: var(--ss);
+//   font-style: normal;
+//   font-weight: 500;
+//   font-size: 1rem;
 
-  &.link-primary {
-    color: var(--primary);
-  }
-  &.link-secondary {
-    color: var(--secondary);
-  }
-  &.link-light {
-    color: var(--light);
+//   &.link-primary {
+//     color: var(--primary);
+//   }
+//   &.link-secondary {
+//     color: var(--secondary);
+//   }
+//   &.link-light {
+//     color: var(--light);
 
-    display: block;
-    padding: 0.5rem 1rem;
-    background: var(--secondary);
-    border-radius: 4px;
-  }
-  &.link-dark {
-    color: var(--dark);
-  }
-}
+//     display: block;
+//     padding: 0.5rem 1rem;
+//     background: var(--secondary);
+//     border-radius: 4px;
+//   }
+//   &.link-dark {
+//     color: var(--dark);
+//   }
+// }
 
 // alert
 .alert {
@@ -213,9 +213,31 @@
   }
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - MOVIE INFO
+.info {
+  p,
+  b {
+    font-size: 0.9rem;
+  }
+  b {
+    color: var(--light-60);
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - MOVIE ID GRID
+.cast {
+  gap: 1rem;
+}
+@media screen and (max-width: 1138px) {
+  .cast {
+    gap: 0.5rem;
+    > div {
+      width: auto;
+    }
+  }
+}
 @media screen and (max-width: 990px) {
   .cast {
+    gap: 0.75rem;
     > div {
       width: 30%;
     }
@@ -288,6 +310,17 @@
   }
   small {
     padding-right: 1rem;
+  }
+  a {
+    flex: 1;
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .list-items {
+    > *:last-child {
+      display: none;
+    }
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - VIDEO YOUTUBE
@@ -383,7 +416,7 @@
 .flex-start,
 .flex-column {
   display: flex;
-  align-items: flex-start;
+  // align-items: flex-start;
   flex-wrap: wrap;
 }
 .flex-center {
@@ -413,15 +446,16 @@
 .search-field {
   display: flex;
   align-items: flex-end;
-  gap: 1rem;
   padding: 1rem 2rem;
-  width: 80%;
-  margin: 0 auto;
+  button {
+    margin-bottom: 20px;
+  }
 }
 @media screen and (max-width: 990px) {
   .search-field {
     padding: 0;
-    width: auto;
+    display: grid;
+    margin-bottom: 1rem;
   }
 }
 .search-result {

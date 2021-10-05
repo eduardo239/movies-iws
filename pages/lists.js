@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { dateFormat } from '../utils';
 import fig1 from '../assets/fig1.png';
-import fig2 from '../assets/fig2.png';
 import list from '../assets/eva_list-outline.svg';
 
 const Lists = ({ lists }) => {
@@ -39,7 +38,7 @@ const Lists = ({ lists }) => {
         </small>
         <h1>Listas dos Usuários</h1>
       </div>
-      <div className="flex-2">
+      <div>
         {items.map((m) => (
           <section key={m.id} className="list-items">
             <Image
