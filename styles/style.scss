@@ -214,7 +214,14 @@
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - MOVIE ID GRID
-
+@media screen and (max-width: 990px) {
+  .cast {
+    > div {
+      width: 30%;
+    }
+  }
+}
+// - - - - - - - - - - - - - - - - - - - - - - - - MOVIE ID GRID
 .movie-grid {
   display: grid;
   grid-template-columns: auto auto auto;
@@ -263,6 +270,9 @@
   .movie-grid__buttons {
     flex-wrap: wrap;
     padding: 10px;
+    button {
+      width: 100%;
+    }
   }
 }
 .list-items {
@@ -398,6 +408,12 @@
   padding: 1rem 2rem;
   width: 80%;
   margin: 0 auto;
+}
+@media screen and (max-width: 990px) {
+  .search-field {
+    padding: 0;
+    width: auto;
+  }
 }
 .search-result {
   position: absolute;

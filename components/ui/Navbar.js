@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { supabase } from '../../utils/supabase';
 import { useUser } from '../../utils/useUser';
-import logo from '../../assets/eva_home-outline.svg';
+import homeIcon from '../../assets/eva_home-outline.svg';
+import calendarIcon from '../../assets/eva_calendar-outline.svg';
+import listIcon from '../../assets/eva_list-outline.svg';
+import logoutIcon from '../../assets/eva_close-outline.svg';
+import userIcon from '../../assets/eva_person-outline.svg';
 import Image from 'next/image';
 
 const Navbar = () => {
@@ -12,19 +14,26 @@ const Navbar = () => {
     <div className="menu-nav">
       <Link href="/">
         <a>
-          <Image src={logo.src} alt="Logo" width="24" height="24" />
+          <Image src={homeIcon.src} alt="Logo" width="24" height="24" />
         </a>
       </Link>
       <Link href="/upcoming">
-        <a>Em Breve</a>
+        <a>
+          <Image src={calendarIcon.src} alt="Logo" width="24" height="24" />
+        </a>
       </Link>
       <Link href="/lists">
-        <a>Listas</a>
+        <a>
+          <Image src={listIcon.src} alt="Logo" width="24" height="24" />
+        </a>
       </Link>
 
       {user && (
         <Link href={`/user/${user?.id ?? ''}`}>
-          <a>@{profile?.username ?? `profile`}</a>
+          <a>
+            {/* @{profile?.username ?? `profile`} */}
+            <Image src={userIcon.src} alt="Logo" width="24" height="24" />
+          </a>
         </Link>
       )}
 
@@ -41,9 +50,15 @@ const Navbar = () => {
       )}
 
       {user && (
-        <button style={{ opacity: '0.5' }} onClick={logout}>
-          Sair
-        </button>
+        <>
+          <button
+            className="btn-icon-only btn-secondary"
+            style={{ opacity: '0.5' }}
+            onClick={logout}
+          >
+            <Image src={logoutIcon.src} alt="Logo" width="24" height="24" />
+          </button>
+        </>
       )}
     </div>
   );

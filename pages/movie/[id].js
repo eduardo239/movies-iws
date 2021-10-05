@@ -211,9 +211,8 @@ export default function Movie() {
       <hr />
 
       {/* CAST */}
-
       <h3 className="mb-10">Cast</h3>
-      <div className="mb-20 flex-start " style={{ gap: '1rem' }}>
+      <div className="mb-20 flex-start cast" style={{ gap: '1rem' }}>
         {starList.length > 0 &&
           starList.slice(0, 5).map((p) => (
             <div key={p.id}>
