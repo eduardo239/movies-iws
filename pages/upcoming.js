@@ -1,9 +1,9 @@
+import { useState } from 'react';
+import useFetch from '../utils/useFetch';
+import LazyLoad from 'react-lazyload';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
-import useFetch from '../utils/useFetch';
 import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
 import poster_default from '../assets/poster.png';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
@@ -14,7 +14,7 @@ export default function Upcoming() {
   const [opacity, setOpacity] = useState(false);
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&sort_by=popularity.desc&page=${page}`
+    `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&sort_by=popularity.desc&page=${page}`
   );
 
   if (isLoading) return <Spinner />;
@@ -36,16 +36,22 @@ export default function Upcoming() {
               <div key={m.id} className="movie-item mb-10">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a>
-                    <Image
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`${
-                        m.poster_path
-                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                          : poster_default.src
-                      }`}
-                    />
+                    <LazyLoad
+                      height={214}
+                      once
+                      placeholder={poster_default.src}
+                    >
+                      <img
+                        height={214}
+                        width={134}
+                        src={`${
+                          m.poster_path
+                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                            : poster_default.src
+                        }`}
+                        alt={m.original_title}
+                      />
+                    </LazyLoad>
                     <small>{m.original_title}</small>
                   </a>
                 </Link>

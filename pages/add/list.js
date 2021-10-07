@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { containsObjectId } from '../../utils';
-import Image from 'next/image';
 import Link from 'next/link';
 import Message from '../../components/Message';
 import poster_default from '../../assets/poster.png';
@@ -12,6 +11,7 @@ import saveIcon from '../../assets/eva_save-outline.svg';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
+import LazyLoad from 'react-lazyload';
 
 const List = () => {
   const { user } = useUser();
@@ -132,7 +132,7 @@ const List = () => {
       ? 'multi'
       : 'movie';
 
-    const url = `https://api.themoviedb.org/3/search/${t}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&page=${page}&include_adult=${adult}&query=${term}`;
+    const url = `https://api.themoviedb.org/3/search/${t}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&page=${page}&include_adult=${adult}&query=${term}`;
 
     let response = await fetch(url);
 
@@ -196,12 +196,7 @@ const List = () => {
                 onClick={search}
                 className="btn-icon btn-primary w-100 flex-1"
               >
-                <Image
-                  src={searchIcon.src}
-                  alt="Search"
-                  width="24"
-                  height="24"
-                />
+                <img src={searchIcon.src} alt="Search" width="24" height="24" />
                 Buscar
               </button>
             </div>
@@ -244,23 +239,29 @@ const List = () => {
                         passHref
                       >
                         <a className="mb-20">
-                          <Image
-                            width="140"
-                            height="210"
-                            alt={
-                              m.original_title
-                                ? m.original_title
-                                : m.original_name
-                                ? m.original_name
-                                : `none`
-                            }
-                            src={`${
-                              m.poster_path
-                                ? 'http://image.tmdb.org/t/p/w185' +
-                                  m.poster_path
-                                : poster_default.src
-                            }`}
-                          />
+                          <LazyLoad
+                            height={214}
+                            once
+                            placeholder={poster_default.src}
+                          >
+                            <img
+                              width="140"
+                              height="210"
+                              alt={
+                                m.original_title
+                                  ? m.original_title
+                                  : m.original_name
+                                  ? m.original_name
+                                  : `none`
+                              }
+                              src={`${
+                                m.poster_path
+                                  ? 'http://image.tmdb.org/t/p/w185' +
+                                    m.poster_path
+                                  : poster_default.src
+                              }`}
+                            />
+                          </LazyLoad>
 
                           {m.original_title
                             ? m.original_title
@@ -301,7 +302,7 @@ const List = () => {
                       onClick={handleReset}
                       className="btn-icon btn-secondary w-100"
                     >
-                      <Image
+                      <img
                         src={closeIcon.src}
                         alt="Delete"
                         width="24"
@@ -326,12 +327,12 @@ const List = () => {
                       onClick={() => handleRemove(m)}
                       className="btn-icon btn-light w-100"
                     >
-                      <Image
+                      <img
                         src={trashIcon.src}
                         alt="Delete"
                         width="24"
                         height="24"
-                      />{' '}
+                      />
                       remover
                     </button>
                     <hr />
@@ -348,7 +349,7 @@ const List = () => {
                   onClick={handleSave}
                   className="btn-icon btn-primary w-100"
                 >
-                  <Image src={saveIcon.src} alt="Save" width="24" height="24" />
+                  <img src={saveIcon.src} alt="Save" width="24" height="24" />
                   Salvar
                 </button>
               </div>

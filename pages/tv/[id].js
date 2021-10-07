@@ -1,13 +1,13 @@
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { containsObjectId } from '../../utils';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Message from '../../components/Message';
+import LazyLoad from 'react-lazyload';
 
 export default function Movie() {
   const router = useRouter();
@@ -16,7 +16,7 @@ export default function Movie() {
   const [message, setMessage] = useState(false);
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/tv/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   if (isLoading) return <Spinner />;
@@ -76,12 +76,14 @@ export default function Movie() {
   return (
     <section className="grid-0">
       <div>
-        <Image
-          width="140"
-          height="210"
-          alt={data.original_title}
-          src={`http://image.tmdb.org/t/p/w185${data.poster_path}`}
-        />
+        <LazyLoad height={210} once placeholder={poster_default.src}>
+          <img
+            width="140"
+            height="210"
+            alt={data.original_title}
+            src={`http://image.tmdb.org/t/p/w185${data.poster_path}`}
+          />
+        </LazyLoad>
       </div>
 
       <div>

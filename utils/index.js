@@ -1,7 +1,5 @@
 import { supabase } from './supabase';
 
-
-
 /**
  *
  * @param {UUID} object_id
@@ -47,7 +45,7 @@ export function containsObjectId(object_id, list) {
  */
 export function dateFormat(date) {
   const D = new Date(date);
-  return D.toLocaleString('en-US', {
+  return D.toLocaleString('pt-BR', {
     // weekday: 'short', // long, short, narrow
     day: 'numeric', // numeric, 2-digit
     year: 'numeric', // numeric, 2-digit

@@ -1,12 +1,12 @@
+import LazyLoad from 'react-lazyload';
+import { useState } from 'react';
+import useFetch from '../utils/useFetch';
+import Link from 'next/link';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
-import useFetch from '../utils/useFetch';
-import Image from 'next/image';
-import Link from 'next/link';
 import Search from '../components/Search';
-import { useState } from 'react';
-import poster_default from '../assets/poster.png';
 import Masonry from 'react-masonry-css';
+import poster_default from '../assets/poster.png';
 import { breakpointColumnsObj } from '../utils/constants';
 
 export default function Home({}) {
@@ -14,7 +14,7 @@ export default function Home({}) {
   const [page, setPage] = useState(1);
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US&sort_by=popularity.desc&page=${page}`
+    `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&sort_by=popularity.desc&page=${page}`
   );
 
   if (isLoading) return <Spinner />;
@@ -37,16 +37,22 @@ export default function Home({}) {
               <div key={m.id} className="movie-item mb-10">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a>
-                    <Image
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`${
-                        m.poster_path
-                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                          : poster_default.src
-                      }`}
-                    />
+                    <LazyLoad
+                      height={210}
+                      once
+                      placeholder={poster_default.src}
+                    >
+                      <img
+                        height={210}
+                        width={140}
+                        src={`${
+                          m.poster_path
+                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                            : poster_default.src
+                        }`}
+                        alt={m.original_title}
+                      />
+                    </LazyLoad>
                     <span>{m.original_title}</span>
                   </a>
                 </Link>

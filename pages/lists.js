@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabase';
 import Link from 'next/link';
-import Image from 'next/image';
 import { dateFormat } from '../utils';
 import fig1 from '../assets/fig1.png';
 import list from '../assets/eva_list-outline.svg';
+import LazyLoad from 'react-lazyload';
+import poster_default from '../assets/poster.png';
 
 const Lists = ({ lists }) => {
   const [items, setItems] = useState([]);
@@ -24,8 +25,7 @@ const Lists = ({ lists }) => {
         </p>
         <Link href={`/add/list`} passHref>
           <a className="btn-icon btn-primary">
-            <Image src={list.src} alt="See" width="24" height="24" /> Criar
-            Lista
+            <img src={list.src} alt="See" width="24" height="24" /> Criar Lista
           </a>
         </Link>
       </div>
@@ -41,12 +41,14 @@ const Lists = ({ lists }) => {
       <div>
         {items.map((m) => (
           <section key={m.id} className="list-items">
-            <Image
-              src={fig1.src}
-              alt="List Poster"
-              width="167"
-              height="40"
-            ></Image>
+            <LazyLoad height={40} once placeholder={poster_default.src}>
+              <img
+                src={fig1.src}
+                alt="List Poster"
+                width="167"
+                height="40"
+              ></img>
+            </LazyLoad>
             <Link href={`/list/${m.id}`} passHref>
               <a className="flex-one link-list">{m.listname}</a>
             </Link>

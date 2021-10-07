@@ -1,11 +1,10 @@
 import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import Message from '../../components/Message';
-import { containsObjectId } from '../../utils';
 import { removeItemFromProfile } from '../../utils/movies';
 import closeIcon from '../../assets/eva_close-outline.svg';
+import LazyLoad from 'react-lazyload';
 
 const Profile = ({ profile }) => {
   const [message, setMessage] = useState(false);
@@ -58,12 +57,18 @@ const Profile = ({ profile }) => {
               <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a className="mb-20">
-                    <Image
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
-                    />
+                    <LazyLoad
+                      height={210}
+                      once
+                      placeholder={poster_default.src}
+                    >
+                      <img
+                        width="140"
+                        height="210"
+                        alt={m.original_title}
+                        src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
+                      />
+                    </LazyLoad>
                     <small>{m.original_title}</small>
                   </a>
                 </Link>
@@ -72,9 +77,9 @@ const Profile = ({ profile }) => {
                     className="btn-icon-only btn-secondary"
                     onClick={() => removeFromWatched(m)}
                   >
-                    <Image
-                      width="24"
+                    <img
                       height="24"
+                      width="24"
                       alt={m.original_title}
                       src={closeIcon.src}
                     />
@@ -95,7 +100,7 @@ const Profile = ({ profile }) => {
               <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a className="mb-20">
-                    <Image
+                    <img
                       width="140"
                       height="210"
                       alt={m.original_title}
@@ -109,7 +114,7 @@ const Profile = ({ profile }) => {
                     className="btn-icon-only btn-secondary "
                     onClick={() => removeFromToSee(m)}
                   >
-                    <Image
+                    <img
                       width="24"
                       height="24"
                       alt={m.original_title}

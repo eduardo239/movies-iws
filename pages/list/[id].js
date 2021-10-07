@@ -1,12 +1,7 @@
-import Error from '../../components/Error';
-import Spinner from '../../components/Spinner';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
-import { containsObjectId } from '../../utils';
 import { useState, useEffect } from 'react';
-import Message from '../../components/Message';
 import Link from 'next/link';
 
 export default function Movie({ list }) {
@@ -32,18 +27,20 @@ export default function Movie({ list }) {
             <div key={m.id} className="movie-item">
               <Link href={`/movie/${m.id}`} passHref>
                 <a>
-                  <Image
-                    width="140"
-                    height="210"
-                    alt={
-                      m.original_title
-                        ? m.original_title
-                        : m.original_name
-                        ? m.original_name
-                        : `none`
-                    }
-                    src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
-                  />
+                  <LazyLoad height={214} once placeholder={poster_default.src}>
+                    <img
+                      width="140"
+                      height="210"
+                      alt={
+                        m.original_title
+                          ? m.original_title
+                          : m.original_name
+                          ? m.original_name
+                          : `none`
+                      }
+                      src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
+                    />
+                  </LazyLoad>
                   <small>
                     {m.original_title
                       ? m.original_title

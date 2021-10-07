@@ -7,7 +7,7 @@ export default function Modal({ message, type }) {
     return (
       <section className="modal modal-message">
         <div className="modal-message__success">
-          <Image src={checkIcon.src} alt="Message" width="24" height="24" />
+          <img src={checkIcon.src} alt="Message" width="24" height="24" />
           {message}
         </div>
       </section>
@@ -16,7 +16,7 @@ export default function Modal({ message, type }) {
     return (
       <section className="modal modal-message">
         <div className="modal-message__alert">
-          <Image src={alertIcon.src} alt="Message" width="24" height="24" />
+          <img src={alertIcon.src} alt="Message" width="24" height="24" />
           {message}
         </div>
       </section>

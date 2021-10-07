@@ -1,13 +1,12 @@
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useUser } from '../../utils/useUser';
 import { dateFormat } from '../../utils';
 import { useEffect } from 'react';
 import poster from '../../assets/poster.png';
+import LazyLoad from 'react-lazyload';
 
 export default function Person() {
   const router = useRouter();
@@ -15,11 +14,11 @@ export default function Person() {
   // const { user, profile } = useUser();
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/person/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   const { data: movieCredits } = useFetch(
-    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   const mapMovies = () => {
@@ -56,16 +55,18 @@ export default function Person() {
     <section className="w-100">
       {/* POSTER */}
       <div>
-        <Image
-          width="148"
-          height="222"
-          alt={data.name}
-          src={`${
-            data.profile_path
-              ? 'http://image.tmdb.org/t/p/w342' + data.profile_path
-              : poster.src
-          }`}
-        />
+        <LazyLoad height={214} once placeholder={poster_default.src}>
+          <img
+            width="140"
+            height="210"
+            alt={data.name}
+            src={`${
+              data.profile_path
+                ? 'http://image.tmdb.org/t/p/w342' + data.profile_path
+                : poster.src
+            }`}
+          />
+        </LazyLoad>
       </div>
 
       {/* BUTTONS */}

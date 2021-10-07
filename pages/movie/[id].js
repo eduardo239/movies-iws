@@ -1,19 +1,18 @@
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { addMovieTo, removeMovieFrom } from '../../utils';
 import { useEffect, useState } from 'react';
-import poster from '../../assets/poster.png';
 import video from '../../assets/video.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 import Modal from '../../components/Modal';
+import LazyLoad from 'react-lazyload';
 
 export default function Movie() {
   const router = useRouter();
@@ -34,19 +33,19 @@ export default function Movie() {
   });
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   const { data: videos } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   const { data: stars } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   const { data: similar } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=en-US`
+    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
   );
 
   useEffect(() => {
@@ -108,16 +107,18 @@ export default function Movie() {
       <div className="movie-grid">
         {/* POSTER */}
         <div className="movie-grid__a">
-          <Image
-            width="261"
-            height="386"
-            alt={data.original_title}
-            src={`${
-              data.poster_path
-                ? 'http://image.tmdb.org/t/p/w342' + data.poster_path
-                : poster.src
-            }`}
-          />
+          <LazyLoad height={261} once placeholder={poster_default.src}>
+            <img
+              width="261"
+              height="386"
+              alt={data.original_title}
+              src={`${
+                data.poster_path
+                  ? 'http://image.tmdb.org/t/p/w342' + data.poster_path
+                  : poster_default.src
+              }`}
+            />
+          </LazyLoad>
         </div>
 
         {/* TRAILER */}
@@ -131,7 +132,9 @@ export default function Movie() {
               allowFullScreen
             ></iframe>
           ) : (
-            <Image src={video.src} alt="Trailer" width="684" height="386" />
+            <LazyLoad height={386} once placeholder={poster_default.src}>
+              <img src={video.src} alt="Trailer" width="684" height="386" />
+            </LazyLoad>
           )}
         </div>
 
@@ -143,14 +146,14 @@ export default function Movie() {
                 onClick={() => addMovie(0)}
                 className={`btn-icon mw-100 ${'btn-primary'}`}
               >
-                <Image src={eye.src} alt="See" width="24" height="24" /> Já vi
+                <img src={eye.src} alt="See" width="24" height="24" /> Já vi
               </button>
             ) : (
               <button
                 onClick={() => removeMovie(0)}
                 className={`btn-icon mw-100 ${'btn-secondary'}`}
               >
-                <Image src={eye.src} alt="See" width="24" height="24" /> Remover
+                <img src={eye.src} alt="See" width="24" height="24" /> Remover
               </button>
             )}
 
@@ -159,12 +162,7 @@ export default function Movie() {
                 onClick={() => addMovie(1)}
                 className={`btn-icon ${'btn-primary'}`}
               >
-                <Image
-                  src={calendar.src}
-                  alt="Calendar"
-                  width="24"
-                  height="24"
-                />
+                <img src={calendar.src} alt="Calendar" width="24" height="24" />
                 Vou ver
               </button>
             ) : (
@@ -172,12 +170,7 @@ export default function Movie() {
                 onClick={() => removeMovie(1)}
                 className={`btn-icon w-100 ${'btn-secondary'}`}
               >
-                <Image
-                  src={calendar.src}
-                  alt="Calendar"
-                  width="24"
-                  height="24"
-                />
+                <img src={calendar.src} alt="Calendar" width="24" height="24" />
                 Remover
               </button>
             )}
@@ -220,16 +213,18 @@ export default function Movie() {
             <div key={p.id}>
               <Link href={`/person/${p.id}`} passHref>
                 <a>
-                  <Image
-                    src={`${
-                      p.profile_path
-                        ? `http://image.tmdb.org/t/p/w342${p.profile_path}`
-                        : star.src
-                    }`}
-                    alt={p.original_name}
-                    width="148"
-                    height="222"
-                  />
+                  <LazyLoad height={214} once placeholder={poster_default.src}>
+                    <img
+                      src={`${
+                        p.profile_path
+                          ? `http://image.tmdb.org/t/p/w342${p.profile_path}`
+                          : star.src
+                      }`}
+                      alt={p.original_name}
+                      width="140"
+                      height="210"
+                    />
+                  </LazyLoad>
                 </a>
               </Link>
               <p className="p-small">{p.original_name}</p>
@@ -305,16 +300,22 @@ export default function Movie() {
               <div key={m.id} className="movie-item">
                 <Link href={`/movie/${m.id}`} passHref>
                   <a>
-                    <Image
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`${
-                        m.poster_path
-                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                          : poster_default.src
-                      }`}
-                    />
+                    <LazyLoad
+                      height={214}
+                      once
+                      placeholder={poster_default.src}
+                    >
+                      <img
+                        width="140"
+                        height="210"
+                        alt={m.original_title}
+                        src={`${
+                          m.poster_path
+                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                            : poster_default.src
+                        }`}
+                      />
+                    </LazyLoad>
                     <span>{m.original_title}</span>
                   </a>
                 </Link>
