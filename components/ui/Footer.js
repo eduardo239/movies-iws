@@ -7,7 +7,7 @@ const Footer = () => {
         <small>API</small>
       </div>
       <div className="footer">
-        <img width="349" height="25" alt={'TMDB Api'} src={TMDBLogo} />
+        <img width="200" alt={'TMDB Api'} src={TMDBLogo.src} />
       </div>
     </div>
   );

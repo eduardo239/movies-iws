@@ -8,6 +8,7 @@ import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
 import poster_default from '../assets/poster.png';
 import { breakpointColumnsObj } from '../utils/constants';
+import ImageCard from '../components/ImageCard';
 
 export default function Home({}) {
   const [opacity, setOpacity] = useState(false);
@@ -33,30 +34,23 @@ export default function Home({}) {
           >
             {/* array of JSX items */}
 
-            {data.results.map((m) => (
-              <div key={m.id} className="movie-item mb-10">
-                <Link href={`/movie/${m.id}`} passHref>
-                  <a>
-                    <LazyLoad
-                      height={210}
-                      once
-                      placeholder={poster_default.src}
-                    >
-                      <img
-                        height={210}
-                        width={140}
-                        src={`${
-                          m.poster_path
-                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                            : poster_default.src
-                        }`}
-                        alt={m.original_title}
-                      />
-                    </LazyLoad>
-                    <span>{m.original_title}</span>
-                  </a>
-                </Link>
-              </div>
+            {data.results.map((x) => (
+              <Link key={x.id} href={`/movie/${x.id}`} passHref>
+                <a>
+                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                    <ImageCard
+                      image={`${
+                        x.poster_path
+                          ? 'http://image.tmdb.org/t/p/w185' + x.poster_path
+                          : poster_default.src
+                      }`}
+                      alt={x.original_title}
+                      title={x.original_title}
+                      poster_default={poster_default}
+                    />
+                  </LazyLoad>
+                </a>
+              </Link>
             ))}
           </Masonry>
         </div>

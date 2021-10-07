@@ -3,6 +3,11 @@ import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import poster_default from '../../assets/poster.png';
+import LazyLoad from 'react-lazyload';
+import Masonry from 'react-masonry-css';
+import { breakpointColumnsObj } from '../../utils/constants';
+import ImageCard from '../../components/ImageCard';
 
 export default function Movie({ list }) {
   const router = useRouter();
@@ -20,38 +25,41 @@ export default function Movie({ list }) {
 
   return (
     <section>
-      <h1>{list?.listname ?? 'Lista'}</h1>
-      <div className="flex-center gap-10">
-        {items.length > 0 &&
-          items.map((m) => (
-            <div key={m.id} className="movie-item">
-              <Link href={`/movie/${m.id}`} passHref>
+      <h1>Nome: {list?.listname ?? 'Lista'}</h1>
+      <div className="flex-center">
+        <Masonry
+          breakpointCols={breakpointColumnsObj}
+          className="my-masonry-grid"
+          columnClassName="my-masonry-grid_column"
+        >
+          {items.length > 0 &&
+            items.map((x) => (
+              <Link key={x.id} href={`/movie/${x.id}`} passHref>
                 <a>
-                  <LazyLoad height={214} once placeholder={poster_default.src}>
-                    <img
-                      width="140"
-                      height="210"
+                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                    <ImageCard
+                      image={`http://image.tmdb.org/t/p/w185${x.poster_path}`}
                       alt={
-                        m.original_title
-                          ? m.original_title
-                          : m.original_name
-                          ? m.original_name
+                        x.original_title
+                          ? x.original_title
+                          : x.original_name
+                          ? x.original_name
                           : `none`
                       }
-                      src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
+                      title={
+                        x.original_title
+                          ? x.original_title
+                          : x.original_name
+                          ? x.original_name
+                          : ''
+                      }
+                      poster_default={poster_default}
                     />
                   </LazyLoad>
-                  <small>
-                    {m.original_title
-                      ? m.original_title
-                      : m.original_name
-                      ? m.original_name
-                      : `none`}
-                  </small>
                 </a>
               </Link>
-            </div>
-          ))}
+            ))}
+        </Masonry>
       </div>
     </section>
   );

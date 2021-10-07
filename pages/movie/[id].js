@@ -13,6 +13,9 @@ import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 import Modal from '../../components/Modal';
 import LazyLoad from 'react-lazyload';
+import Masonry from 'react-masonry-css';
+import { breakpointColumnsObj } from '../../utils/constants';
+import ImageCard from '../../components/ImageCard';
 
 export default function Movie() {
   const router = useRouter();
@@ -295,32 +298,35 @@ export default function Movie() {
           <hr />
 
           <h3 className="mb-10 text-center">Outros Filmes</h3>
-          <div className="flex-center gap-10">
-            {similarList.slice(0, 6).map((m) => (
-              <div key={m.id} className="movie-item">
-                <Link href={`/movie/${m.id}`} passHref>
+          <div className="flex-center">
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="my-masonry-grid"
+              columnClassName="my-masonry-grid_column"
+            >
+              {similarList.slice(0, 5).map((x) => (
+                <Link key={x.id} href={`/movie/${x.id}`} passHref>
                   <a>
                     <LazyLoad
-                      height={214}
+                      height={210}
                       once
                       placeholder={poster_default.src}
                     >
-                      <img
-                        width="140"
-                        height="210"
-                        alt={m.original_title}
-                        src={`${
-                          m.poster_path
-                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                      <ImageCard
+                        image={`${
+                          x.poster_path
+                            ? 'http://image.tmdb.org/t/p/w185' + x.poster_path
                             : poster_default.src
                         }`}
+                        alt={x.original_title}
+                        title={x.original_title}
+                        poster_default={poster_default}
                       />
                     </LazyLoad>
-                    <span>{m.original_title}</span>
                   </a>
                 </Link>
-              </div>
-            ))}
+              ))}
+            </Masonry>
           </div>
         </>
       )}

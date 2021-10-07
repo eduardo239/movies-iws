@@ -19,10 +19,7 @@
 
 .main {
   background-color: var(--light-20);
-  /* border: 3px solid var(--light-00); */
   flex: 1;
-  display: flex;
-  justify-content: center;
 }
 
 .footer {

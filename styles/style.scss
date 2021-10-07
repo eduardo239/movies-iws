@@ -21,7 +21,7 @@
 
 .btn-icon,
 .btn {
-  padding: 12px 24px;
+  padding: 10px 20px;
   letter-spacing: 0.02rem;
 
   font-weight: 600;
@@ -44,8 +44,8 @@
 }
 
 .btn-icon {
-  padding: 12px 24px 12px 12px;
-  justify-content: flex-start;
+  padding: 10px 20px 10px 10px;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
   gap: 0.45rem;
@@ -246,7 +246,7 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - MOVIE ID GRID
 .movie-grid {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto 1fr;
   justify-content: flex-start;
 }
 .movie-grid__buttons {
@@ -279,7 +279,7 @@
   }
   .movie-grid__a {
     order: 2;
-    width: 150px;
+    width: 261px;
   }
   .movie-grid__b {
     order: 1;
@@ -471,7 +471,27 @@
   margin-left: auto;
   margin-right: auto;
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - CARD
+.card-item {
+  width: 185px;
+  border: 1px solid var(--light-40);
+  margin-bottom: 10px;
+  .card-item__poster-div > div {
+    overflow: hidden;
+    height: 275px;
+  }
+  .card-item__poster {
+    width: 185px;
+  }
+  span {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 700;
+    min-height: 40px;
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - FORM
+
 form .form-group {
   margin-bottom: 1.25rem;
   min-width: 350px;
@@ -576,6 +596,30 @@ form .form-group {
 .mr-20 {
   margin-right: 2rem;
 }
+
+// padding
+.p-1 {
+  padding: 0.1rem;
+}
+.p-2 {
+  padding: 0.2rem;
+}
+.p-3 {
+  padding: 0.3rem;
+}
+.p-4 {
+  padding: 0.4rem;
+}
+.p-5 {
+  padding: 0.5rem;
+}
+.p-10 {
+  padding: 1rem;
+}
+.p-20 {
+  padding: 2rem;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - MODAL
 .modal {
   position: fixed;

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { dateFormat } from '../../utils';
 import { useEffect } from 'react';
-import poster from '../../assets/poster.png';
+import poster_default from '../../assets/poster.png';
 import LazyLoad from 'react-lazyload';
 
 export default function Person() {

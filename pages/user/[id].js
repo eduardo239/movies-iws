@@ -2,9 +2,10 @@ import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Message from '../../components/Message';
-import { removeItemFromProfile } from '../../utils/movies';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import LazyLoad from 'react-lazyload';
+import poster_default from '../../assets/poster.png';
+import { removeItemFromProfile } from '../../utils/movies';
 
 const Profile = ({ profile }) => {
   const [message, setMessage] = useState(false);

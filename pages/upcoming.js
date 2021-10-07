@@ -8,6 +8,7 @@ import poster_default from '../assets/poster.png';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../utils/constants';
+import ImageCard from '../components/ImageCard';
 
 export default function Upcoming() {
   const [page, setPage] = useState(1);
@@ -24,7 +25,6 @@ export default function Upcoming() {
     <section className="flex-center">
       <div>
         <Search setOpacity={setOpacity}></Search>
-
         <h1 className="text-center">Em Breve</h1>
         <div className={`mb-20 ${opacity ? 'opacity-20' : ''}`}>
           <Masonry
@@ -32,30 +32,23 @@ export default function Upcoming() {
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column"
           >
-            {data.results.map((m) => (
-              <div key={m.id} className="movie-item mb-10">
-                <Link href={`/movie/${m.id}`} passHref>
-                  <a>
-                    <LazyLoad
-                      height={214}
-                      once
-                      placeholder={poster_default.src}
-                    >
-                      <img
-                        height={214}
-                        width={134}
-                        src={`${
-                          m.poster_path
-                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                            : poster_default.src
-                        }`}
-                        alt={m.original_title}
-                      />
-                    </LazyLoad>
-                    <small>{m.original_title}</small>
-                  </a>
-                </Link>
-              </div>
+            {data.results.map((x) => (
+              <Link key={x.id} href={`/movie/${x.id}`} passHref>
+                <a>
+                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                    <ImageCard
+                      image={`${
+                        x.poster_path
+                          ? 'http://image.tmdb.org/t/p/w185' + x.poster_path
+                          : poster_default.src
+                      }`}
+                      alt={x.original_title}
+                      title={x.original_title}
+                      poster_default={poster_default}
+                    />
+                  </LazyLoad>
+                </a>
+              </Link>
             ))}
           </Masonry>
         </div>
