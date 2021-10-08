@@ -4,6 +4,7 @@ import '../styles/globals.scss';
 import '../styles/style.scss';
 import Layout from '../components/ui/Layout';
 import { UserContextProvider } from '../utils/useUser';
+import Navbar from '../components/ui/Navbar';
 
 function App({ Component, pageProps }) {
   useEffect(() => {}, []);

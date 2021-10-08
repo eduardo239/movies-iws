@@ -7,36 +7,19 @@ import { supabase } from './supabase';
  * @returns
  */
 export function containsObjectId(object_id, list) {
-  var i;
-  for (i = 0; i < list.length; i++) {
-    if (list[i].id === parseInt(object_id)) {
-      return true;
+  if (list === undefined || list == null) {
+    return false;
+  } else {
+    var i;
+    for (i = 0; i < list.length; i++) {
+      if (list[i].id === parseInt(object_id)) {
+        return true;
+      }
     }
   }
+
   return false;
 }
-
-// export function containsObject(obj, list) {
-//   var i;
-//   for (i = 0; i < list.length; i++) {
-//     if (list[i] === obj) {
-//       return true;
-//     }
-//   }
-
-//   return false;
-// }
-
-// export function containsObject2(obj, list) {
-//   var x;
-//   for (x in list) {
-//     if (list.hasOwnProperty(x) && list[x] === obj) {
-//       return true;
-//     }
-//   }
-
-//   return false;
-// }
 
 /**
  *
@@ -81,8 +64,14 @@ export async function addMovieTo(table, user_id, item) {
 
   // verifica se já está na lista
   const watched = containsObjectId(item.id, array);
+
   // cria uma nova array com o item novo
-  const newArray = [...array, item];
+  let newArray = [];
+  if (!array) {
+    newArray = [item];
+  } else {
+    newArray = [...array, item];
+  }
 
   if (!watched) {
     let body =
@@ -97,7 +86,7 @@ export async function addMovieTo(table, user_id, item) {
       .single();
 
     if (error_profile) {
-      console.log(error_profile);
+      console.error(error_profile);
       return false;
     } else {
       return true;
@@ -110,4 +99,29 @@ export async function addMovieTo(table, user_id, item) {
 
 export function removeMovieFrom(table) {
   console.warning(table);
+}
+
+export async function checkIfContain(user_id, item_id) {
+  let mw = 'movies_watched';
+  let ts = 'movies_to_see';
+
+  let { data: movies_list, error: error_movies_list } = await supabase
+    .from('profiles')
+    .select('movies_watched, movies_to_see')
+    .eq('user_id', user_id)
+    .single();
+
+  if (error_movies_list) console.error(error_movies_list);
+
+  let arrayMW = movies_list.movies_watched;
+  let arrayMTS = movies_list.movies_to_see;
+
+  if (!arrayMW && !arrayMTS) {
+    return false;
+  } else {
+    // verifica se já está na lista
+    const isMW = containsObjectId(item_id, arrayMW);
+    const isMTS = containsObjectId(item_id, arrayMTS);
+    return { toSeeOK: isMTS, watchedOK: isMW };
+  }
 }

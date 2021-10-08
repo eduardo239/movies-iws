@@ -1,14 +1,14 @@
 import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Message from '../../components/Message';
 import closeIcon from '../../assets/eva_close-outline.svg';
-import LazyLoad from 'react-lazy-load';
 import poster_default from '../../assets/poster.png';
 import { removeItemFromProfile } from '../../utils/movies';
+import ImageCard from '../../components/ImageCard';
 
 const Profile = ({ profile }) => {
   const [message, setMessage] = useState(false);
+  const [trailerModal, setTrailerModal] = useState(false);
 
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
@@ -36,6 +36,11 @@ const Profile = ({ profile }) => {
     setTimeout(() => setMessage(false), 2000);
   };
 
+  const showTrailer = (id) => {
+    console.log(id);
+    setTrailerModal(!trailerModal);
+  };
+
   if (profile)
     return (
       <div className="w-100">
@@ -54,35 +59,8 @@ const Profile = ({ profile }) => {
         <section className="flex-center mb-20 gap-10">
           {watched
             .splice(0, 5)
-            .map((m) => (
-              <div key={m.id} className="movie-item">
-                <Link href={`/movie/${m.id}`} passHref>
-                  <a className="mb-20">
-                    <LazyLoad offsetVertical={300}>
-                      <img
-                        width="140"
-                        height="210"
-                        alt={m.original_title}
-                        src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
-                      />
-                    </LazyLoad>
-                    <small>{m.original_title}</small>
-                  </a>
-                </Link>
-                <div>
-                  <button
-                    className="btn-icon-only btn-secondary"
-                    onClick={() => removeFromWatched(m)}
-                  >
-                    <img
-                      height="24"
-                      width="24"
-                      alt={m.original_title}
-                      src={closeIcon.src}
-                    />
-                  </button>
-                </div>
-              </div>
+            .map((x) => (
+              <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
             ))
             .reverse()}
         </section>
@@ -93,33 +71,8 @@ const Profile = ({ profile }) => {
         <section className="flex-center mb-20 gap-10">
           {toSee
             .splice(0, 5)
-            .map((m) => (
-              <div key={m.id} className="movie-item">
-                <Link href={`/movie/${m.id}`} passHref>
-                  <a className="mb-20">
-                    <img
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`http://image.tmdb.org/t/p/w185${m.poster_path}`}
-                    />
-                    <small>{m.original_title}</small>
-                  </a>
-                </Link>
-                <div>
-                  <button
-                    className="btn-icon-only btn-secondary "
-                    onClick={() => removeFromToSee(m)}
-                  >
-                    <img
-                      width="24"
-                      height="24"
-                      alt={m.original_title}
-                      src={closeIcon.src}
-                    />
-                  </button>
-                </div>
-              </div>
+            .map((x) => (
+              <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
             ))
             .reverse()}
         </section>
@@ -158,8 +111,17 @@ export async function getStaticProps(context) {
     .eq('user_id', id)
     .single();
 
+  if (!profile) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   return {
-    revalidate: 60,
+    revalidate: 120,
     props: { profile },
   };
 }

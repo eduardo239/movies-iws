@@ -5,13 +5,11 @@ import Navbar from './Navbar';
 const Layout = ({ children }) => {
   return (
     <>
-      <div className={s.header}>
-        <Navbar />
-      </div>
+      <Navbar />
       <div className={s.container}>
         <main className={s.main}>{children}</main>
         <div className={s.footer}>
-          <Footer>TMDB api</Footer>
+          <Footer />
         </div>
       </div>
     </>

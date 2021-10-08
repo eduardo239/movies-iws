@@ -245,6 +245,10 @@
   display: grid;
   grid-template-columns: auto auto 1fr;
   justify-content: flex-start;
+  padding: 24px;
+  background-color: var(--light-00);
+  margin: -12px -24px 12px -24px;
+  border-bottom: 1px solid var(--light-40);
 }
 .movie-grid__buttons {
   display: flex;
@@ -276,7 +280,7 @@
   }
   .movie-grid__a {
     order: 2;
-    width: 261px;
+    width: 200px;
   }
   .movie-grid__b {
     order: 1;
@@ -292,6 +296,13 @@
     button {
       width: 100%;
     }
+  }
+}
+
+@media screen and (max-width: 525px) {
+  .movie-grid {
+    padding: 0px;
+    margin: -12px -24px 12px -24px;
   }
 }
 .list-items {
@@ -321,7 +332,11 @@
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - VIDEO YOUTUBE
-
+.video-container {
+  display: block;
+  width: 684;
+  height: 386;
+}
 @media screen and (max-width: 990px) {
   .video-container {
     position: relative;
@@ -481,10 +496,10 @@
     width: 185px;
   }
   span {
+    min-height: 40px;
     display: block;
     font-size: 0.9rem;
     font-weight: 700;
-    min-height: 40px;
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - FORM
@@ -624,15 +639,13 @@ form .form-group {
   top: 0;
 
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
 
   z-index: 100;
 
   display: flex;
   justify-content: center;
   align-items: flex-start;
-
-  margin-top: 2rem;
 
   .modal-message__success {
     border-radius: var(--border-radius);
@@ -657,6 +670,13 @@ form .form-group {
     align-items: center;
     gap: 10px;
   }
+
+  // modal trailer
+}
+.modal-trailer {
+  height: 100vh;
+  align-items: center;
+  background-color: var(--opacity-1);
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - FOOTER
 

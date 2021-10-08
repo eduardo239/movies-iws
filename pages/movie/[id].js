@@ -4,14 +4,14 @@ import useFetch from '../../utils/useFetch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
-import { addMovieTo, removeMovieFrom } from '../../utils';
+import { addMovieTo, checkIfContain, removeMovieFrom } from '../../utils';
 import { useEffect, useState } from 'react';
 import video from '../../assets/video.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
-import Modal from '../../components/Modal';
+import ModalMessage from '../../components/ModalMessage';
 import LazyLoad from 'react-lazy-load';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
@@ -29,40 +29,60 @@ export default function Movie() {
   const [videoList, setVideosList] = useState([]);
   const [similarList, setSimilarList] = useState([]);
   const [starList, setStarList] = useState([]);
+  const [trailerModal, setTrailerModal] = useState(false);
 
-  const [alreadyOnTheList, setAlreadyOnTheList] = useState({
-    moviesWatched: false,
-    moviesToSee: false,
-  });
+  const [toSeeOK, setToSeeOK] = useState(false);
+  const [watchedOK, setWatchedOK] = useState(false);
 
   const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+    id
+      ? `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+      : ''
   );
 
   const { data: videos } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+    id
+      ? `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+      : ''
   );
 
   const { data: stars } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+    id
+      ? `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+      : ''
   );
 
   const { data: similar } = useFetch(
-    `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+    id
+      ? `https://api.themoviedb.org/3/movie/${id}/similar?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
+      : ''
   );
 
   useEffect(() => {
     if (videos?.results?.length > 0) setVideosList(videos.results);
     if (stars?.cast?.length > 0) setStarList(stars.cast);
     if (similar?.results?.length > 0) setSimilarList(similar.results);
-  }, [videos, stars, similar, profile]);
+
+    (async function () {
+      if (id && profile) {
+        const res = await checkIfContain(profile?.user_id, id);
+
+        setToSeeOK(res.toSeeOK);
+        setWatchedOK(res.watchedOK);
+      }
+    })();
+  }, [videos, stars, similar, profile, id]);
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error />;
 
   const addMovie = async (action) => {
+    //0 'movies_watched'
+    //1 'movies_to_see'
     // TODO: mensagem quando se o item está na lista
     const response = await addMovieTo(action, user.id, data);
+    if (action === 0) setWatchedOK(!watchedOK);
+    if (action === 1) setToSeeOK(!toSeeOK);
 
     if (response) {
       setMessage({
@@ -106,7 +126,9 @@ export default function Movie() {
 
   return (
     <section>
-      {message.show && <Modal message={message.message} type={message.type} />}
+      {message.show && (
+        <ModalMessage message={message.message} type={message.type} />
+      )}
       <div className="movie-grid">
         {/* POSTER */}
         <div className="movie-grid__a">
@@ -144,39 +166,24 @@ export default function Movie() {
         {/* BUTTONS */}
         <div className="movie-grid__c">
           <div className="movie-grid__buttons w-100 gap-5">
-            {!alreadyOnTheList.moviesWatched ? (
-              <button
-                onClick={() => addMovie(0)}
-                className={`btn-icon mw-100 ${'btn-primary'}`}
-              >
-                <img src={eye.src} alt="See" width="24" height="24" /> Já vi
-              </button>
-            ) : (
-              <button
-                onClick={() => removeMovie(0)}
-                className={`btn-icon mw-100 ${'btn-secondary'}`}
-              >
-                <img src={eye.src} alt="See" width="24" height="24" /> Remover
-              </button>
-            )}
-
-            {!alreadyOnTheList.moviesToSee ? (
-              <button
-                onClick={() => addMovie(1)}
-                className={`btn-icon ${'btn-primary'}`}
-              >
-                <img src={calendar.src} alt="Calendar" width="24" height="24" />
-                Vou ver
-              </button>
-            ) : (
-              <button
-                onClick={() => removeMovie(1)}
-                className={`btn-icon w-100 ${'btn-secondary'}`}
-              >
-                <img src={calendar.src} alt="Calendar" width="24" height="24" />
-                Remover
-              </button>
-            )}
+            <button
+              onClick={() => addMovie(0)}
+              className={`btn-icon ${
+                watchedOK ? 'btn-secondary' : 'btn-primary'
+              }`}
+            >
+              <img src={eye.src} alt="See" width="24" height="24" />
+              {watchedOK ? 'Remover - Já vi' : 'Já vi'}
+            </button>
+            <button
+              onClick={() => addMovie(1)}
+              className={`btn-icon ${
+                toSeeOK ? 'btn-secondary' : 'btn-primary'
+              }`}
+            >
+              <img src={calendar.src} alt="Calendar" width="24" height="24" />
+              {toSeeOK ? 'Remover - Vou ver' : 'Vou ver'}
+            </button>
           </div>
         </div>
       </div>
@@ -194,7 +201,7 @@ export default function Movie() {
       <div className="mb-20 tags">
         {data.genres
           ? data.genres.map((g) => (
-              <small className="mr-5" key={g.id}>
+              <small className="mr-5 mb-5" key={g.id}>
                 {g.name}
               </small>
             ))
@@ -211,6 +218,7 @@ export default function Movie() {
       {/* CAST */}
       <h3 className="mb-10">Cast</h3>
       <div className="mb-20 flex-start cast">
+        {/* TODO: card */}
         {starList.length > 0 &&
           starList.slice(0, 5).map((p) => (
             <div key={p.id}>
@@ -305,22 +313,7 @@ export default function Movie() {
               columnClassName="my-masonry-grid_column"
             >
               {similarList.slice(0, 5).map((x) => (
-                <Link key={x.id} href={`/movie/${x.id}`} passHref>
-                  <a>
-                    <LazyLoad offsetVertical={300}>
-                      <ImageCard
-                        image={`${
-                          x.poster_path
-                            ? 'http://image.tmdb.org/t/p/w185' + x.poster_path
-                            : poster_default.src
-                        }`}
-                        alt={x.original_title}
-                        title={x.original_title}
-                        poster_default={poster_default}
-                      />
-                    </LazyLoad>
-                  </a>
-                </Link>
+                <ImageCard key={x.id} content={x} />
               ))}
             </Masonry>
           </div>

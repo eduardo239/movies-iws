@@ -2,7 +2,7 @@ import Image from 'next/image';
 import checkIcon from '../assets/eva_checkmark-circle-2-outline.svg';
 import alertIcon from '../assets/eva_alert-circle-outline.svg';
 
-export default function Modal({ message, type }) {
+export default function ModalMessage({ message, type }) {
   if (type === 'success')
     return (
       <section className="modal modal-message">

@@ -16,13 +16,12 @@ export default function Movie({ list }) {
   const [message, setMessage] = useState(false);
   const [items, setItems] = useState(false);
 
-  // if (isLoading) return <Spinner />;
-  // if (isError) return <Error />;
-
   useEffect(() => {
     if (list?.items && list.items.length > 0) setItems(list.items);
   }, [list]);
 
+  //  if (isLoading) return <Spinner />;
+  //  if (isError) return <Error />;
   return (
     <section>
       <h1>Nome: {list?.listname ?? 'Lista'}</h1>
@@ -33,32 +32,7 @@ export default function Movie({ list }) {
           columnClassName="my-masonry-grid_column"
         >
           {items.length > 0 &&
-            items.map((x) => (
-              <Link key={x.id} href={`/movie/${x.id}`} passHref>
-                <a>
-                  <LazyLoad offsetVertical={300}>
-                    <ImageCard
-                      image={`http://image.tmdb.org/t/p/w185${x.poster_path}`}
-                      alt={
-                        x.original_title
-                          ? x.original_title
-                          : x.original_name
-                          ? x.original_name
-                          : `none`
-                      }
-                      title={
-                        x.original_title
-                          ? x.original_title
-                          : x.original_name
-                          ? x.original_name
-                          : ''
-                      }
-                      poster_default={poster_default}
-                    />
-                  </LazyLoad>
-                </a>
-              </Link>
-            ))}
+            items.map((x) => <ImageCard key={x.id} content={x} />)}
         </Masonry>
       </div>
     </section>
