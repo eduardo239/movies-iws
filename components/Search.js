@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Spinner from './Spinner';
 import Error from './Error';
 import poster_default from '../assets/poster.png';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 export default function Search({ setOpacity }) {
   const [term, setTerm] = useState('');
@@ -63,11 +63,7 @@ export default function Search({ setOpacity }) {
                 <div key={m.id} className="movie-item">
                   <Link href={`/movie/${m.id}`} passHref>
                     <a>
-                      <LazyLoad
-                        height={214}
-                        once
-                        placeholder={poster_default.src}
-                      >
+                      <LazyLoad offsetVertical={300}>
                         <img
                           width="140"
                           height="210"

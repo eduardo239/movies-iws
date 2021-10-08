@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import useFetch from '../utils/useFetch';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ export default function Upcoming() {
             {data.results.map((x) => (
               <Link key={x.id} href={`/movie/${x.id}`} passHref>
                 <a>
-                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                  <LazyLoad offsetVertical={300}>
                     <ImageCard
                       image={`${
                         x.poster_path

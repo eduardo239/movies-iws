@@ -11,7 +11,7 @@ import saveIcon from '../../assets/eva_save-outline.svg';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 const List = () => {
   const { user } = useUser();
@@ -239,11 +239,7 @@ const List = () => {
                         passHref
                       >
                         <a className="mb-20">
-                          <LazyLoad
-                            height={214}
-                            once
-                            placeholder={poster_default.src}
-                          >
+                          <LazyLoad offsetVertical={300}>
                             <img
                               width="140"
                               height="210"

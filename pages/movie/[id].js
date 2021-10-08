@@ -12,7 +12,7 @@ import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 import Modal from '../../components/Modal';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
 import ImageCard from '../../components/ImageCard';
@@ -110,7 +110,7 @@ export default function Movie() {
       <div className="movie-grid">
         {/* POSTER */}
         <div className="movie-grid__a">
-          <LazyLoad height={261} once placeholder={poster_default.src}>
+          <LazyLoad offsetVertical={300}>
             <img
               width="261"
               height="386"
@@ -135,7 +135,7 @@ export default function Movie() {
               allowFullScreen
             ></iframe>
           ) : (
-            <LazyLoad height={386} once placeholder={poster_default.src}>
+            <LazyLoad offsetVertical={300}>
               <img src={video.src} alt="Trailer" width="684" height="386" />
             </LazyLoad>
           )}
@@ -216,7 +216,7 @@ export default function Movie() {
             <div key={p.id}>
               <Link href={`/person/${p.id}`} passHref>
                 <a>
-                  <LazyLoad height={214} once placeholder={poster_default.src}>
+                  <LazyLoad offsetVertical={300}>
                     <img
                       src={`${
                         p.profile_path
@@ -307,11 +307,7 @@ export default function Movie() {
               {similarList.slice(0, 5).map((x) => (
                 <Link key={x.id} href={`/movie/${x.id}`} passHref>
                   <a>
-                    <LazyLoad
-                      height={210}
-                      once
-                      placeholder={poster_default.src}
-                    >
+                    <LazyLoad offsetVertical={300}>
                       <ImageCard
                         image={`${
                           x.poster_path

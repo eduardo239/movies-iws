@@ -1,4 +1,3 @@
-import LazyLoad from 'react-lazyload';
 import { useState } from 'react';
 import useFetch from '../utils/useFetch';
 import Link from 'next/link';
@@ -9,6 +8,9 @@ import Masonry from 'react-masonry-css';
 import poster_default from '../assets/poster.png';
 import { breakpointColumnsObj } from '../utils/constants';
 import ImageCard from '../components/ImageCard';
+
+// import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazy-load';
 
 export default function Home({}) {
   const [opacity, setOpacity] = useState(false);
@@ -37,7 +39,7 @@ export default function Home({}) {
             {data.results.map((x) => (
               <Link key={x.id} href={`/movie/${x.id}`} passHref>
                 <a>
-                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                  <LazyLoad offsetVertical={300}>
                     <ImageCard
                       image={`${
                         x.poster_path

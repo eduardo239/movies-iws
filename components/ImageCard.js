@@ -1,11 +1,11 @@
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 import addIcon from '../assets/eva_plus-circle-outline.svg';
 
 export default function Image({ poster_default, image, alt, title }) {
   return (
     <div className="card-item">
       <div className="card-item__poster-div">
-        <LazyLoad height={278} once placeholder={poster_default.src}>
+        <LazyLoad offsetVertical={300}>
           <img className="card-item__poster" src={image} alt={alt} />
         </LazyLoad>
       </div>

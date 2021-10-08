@@ -4,7 +4,7 @@ import { supabase } from '../../utils/supabase';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import poster_default from '../../assets/poster.png';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
 import ImageCard from '../../components/ImageCard';
@@ -36,7 +36,7 @@ export default function Movie({ list }) {
             items.map((x) => (
               <Link key={x.id} href={`/movie/${x.id}`} passHref>
                 <a>
-                  <LazyLoad height={210} once placeholder={poster_default.src}>
+                  <LazyLoad offsetVertical={300}>
                     <ImageCard
                       image={`http://image.tmdb.org/t/p/w185${x.poster_path}`}
                       alt={

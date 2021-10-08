@@ -7,7 +7,7 @@ import { supabase } from '../../utils/supabase';
 import { containsObjectId } from '../../utils';
 import { useState } from 'react';
 import Message from '../../components/Message';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 export default function Movie() {
   const router = useRouter();
@@ -76,7 +76,7 @@ export default function Movie() {
   return (
     <section className="grid-0">
       <div>
-        <LazyLoad height={210} once placeholder={poster_default.src}>
+        <LazyLoad offsetVertical={300}>
           <img
             width="140"
             height="210"

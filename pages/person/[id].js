@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { dateFormat } from '../../utils';
 import { useEffect } from 'react';
 import poster_default from '../../assets/poster.png';
-import LazyLoad from 'react-lazyload';
+import LazyLoad from 'react-lazy-load';
 
 export default function Person() {
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function Person() {
     <section className="w-100">
       {/* POSTER */}
       <div>
-        <LazyLoad height={214} once placeholder={poster_default.src}>
+        <LazyLoad offsetVertical={300}>
           <img
             width="140"
             height="210"
