@@ -1,16 +1,21 @@
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 import addIcon from '../assets/eva_plus-circle-outline.svg';
 import Link from 'next/link';
 import poster_default from '../assets/poster.png';
+import Placeholder from './Placeholder';
 
 export default function Image({ showTrailer = false, content }) {
-
   return (
     <div className="card-item">
       <Link href={`/movie/${content.id}`} passHref>
         <a>
           <div className="card-item__poster-div">
-            <LazyLoad offsetVertical={300}>
+            <LazyLoad
+              offset={100}
+              height={275}
+              once
+              placeholder={<Placeholder />}
+            >
               <img
                 className="card-item__poster"
                 src={`${

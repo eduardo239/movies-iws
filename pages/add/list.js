@@ -223,10 +223,10 @@ const List = () => {
 
       {/* c main left bottom */}
       <section className="flex-start">
-        <main className="mr-10">
+        <main className="mr-10 flex-1">
           {data.results?.length > 0 && (
             <div className="flex-start">
-              <div className="flex-center gap-10 mb-20">
+              <div className="flex-center gap-10  mb-20">
                 <Masonry
                   breakpointCols={breakpointColumnsObj}
                   className="my-masonry-grid"

@@ -414,7 +414,28 @@
     letter-spacing: 0.05rem;
   }
 }
+.person-movies-grid__show-image {
+  display: block;
+  position: relative;
+}
+.person-movies-grid__on-hover_show {
+  position: absolute;
+  right: 0;
+  top: 22px;
+  border: 5px solid var(--primary);
+  width: 150px;
+  display: none;
+  z-index: 100;
+}
 
+.person-movies-grid__show-image:hover .person-movies-grid__on-hover_show {
+  display: block;
+}
+@media screen and (max-width: 768px) {
+  .person-movies-grid__show-image:hover .person-movies-grid__on-hover_show {
+    display: none;
+  }
+}
 @media screen and (max-width: 990px) {
   .person-movies-grid {
     grid-template-columns: 45% 1fr auto;

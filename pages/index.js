@@ -6,9 +6,6 @@ import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../utils/constants';
 import ImageCard from '../components/ImageCard';
-
-// import LazyLoad from 'react-lazy-load';
-import LazyLoad from 'react-lazy-load';
 import ModalTrailer from '../components/ModalTrailer';
 
 export default function Home() {
