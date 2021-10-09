@@ -152,7 +152,7 @@ export default function Movie() {
             <iframe
               width="684"
               height="386"
-              src={`//www.youtube.com/embed/${videos.results[0].key}?rel=0`}
+              src={`http://www.youtube.com/embed/${videos.results[0].key}`}
               frameBorder="0"
               allowFullScreen
             ></iframe>

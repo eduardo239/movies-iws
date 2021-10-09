@@ -11,16 +11,26 @@ import ModalTrailer from '../components/ModalTrailer';
 export default function Home() {
   const [opacity, setOpacity] = useState(false);
   const [page, setPage] = useState(1);
-  const [trailerModal, setTrailerModal] = useState(false);
+  const [modal, setModal] = useState(false);
   const [trailerId, setTrailerId] = useState(null);
 
   const { data, isLoading, isError } = useFetch(
     `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&sort_by=popularity.desc&page=${page}`
   );
 
-  const showTrailer = (id) => {
-    setTrailerId(id);
-    setTrailerModal(!trailerModal);
+  const showTrailer = async (id) => {
+    const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`;
+
+    const response = await fetch(url);
+    const json = await response.json();
+    const key = json.results[0]?.key;
+
+    if (key) {
+      setTrailerId(key);
+      setModal(!modal);
+    } else {
+      alert('Vídeo não encontrado.');
+    }
   };
 
   if (isLoading) return <Spinner />;
@@ -28,9 +38,17 @@ export default function Home() {
 
   return (
     <section>
-      {trailerModal && <ModalTrailer trailer_id={trailerId} />}
+      {modal && (
+        <ModalTrailer
+          trailer_id={trailerId}
+          modal={modal}
+          setModal={setModal}
+        ></ModalTrailer>
+      )}
       <Search setOpacity={setOpacity}></Search>
+      {/*  */}
       <h1 className="text-center">Filmes Populares</h1>
+      {/*  */}
       <div className={`flex-center mb-20 ${opacity ? 'opacity-20' : ''}`}>
         <Masonry
           breakpointCols={breakpointColumnsObj}
