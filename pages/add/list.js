@@ -94,7 +94,7 @@ const List = () => {
         }
         let newArray = [];
 
-        if (profileLists.lists == null && profileLists[0].lists.length === 0) {
+        if (!profileLists?.lists) {
           newArray = [newListId];
         } else {
           // adicionar o novo item nas listas

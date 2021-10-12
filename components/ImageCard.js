@@ -64,28 +64,28 @@ export default function Image({ content }) {
         <Link href={`/movie/${content.id}`} passHref>
           <a>
             <div className="card-item__poster-div">
-              <LazyLoad
+              {/* <LazyLoad
                 offset={100}
                 height={275}
                 once
                 placeholder={<Placeholder />}
-              >
-                <img
-                  className="card-item__poster"
-                  src={`${
-                    content.poster_path
-                      ? 'http://image.tmdb.org/t/p/w185' + content.poster_path
-                      : poster_default.src
-                  }`}
-                  alt={
-                    content.original_title
-                      ? content.original_title
-                      : content.original_name
-                      ? content.original_name
-                      : `none`
-                  }
-                />
-              </LazyLoad>
+              > */}
+              <img
+                className="card-item__poster"
+                src={`${
+                  content.poster_path
+                    ? 'http://image.tmdb.org/t/p/w185' + content.poster_path
+                    : poster_default.src
+                }`}
+                alt={
+                  content.original_title
+                    ? content.original_title
+                    : content.original_name
+                    ? content.original_name
+                    : `none`
+                }
+              />
+              {/* </LazyLoad> */}
             </div>
           </a>
         </Link>

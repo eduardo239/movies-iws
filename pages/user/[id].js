@@ -95,12 +95,12 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(context) {
-  const id = context.params.id;
+  const username = context.params.id;
 
   let { data: profile, error } = await supabase
     .from('profiles')
     .select('*')
-    .eq('user_id', id)
+    .eq('username', username)
     .single();
 
   if (!profile) {

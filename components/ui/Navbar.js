@@ -30,7 +30,7 @@ const Navbar = () => {
       </Link>
 
       {user && (
-        <Link href={`/user/${user?.id ?? ''}`}>
+        <Link href={`/user/${profile?.username ?? ''}`}>
           <a>
             {/* @{profile?.username ?? `profile`} */}
             <img src={userIcon.src} alt="User Profile" width="24" height="24" />
