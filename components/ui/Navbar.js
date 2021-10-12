@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useUser } from '../../utils/useUser';
 import homeIcon from '../../assets/eva_home-outline.svg';
@@ -7,6 +8,7 @@ import logoutIcon from '../../assets/eva_log-out-outline.svg';
 import userIcon from '../../assets/eva_person-outline.svg';
 import loginIcon from '../../assets/eva_log-in-outline.svg';
 import registerIcon from '../../assets/eva_person-outline.svg';
+import logo from '../../assets/MOVIES-IWS3.svg';
 
 const Navbar = () => {
   const { user, logout, profile } = useUser();
@@ -15,7 +17,7 @@ const Navbar = () => {
     <div className="menu-nav">
       <Link href="/">
         <a>
-          <img src={homeIcon.src} alt="Home" width="24" height="24" />
+          <img src={logo.src} alt="Home" width="115" height="30" />
         </a>
       </Link>
       <Link href="/upcoming">

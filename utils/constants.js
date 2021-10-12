@@ -3,5 +3,5 @@ export const breakpointColumnsObj = {
   990: 4,
   786: 3,
   594: 2,
-  412: 1,
+  416: 1,
 };
