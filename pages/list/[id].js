@@ -2,11 +2,8 @@ import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import poster_default from '../../assets/poster.png';
-import LazyLoad from 'react-lazy-load';
-import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
+import Masonry from 'react-masonry-css';
 import ImageCard from '../../components/ImageCard';
 
 export default function Movie({ list }) {

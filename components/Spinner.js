@@ -1,3 +1,3 @@
 export default function Spinner() {
-  return <h2 className="text-center">loading</h2>;
+  return <h2 className="loader">Loading</h2>;
 }

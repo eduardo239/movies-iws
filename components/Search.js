@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Spinner from './Spinner';
 import Error from './Error';
 import poster_default from '../assets/poster.png';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 export default function Search({ setOpacity }) {
   const [term, setTerm] = useState('');
@@ -26,7 +26,7 @@ export default function Search({ setOpacity }) {
     } else {
       setOpacity(false);
     }
-  }, [term, data]);
+  }, [term, data, setOpacity]);
 
   if (isError) return <Error />;
   return (
@@ -59,26 +59,24 @@ export default function Search({ setOpacity }) {
           {items.length > 0 &&
             term.length > 0 &&
             items.slice(0, 5).map((m) => (
-              <div className="">
-                <div key={m.id} className="movie-item">
-                  <Link href={`/movie/${m.id}`} passHref>
-                    <a>
-                      <LazyLoad offsetVertical={300}>
-                        <img
-                          width="140"
-                          height="210"
-                          alt={m.original_title}
-                          src={`${
-                            m.poster_path
-                              ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                              : poster_default.src
-                          }`}
-                        />
-                      </LazyLoad>
-                      <small>{m.original_title}</small>
-                    </a>
-                  </Link>
-                </div>
+              <div key={m.id} className="movie-item">
+                <Link href={`/movie/${m.id}`} passHref>
+                  <a>
+                    <LazyLoad offsetVertical={300}>
+                      <img
+                        width="140"
+                        height="210"
+                        alt={m.original_title}
+                        src={`${
+                          m.poster_path
+                            ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
+                            : poster_default.src
+                        }`}
+                      />
+                    </LazyLoad>
+                    <small>{m.original_title}</small>
+                  </a>
+                </Link>
               </div>
             ))}
         </div>

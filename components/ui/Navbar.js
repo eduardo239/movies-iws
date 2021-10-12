@@ -41,11 +41,15 @@ const Navbar = () => {
       {!user && (
         <>
           <Link href="/login">
-            <img src={loginIcon.src} alt="Login" width="24" height="24" />
+            <a>
+              <img src={loginIcon.src} alt="Login" width="24" height="24" />
+            </a>
           </Link>
 
           <Link href="/register">
-            <img src={registerIcon.src} alt="Logout" width="24" height="24" />
+            <a>
+              <img src={registerIcon.src} alt="Logout" width="24" height="24" />
+            </a>
           </Link>
         </>
       )}

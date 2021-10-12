@@ -22,5 +22,6 @@
     ".eslintrc.json": true,
     ".README.md": true
   },
-  "editor.formatOnPaste": true
+  "editor.formatOnPaste": true,
+  "cSpell.words": ["lazyload"]
 }

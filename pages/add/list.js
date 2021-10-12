@@ -11,7 +11,7 @@ import saveIcon from '../../assets/eva_save-outline.svg';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../../utils/constants';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 const List = () => {
   const { user } = useUser();

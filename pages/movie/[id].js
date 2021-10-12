@@ -1,20 +1,21 @@
-import Error from '../../components/Error';
-import Spinner from '../../components/Spinner';
-import useFetch from '../../utils/useFetch';
-import Link from 'next/link';
+/* eslint-disable @next/next/no-img-element */
+import { breakpointColumnsObj } from '../../utils/constants';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { addMovieTo, checkIfContain, removeMovieFrom } from '../../utils';
 import { useEffect, useState } from 'react';
+import Error from '../../components/Error';
+import Spinner from '../../components/Spinner';
+import useFetch from '../../utils/useFetch';
+import Link from 'next/link';
 import video from '../../assets/video.png';
 import star from '../../assets/star.png';
 import eye from '../../assets/eva_eye-outline.svg';
 import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 import ModalMessage from '../../components/ModalMessage';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 import Masonry from 'react-masonry-css';
-import { breakpointColumnsObj } from '../../utils/constants';
 import ImageCard from '../../components/ImageCard';
 
 export default function Movie() {
@@ -29,7 +30,6 @@ export default function Movie() {
   const [videoList, setVideosList] = useState([]);
   const [similarList, setSimilarList] = useState([]);
   const [starList, setStarList] = useState([]);
-  const [trailerModal, setTrailerModal] = useState(false);
 
   const [toSeeOK, setToSeeOK] = useState(false);
   const [watchedOK, setWatchedOK] = useState(false);
@@ -77,9 +77,6 @@ export default function Movie() {
   if (isError) return <Error />;
 
   const addMovie = async (action) => {
-    //0 'movies_watched'
-    //1 'movies_to_see'
-    // TODO: mensagem quando se o item está na lista
     const response = await addMovieTo(action, user.id, data);
     if (action === 0) setWatchedOK(!watchedOK);
     if (action === 1) setToSeeOK(!toSeeOK);
@@ -103,7 +100,6 @@ export default function Movie() {
   };
 
   const removeMovie = async (action) => {
-    // TODO: mensagem quando se o item está na lista
     const response = await removeMovieFrom(action, user.id, data);
 
     if (response) {

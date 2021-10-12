@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { dateFormat } from '../utils';
 import fig1 from '../assets/fig1.png';
 import list from '../assets/eva_list-outline.svg';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 import poster_default from '../assets/poster.png';
 
 const Lists = ({ lists }) => {

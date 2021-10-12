@@ -1,13 +1,10 @@
 import { useState } from 'react';
+import { breakpointColumnsObj } from '../utils/constants';
 import useFetch from '../utils/useFetch';
-import LazyLoad from 'react-lazy-load';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
-import Link from 'next/link';
-import poster_default from '../assets/poster.png';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
-import { breakpointColumnsObj } from '../utils/constants';
 import ImageCard from '../components/ImageCard';
 
 export default function Upcoming() {

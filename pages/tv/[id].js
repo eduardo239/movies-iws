@@ -1,13 +1,13 @@
-import Error from '../../components/Error';
-import Spinner from '../../components/Spinner';
-import useFetch from '../../utils/useFetch';
 import { useRouter } from 'next/router';
 import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { containsObjectId } from '../../utils';
 import { useState } from 'react';
+import Error from '../../components/Error';
+import Spinner from '../../components/Spinner';
+import useFetch from '../../utils/useFetch';
 import Message from '../../components/Message';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 export default function Movie() {
   const router = useRouter();

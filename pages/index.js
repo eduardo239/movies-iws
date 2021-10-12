@@ -11,40 +11,16 @@ import ModalTrailer from '../components/ModalTrailer';
 export default function Home() {
   const [opacity, setOpacity] = useState(false);
   const [page, setPage] = useState(1);
-  const [modal, setModal] = useState(false);
-  const [trailerId, setTrailerId] = useState(null);
 
   const { data, isLoading, isError } = useFetch(
     `https://api.themoviedb.org/3/movie/popular?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&sort_by=popularity.desc&page=${page}`
   );
-
-  const showTrailer = async (id) => {
-    const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`;
-
-    const response = await fetch(url);
-    const json = await response.json();
-    const key = json.results[0]?.key;
-
-    if (key) {
-      setTrailerId(key);
-      setModal(!modal);
-    } else {
-      alert('Vídeo não encontrado.');
-    }
-  };
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error />;
 
   return (
     <section>
-      {modal && (
-        <ModalTrailer
-          trailer_id={trailerId}
-          modal={modal}
-          setModal={setModal}
-        ></ModalTrailer>
-      )}
       <Search setOpacity={setOpacity}></Search>
       {/*  */}
       <h1 className="text-center">Filmes Populares</h1>
@@ -56,7 +32,7 @@ export default function Home() {
           columnClassName="my-masonry-grid_column"
         >
           {data?.results.map((x) => (
-            <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
+            <ImageCard key={x.id} content={x} />
           ))}
         </Masonry>
       </div>
