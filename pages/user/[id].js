@@ -103,14 +103,14 @@ export async function getStaticProps(context) {
     .eq('username', username)
     .single();
 
-  if (!profile) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
-  }
+  // if (!profile) {
+  //   return {
+  //     redirect: {
+  //       destination: '/login',
+  //       permanent: false,
+  //     },
+  //   };
+  // }
 
   return {
     revalidate: 120,
