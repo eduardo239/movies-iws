@@ -4,7 +4,9 @@ import { supabase } from '../../utils/supabase';
 import { useState, useEffect } from 'react';
 import { breakpointColumnsObj } from '../../utils/constants';
 import Masonry from 'react-masonry-css';
-import ImageCard from '../../components/ImageCard';
+import ImageCardTrailer from '../../components/ImageCardTrailer';
+import Spinner from '../../components/Spinner';
+import Error from '../../components/Error';
 
 export default function Movie({ list }) {
   const router = useRouter();
@@ -17,19 +19,20 @@ export default function Movie({ list }) {
     if (list?.items && list.items.length > 0) setItems(list.items);
   }, [list]);
 
-  //  if (isLoading) return <Spinner />;
-  //  if (isError) return <Error />;
+  if (!items) return <Spinner />;
+  // if (isError) return <Error />;
+
   return (
     <section>
       <h1>Nome: {list?.listname ?? 'Lista'}</h1>
-      <div className="flex-center">
+      <div className="">
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"
           columnClassName="my-masonry-grid_column"
         >
           {items.length > 0 &&
-            items.map((x) => <ImageCard key={x.id} content={x} />)}
+            items.map((x) => <ImageCardTrailer key={x.id} content={x} />)}
         </Masonry>
       </div>
     </section>
@@ -57,6 +60,7 @@ export async function getStaticProps(context) {
     .select('*')
     .eq('id', id)
     .single();
+  if (error) console.log(error);
 
   return {
     revalidate: 60,
