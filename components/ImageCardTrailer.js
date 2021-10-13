@@ -107,6 +107,12 @@ export default function Image({ children, content }) {
             </small>
           </div>
           {children}
+          <button
+            className="btn-icon btn-secondary w-100"
+            onClick={() => showTrailer(content.id)}
+          >
+            <img src={videoIcon.src} alt="Trailer" /> Trailer
+          </button>
         </div>
       </div>
     </>

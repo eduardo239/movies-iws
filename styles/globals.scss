@@ -190,6 +190,11 @@ a {
   .menu-nav {
     justify-content: space-between;
     padding: 1rem 1rem;
+    gap: 1rem;
+    a,
+    button {
+      padding: 0.1rem;
+    }
   }
 }
 hr {

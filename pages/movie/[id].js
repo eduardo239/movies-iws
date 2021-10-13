@@ -16,7 +16,9 @@ import poster_default from '../../assets/poster.png';
 import ModalMessage from '../../components/ModalMessage';
 import LazyLoad from 'react-lazyload';
 import Masonry from 'react-masonry-css';
-import ImageCard from '../../components/ImageCard';
+import ImageCardTrailer from '../../components/ImageCardTrailer';
+import AddRemoveButtons from '../../components/AddRemoveButtons';
+import MovieTrailer from '../../components/MovieTrailer';
 
 export default function Movie() {
   const router = useRouter();
@@ -101,6 +103,8 @@ export default function Movie() {
 
   const removeMovie = async (action) => {
     const response = await removeMovieFrom(action, user.id, data);
+    if (action === 0) setWatchedOK(!watchedOK);
+    if (action === 1) setToSeeOK(!toSeeOK);
 
     if (response) {
       setMessage({
@@ -145,13 +149,7 @@ export default function Movie() {
         {/* TRAILER */}
         <div className="movie-grid__b video-container">
           {videos?.results?.length > 0 ? (
-            <iframe
-              width="684"
-              height="386"
-              src={`http://www.youtube.com/embed/${videos.results[0].key}`}
-              frameBorder="0"
-              allowFullScreen
-            ></iframe>
+            <MovieTrailer trailer_id={videos.results[0].key} />
           ) : (
             <LazyLoad offsetVertical={300}>
               <img src={video.src} alt="Trailer" width="684" height="386" />
@@ -162,24 +160,12 @@ export default function Movie() {
         {/* BUTTONS */}
         <div className="movie-grid__c">
           <div className="movie-grid__buttons w-100 gap-5">
-            <button
-              onClick={() => addMovie(0)}
-              className={`btn-icon ${
-                watchedOK ? 'btn-secondary' : 'btn-primary'
-              }`}
-            >
-              <img src={eye.src} alt="See" width="24" height="24" />
-              {watchedOK ? 'Remover - Já vi' : 'Já vi'}
-            </button>
-            <button
-              onClick={() => addMovie(1)}
-              className={`btn-icon ${
-                toSeeOK ? 'btn-secondary' : 'btn-primary'
-              }`}
-            >
-              <img src={calendar.src} alt="Calendar" width="24" height="24" />
-              {toSeeOK ? 'Remover - Vou ver' : 'Vou ver'}
-            </button>
+            <AddRemoveButtons
+              addMovie={addMovie}
+              removeMovie={removeMovie}
+              watchedOK={watchedOK}
+              toSeeOK={toSeeOK}
+            />
           </div>
         </div>
       </div>
@@ -309,7 +295,7 @@ export default function Movie() {
               columnClassName="my-masonry-grid_column"
             >
               {similarList.slice(0, 5).map((x) => (
-                <ImageCard key={x.id} content={x} />
+                <ImageCardTrailer key={x.id} content={x} />
               ))}
             </Masonry>
           </div>

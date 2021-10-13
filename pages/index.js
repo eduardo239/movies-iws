@@ -5,8 +5,8 @@ import Spinner from '../components/Spinner';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../utils/constants';
-import ImageCard from '../components/ImageCard';
-import ModalTrailer from '../components/ModalTrailer';
+import ImageCardTrailer from '../components/ImageCardTrailer';
+import { useUser } from '../utils/useUser';
 
 export default function Home() {
   const [opacity, setOpacity] = useState(false);
@@ -32,7 +32,7 @@ export default function Home() {
           columnClassName="my-masonry-grid_column"
         >
           {data?.results.map((x) => (
-            <ImageCard key={x.id} content={x} />
+            <ImageCardTrailer key={x.id} content={x}></ImageCardTrailer>
           ))}
         </Masonry>
       </div>

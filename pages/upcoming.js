@@ -5,7 +5,7 @@ import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
-import ImageCard from '../components/ImageCard';
+import ImageCardTrailer from '../components/ImageCardTrailer';
 
 export default function Upcoming() {
   const [page, setPage] = useState(1);
@@ -35,7 +35,11 @@ export default function Upcoming() {
           columnClassName="my-masonry-grid_column"
         >
           {data.results.map((x) => (
-            <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
+            <ImageCardTrailer
+              key={x.id}
+              showTrailer={showTrailer}
+              content={x}
+            />
           ))}
         </Masonry>
       </div>

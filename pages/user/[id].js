@@ -2,7 +2,7 @@ import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
 import { removeItemFromProfile } from '../../utils/movies';
 import Message from '../../components/Message';
-import ImageCard from '../../components/ImageCard';
+import ImageCardTrailer from '../../components/ImageCardTrailer';
 
 const Profile = ({ profile }) => {
   const [message, setMessage] = useState(false);
@@ -56,7 +56,11 @@ const Profile = ({ profile }) => {
         <h2 className="mb-10 text-center">Filmes já vistos.</h2>
         <section className="flex-center mb-20 gap-10">
           {watched.splice(0, 5).map((x) => (
-            <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
+            <ImageCardTrailer
+              key={x.id}
+              showTrailer={showTrailer}
+              content={x}
+            />
           ))}
         </section>
 
@@ -65,7 +69,11 @@ const Profile = ({ profile }) => {
         <h2 className="mb-10 text-center">Filmes para ver.</h2>
         <section className="flex-center mb-20 gap-10">
           {toSee.splice(0, 5).map((x) => (
-            <ImageCard key={x.id} showTrailer={showTrailer} content={x} />
+            <ImageCardTrailer
+              key={x.id}
+              showTrailer={showTrailer}
+              content={x}
+            />
           ))}
         </section>
 
