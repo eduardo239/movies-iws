@@ -14,8 +14,6 @@ export const UserContextProvider = (props) => {
     setSession(session);
     setUser(session?.user ?? null);
 
-    // profile
-
     const { data: authListener } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         setSession(session);
@@ -29,7 +27,7 @@ export const UserContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (user && !profile)
+    if (user) {
       (async function () {
         let { data: profile, error: profileError } = await supabase
           .from('profiles')
@@ -38,22 +36,9 @@ export const UserContextProvider = (props) => {
           .single();
 
         setProfile(profile);
-
-        // session id
-        // const url = `https://api.themoviedb.org/3/authentication/guest_session/new?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY_V4}`;
-        // const body = JSON.stringify({
-        //   request_token: `${process.env.NEXT_PUBLIC_TMDB_KEY_V4}`,
-        // });
-        // const options = {
-        //   method: 'POST',
-        //   body,
-        // };
-        // const response = await fetch(url, options);
-        // const json = await response.json();
-
-        // setSessionId(json.guest_session_id);
       })();
-  }, [user, profile]);
+    }
+  }, [user]);
 
   const userSignUp = async (options) => {
     const { user, error } = await supabase.auth.signUp(options);
@@ -70,6 +55,16 @@ export const UserContextProvider = (props) => {
     return { user, error };
   };
 
+  const getUserProfile = async (user_id) => {
+    let { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', user_id)
+      .single();
+
+    setProfile(profile);
+  };
+
   const logout = async () => {
     setUser(null);
     setProfile(null);
@@ -82,6 +77,7 @@ export const UserContextProvider = (props) => {
     setUser,
     profile,
     user,
+    getUserProfile,
     logout,
     signIn: (options) => supabase.auth.signIn(options),
     signUp: (options) => supabase.auth.signUp(options),

@@ -13,12 +13,16 @@ import { useUser } from '../../utils/useUser';
 const Profile = () => {
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
-  const { profile } = useUser();
+  const { user, profile, getUserProfile } = useUser();
 
   useEffect(() => {
+    (async function () {
+      if (user) getUserProfile(user.id);
+    })();
+
     setToSee(profile?.movies_to_see);
     setWatched(profile?.movies_watched);
-  }, [profile]);
+  }, [profile, user]);
 
   const removeItem = async (x, table) => {
     const { movies_watched, movies_to_see } = await removeItemFromProfile(
@@ -39,7 +43,7 @@ const Profile = () => {
         <div className="flex-start gap-10 mb-20">
           {toSee &&
             toSee
-              .slice(0, 4)
+              .slice(-4)
               .map((x) => (
                 <ImageCard key={x.id} content={x}>
                   <div className="flex-start gap-5">
@@ -80,7 +84,7 @@ const Profile = () => {
         <div className="flex-start gap-10 mb-20">
           {watched &&
             watched
-              .slice(0, 4)
+              .slice(-4)
               .map((x) => (
                 <ImageCard key={x.id} content={x}>
                   <div className="flex-start gap-5">
