@@ -15,43 +15,54 @@ const Navbar = () => {
 
   return (
     <div className="menu-nav">
-      <Link href="/">
-        <a>
-          <img src={logo.src} alt="Home" width="115" height="30" />
-        </a>
+      <Link href="/" passHref>
+        <button className="btn-icon btn-primary">
+          <img src={homeIcon.src} alt="Home" width="24" height="24" />
+          <span>Início</span>
+        </button>
       </Link>
-      <Link href="/upcoming">
-        <a>
-          <img src={calendarIcon.src} alt="Upcoming" width="24" height="24" />
-        </a>
+      <Link href="/upcoming" passHref>
+        <button className="btn-icon btn-primary">
+          <img src={calendarIcon.src} alt="Upcoming" width="24" height="24" />{' '}
+          <span>Em Breve</span>
+        </button>
       </Link>
-      <Link href="/lists">
-        <a>
-          <img src={listIcon.src} alt="Lists" width="24" height="24" />
-        </a>
+      <Link href="/lists" passHref>
+        <button className="btn-icon btn-primary">
+          <img src={listIcon.src} alt="Lists" width="24" height="24" />{' '}
+          <span>Listas</span>
+        </button>
       </Link>
 
       {user && (
-        <Link href={`/user/${profile?.username ?? ''}`}>
-          <a>
+        <Link href={`/user/${profile?.username ?? ''}`} passHref>
+          <button className="btn-icon btn-primary">
             {/* @{profile?.username ?? `profile`} */}
-            <img src={userIcon.src} alt="User Profile" width="24" height="24" />
-          </a>
+            <img
+              src={userIcon.src}
+              alt="User Profile"
+              width="24"
+              height="24"
+            />{' '}
+            <span>{profile?.username ?? 'Usuário'}</span>
+          </button>
         </Link>
       )}
 
       {!user && (
         <>
-          <Link href="/login">
-            <a>
-              <img src={loginIcon.src} alt="Login" width="24" height="24" />
-            </a>
+          <Link href="/login" passHref>
+            <button className="btn-icon btn-primary">
+              <img src={loginIcon.src} alt="Login" width="24" height="24" />{' '}
+              <span>Entrar</span>
+            </button>
           </Link>
 
-          <Link href="/register">
-            <a>
-              <img src={registerIcon.src} alt="Logout" width="24" height="24" />
-            </a>
+          <Link href="/register" passHref>
+            <button className="btn-icon btn-primary">
+              <img src={registerIcon.src} alt="Logout" width="24" height="24" />{' '}
+              <span>Registrar</span>
+            </button>
           </Link>
         </>
       )}
@@ -59,11 +70,12 @@ const Navbar = () => {
       {user && (
         <>
           <button
-            className="btn-icon-only btn-secondary"
-            style={{ opacity: '0.5' }}
+            className="btn-icon btn-primary"
             onClick={logout}
+            style={{ opacity: '0.6' }}
           >
-            <img src={logoutIcon.src} alt="Logo" width="24" height="24" />
+            <img src={logoutIcon.src} alt="Logo" width="24" height="24" />{' '}
+            <span>Sair</span>
           </button>
         </>
       )}

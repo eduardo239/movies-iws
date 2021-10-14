@@ -24,7 +24,7 @@ export default function Movie({ list }) {
 
   return (
     <section>
-      <h1>Nome: {list?.listname ?? 'Lista'}</h1>
+      <h1>Lista: {list?.listname ?? ''}</h1>
       <div className="">
         <Masonry
           breakpointCols={breakpointColumnsObj}
@@ -41,6 +41,8 @@ export default function Movie({ list }) {
 
 export async function getStaticPaths() {
   let { data: lists, error } = await supabase.from('lists').select('id');
+
+  if (error) console.log(error);
 
   const paths = lists.map((list) => ({
     params: { id: list.id },

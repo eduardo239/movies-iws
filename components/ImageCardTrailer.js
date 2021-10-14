@@ -9,7 +9,7 @@ import Placeholder from './Placeholder';
 import ModalTrailer from './ModalTrailer';
 import ModalMessage from './ModalMessage';
 
-export default function Image({ children, content }) {
+export default function Image({ content }) {
   const [modal, setModal] = useState(false);
   const [trailerId, setTrailerId] = useState('');
   const [message, setMessage] = useState({
@@ -91,8 +91,8 @@ export default function Image({ children, content }) {
             </div>
           </a>
         </Link>
-        <div className="flex-column gap-5 p-5">
-          <div>
+        <div className="flex-column flex-1 gap-5 p-5">
+          <div className="flex-1">
             <span>
               {content.original_title
                 ? content.original_title
@@ -106,7 +106,7 @@ export default function Image({ children, content }) {
                 : ''}
             </small>
           </div>
-          {children}
+
           <button
             className="btn-icon btn-secondary w-100"
             onClick={() => showTrailer(content.id)}

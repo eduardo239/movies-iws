@@ -3,8 +3,10 @@ import { supabase } from './supabase';
 
 /**
  *
- * @param {Object} item, movie
- * @param {UUID} user_id, uuid
+ * @param {Object} item
+ * @param {UUID} user_id
+ * @param {table} action table 0 = watched = 1 to_see
+ * @returns
  */
 export const removeItemFromProfile = async (item, user_id, action) => {
   let { data: profile, error } = await supabase
@@ -12,6 +14,8 @@ export const removeItemFromProfile = async (item, user_id, action) => {
     .select('*')
     .eq('user_id', user_id)
     .single();
+
+  if (error) console.error(error);
 
   // verifica se já está na lista
   let array;

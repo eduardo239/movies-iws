@@ -17,7 +17,6 @@ export default function Upcoming() {
   );
 
   const showTrailer = (id) => {
-    console.log(id);
     setTrailerModal(!trailerModal);
   };
 

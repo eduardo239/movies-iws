@@ -26,7 +26,6 @@ export async function handleRemove(m, items, setItems) {
 }
 
 export async function handleSearch(e, term, setData) {
-  console.log(e);
   e.preventDefault();
 
   const adult = false;
@@ -110,7 +109,7 @@ export async function handleSave(e, name, items, user_id, setMessage) {
         .update({ lists: newArray })
         .eq('user_id', user_id);
 
-      if (error) alert(error);
+      if (error) console.log(error);
       setMessage(true);
       setTimeout(() => setMessage(false), 2000);
     }

@@ -1,90 +1,124 @@
+/* eslint-disable @next/next/no-img-element */
 import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
-import { removeItemFromProfile } from '../../utils/movies';
+import Link from 'next/link';
 import Message from '../../components/Message';
-import ImageCardTrailer from '../../components/ImageCardTrailer';
+import ImageCard from '../../components/ImageCard';
+import Spinner from '../../components/Spinner';
+import addIcon from '../../assets/eva_plus-circle-outline.svg';
+import subIcon from '../../assets/eva_minus-circle-outline.svg';
+import { removeItemFromProfile } from '../../utils/movies';
+import { useUser } from '../../utils/useUser';
 
-const Profile = ({ profile }) => {
-  const [message, setMessage] = useState(false);
-  const [trailerModal, setTrailerModal] = useState(false);
-
+const Profile = () => {
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
+  const { profile } = useUser();
 
   useEffect(() => {
-    if (profile?.movies_to_see && profile.movies_to_see.length > 0)
-      setToSee(profile.movies_to_see);
-    if (profile?.movies_watched && profile.movies_watched.length > 0)
-      setWatched(profile.movies_watched);
+    setToSee(profile?.movies_to_see);
+    setWatched(profile?.movies_watched);
   }, [profile]);
 
-  const removeFromWatched = async (m) => {
-    setMessage(false);
-    const data = await removeItemFromProfile(m, profile.user_id, 0);
-    setWatched(data.movies_watched);
-    setMessage(true);
-    setTimeout(() => setMessage(false), 2000);
+  const removeItem = async (x, table) => {
+    const { movies_watched, movies_to_see } = await removeItemFromProfile(
+      x,
+      profile.user_id,
+      table
+    );
+    setToSee(movies_to_see);
+    setWatched(movies_watched);
   };
 
-  const removeFromToSee = async (m) => {
-    setMessage(false);
-    const data = await removeItemFromProfile(m, profile.user_id, 1);
-    setToSee(data.movies_to_see);
-    setMessage(true);
-    setTimeout(() => setMessage(false), 2000);
-  };
-
-  const showTrailer = (id) => {
-    console.log(id);
-    setTrailerModal(!trailerModal);
-  };
-
-  if (profile)
-    return (
-      <div className="w-100">
-        <section>
-          <h4>Conta: @{profile?.username}</h4>
-        </section>
-
+  return (
+    <>
+      <section>
+        <h5>Usuário: @{profile?.username ?? ''}</h5>
         <hr />
-        <div>
-          {message && (
-            <Message type="success" message="Item removido com sucesso." />
+        <h3>Filmes para ver</h3>
+        <div className="flex-start gap-10 mb-20">
+          {toSee &&
+            toSee
+              .slice(0, 4)
+              .map((x) => (
+                <ImageCard key={x.id} content={x}>
+                  <div className="flex-start gap-5">
+                    <button
+                      onClick={() => removeItem(x, 1)}
+                      className="btn-icon-only btn-secondary w-100"
+                    >
+                      <img
+                        src={subIcon.src}
+                        alt="Search"
+                        width="24"
+                        height="24"
+                      />
+                    </button>
+                  </div>
+                </ImageCard>
+              ))
+              .reverse()}
+
+          {toSee?.length > 4 && (
+            <div style={{ alignSelf: 'center' }}>
+              <Link href={`/user/${profile?.username}/movies-to-see`} passHref>
+                <button className="btn-icon btn-primary">
+                  <img
+                    src={addIcon.src}
+                    alt="Ver mais"
+                    width="24"
+                    height="24"
+                  />{' '}
+                  <span>Ver mais..</span>
+                </button>
+              </Link>
+            </div>
           )}
         </div>
-
-        <h2 className="mb-10 text-center">Filmes já vistos.</h2>
-        <section className="flex-center mb-20 gap-10">
-          {watched.splice(0, 5).map((x) => (
-            <ImageCardTrailer
-              key={x.id}
-              showTrailer={showTrailer}
-              content={x}
-            />
-          ))}
-        </section>
-
         <hr />
-
-        <h2 className="mb-10 text-center">Filmes para ver.</h2>
-        <section className="flex-center mb-20 gap-10">
-          {toSee.splice(0, 5).map((x) => (
-            <ImageCardTrailer
-              key={x.id}
-              showTrailer={showTrailer}
-              content={x}
-            />
-          ))}
-        </section>
-
+        <h3>Filmes já vistos</h3>
+        <div className="flex-start gap-10 mb-20">
+          {watched &&
+            watched
+              .slice(0, 4)
+              .map((x) => (
+                <ImageCard key={x.id} content={x}>
+                  <div className="flex-start gap-5">
+                    <button
+                      onClick={() => removeItem(x, 0)}
+                      className="btn-icon-only btn-secondary w-100"
+                    >
+                      <img
+                        src={subIcon.src}
+                        alt="Search"
+                        width="24"
+                        height="24"
+                      />
+                    </button>
+                  </div>
+                </ImageCard>
+              ))
+              .reverse()}
+          {watched?.length > 4 && (
+            <div style={{ alignSelf: 'center' }}>
+              <Link href={`/user/${profile?.username}/watched-movies`} passHref>
+                <button className="btn-icon btn-primary">
+                  <img
+                    src={addIcon.src}
+                    alt="Ver mais"
+                    width="24"
+                    height="24"
+                  />{' '}
+                  <span>Ver mais..</span>
+                </button>
+              </Link>
+            </div>
+          )}
+        </div>
         <hr />
-
-        <h2 className="mb-10 text-center">Minhas listas.</h2>
-        <section className="flex-center mb-20 gap-10">2</section>
-      </div>
-    );
-
-  return <section>loading</section>;
+      </section>
+    </>
+  );
 };
 
 export default Profile;
@@ -111,7 +145,8 @@ export async function getStaticProps(context) {
     .eq('username', username)
     .single();
 
-  // if (!profile) {
+  // TODO:
+  // if (profile.length === 0) {
   //   return {
   //     redirect: {
   //       destination: '/login',

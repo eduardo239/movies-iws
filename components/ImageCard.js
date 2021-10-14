@@ -91,8 +91,8 @@ export default function Image({ children, content }) {
             </div>
           </a>
         </Link>
-        <div className="flex-column gap-5 p-5">
-          <div>
+        <div className="flex-column flex-1 gap-5 p-5">
+          <div className="flex-1">
             <span>
               {content.original_title
                 ? content.original_title

@@ -23,5 +23,5 @@
     ".README.md": true
   },
   "editor.formatOnPaste": true,
-  "cSpell.words": ["lazyload"]
+  "cSpell.words": ["lazyload", "listname"]
 }

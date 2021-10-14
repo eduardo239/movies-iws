@@ -73,6 +73,11 @@ export default function Movie() {
         setWatchedOK(res.watchedOK);
       }
     })();
+    return () => {
+      setVideosList([]);
+      setSimilarList([]);
+      setStarList([]);
+    };
   }, [videos, stars, similar, profile, id]);
 
   if (isLoading) return <Spinner />;

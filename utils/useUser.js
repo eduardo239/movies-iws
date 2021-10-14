@@ -29,7 +29,7 @@ export const UserContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    if (user)
+    if (user && !profile)
       (async function () {
         let { data: profile, error: profileError } = await supabase
           .from('profiles')
@@ -53,7 +53,7 @@ export const UserContextProvider = (props) => {
 
         // setSessionId(json.guest_session_id);
       })();
-  }, [user]);
+  }, [user, profile]);
 
   const userSignUp = async (options) => {
     const { user, error } = await supabase.auth.signUp(options);
@@ -81,7 +81,6 @@ export const UserContextProvider = (props) => {
     userSignUp,
     setUser,
     profile,
-    sessionId,
     user,
     logout,
     signIn: (options) => supabase.auth.signIn(options),
