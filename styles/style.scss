@@ -440,7 +440,7 @@
 .grid-list {
   display: grid;
   gap: 1rem;
-  grid-template-columns: auto minmax(auto, 30%);
+  grid-template-columns: auto minmax(auto, 50%);
 }
 .new-list {
   display: flex;

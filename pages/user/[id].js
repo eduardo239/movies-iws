@@ -65,7 +65,7 @@ const Profile = () => {
 
           {toSee?.length > 4 && (
             <div style={{ alignSelf: 'center' }}>
-              <Link href={`/user/${profile?.username}/movies-to-see`} passHref>
+              <Link href={`/user/${profile?.username}/to-see`} passHref>
                 <button className="btn-icon btn-primary">
                   <img
                     src={addIcon.src}
@@ -105,7 +105,7 @@ const Profile = () => {
               .reverse()}
           {watched?.length > 4 && (
             <div style={{ alignSelf: 'center' }}>
-              <Link href={`/user/${profile?.username}/watched-movies`} passHref>
+              <Link href={`/user/${profile?.username}/watched`} passHref>
                 <button className="btn-icon btn-primary">
                   <img
                     src={addIcon.src}
