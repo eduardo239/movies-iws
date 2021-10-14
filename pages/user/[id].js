@@ -13,16 +13,13 @@ import { useUser } from '../../utils/useUser';
 const Profile = () => {
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
-  const { user, profile, getUserProfile } = useUser();
+  const { user, profile } = useUser();
 
+  // TODO: get updated list
   useEffect(() => {
-    (async function () {
-      if (user) getUserProfile(user.id);
-    })();
-
     setToSee(profile?.movies_to_see);
     setWatched(profile?.movies_watched);
-  }, [profile, user]);
+  }, [profile]);
 
   const removeItem = async (x, table) => {
     const { movies_watched, movies_to_see } = await removeItemFromProfile(

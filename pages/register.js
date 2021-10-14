@@ -27,13 +27,6 @@ const Register = () => {
     setLoading(false);
   };
 
-  // const handleOAuthSignIn = async (provider) => {
-  //   setLoading(true);
-  //   const { error } = await signIn({ provider });
-
-  //   setLoading(false);
-  // };
-
   useEffect(() => {
     if (user) {
       router.replace('/');

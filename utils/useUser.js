@@ -7,7 +7,6 @@ export const UserContextProvider = (props) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [session, setSession] = useState(null);
-  const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
     const session = supabase.auth.session();
@@ -21,24 +20,19 @@ export const UserContextProvider = (props) => {
       }
     );
 
+    (async function () {
+      let { data: profile, error: profileError } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('user_id', session?.user.id)
+        .single();
+      setProfile(profile);
+    })();
+
     return () => {
       authListener.unsubscribe();
     };
   }, []);
-
-  useEffect(() => {
-    if (user) {
-      (async function () {
-        let { data: profile, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('user_id', user.id)
-          .single();
-
-        setProfile(profile);
-      })();
-    }
-  }, [user]);
 
   const userSignUp = async (options) => {
     const { user, error } = await supabase.auth.signUp(options);
@@ -55,16 +49,6 @@ export const UserContextProvider = (props) => {
     return { user, error };
   };
 
-  const getUserProfile = async (user_id) => {
-    let { data: profile, error: profileError } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', user_id)
-      .single();
-
-    setProfile(profile);
-  };
-
   const logout = async () => {
     setUser(null);
     setProfile(null);
@@ -77,7 +61,6 @@ export const UserContextProvider = (props) => {
     setUser,
     profile,
     user,
-    getUserProfile,
     logout,
     signIn: (options) => supabase.auth.signIn(options),
     signUp: (options) => supabase.auth.signUp(options),

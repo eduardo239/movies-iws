@@ -1,17 +1,16 @@
+/* eslint-disable @next/next/no-img-element */
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { dateFormat } from '../../utils';
-import { useEffect } from 'react';
 import LazyLoad from 'react-lazyload';
 import Placeholder from '../../components/Placeholder';
 
 export default function Person() {
   const router = useRouter();
   const { id } = router.query;
-  // const { user, profile } = useUser();
 
   const { data, isLoading, isError } = useFetch(
     id
@@ -68,8 +67,6 @@ export default function Person() {
       </div>
     ));
   };
-
-  useEffect(() => {}, []);
 
   if (isLoading) return <Spinner />;
   if (isError) return <Error />;

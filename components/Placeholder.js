@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import poster_default from '../assets/poster183.png';
 
 export default function Placeholder() {

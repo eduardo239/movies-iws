@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import checkIcon from '../assets/eva_checkmark-circle-2-outline.svg';
 import alertIcon from '../assets/eva_alert-circle-outline.svg';
 import warningIcon from '../assets/eva_alert-circle-outline.svg';
