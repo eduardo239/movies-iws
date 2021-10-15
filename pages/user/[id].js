@@ -13,9 +13,8 @@ import { useUser } from '../../utils/useUser';
 const Profile = () => {
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
-  const { user, profile } = useUser();
+  const { profile } = useUser();
 
-  // TODO: get updated list
   useEffect(() => {
     setToSee(profile?.movies_to_see);
     setWatched(profile?.movies_watched);
@@ -157,7 +156,7 @@ export async function getStaticProps(context) {
   // }
 
   return {
-    revalidate: 120,
+    revalidate: 1000,
     props: { profile },
   };
 }

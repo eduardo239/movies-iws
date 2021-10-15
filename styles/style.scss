@@ -449,6 +449,42 @@
   gap: 1rem;
   margin: 0 auto;
 }
+// - - - - - - - - - - - - - - - - - - - - - - - - NEW MOVIE LIST
+
+.movie-list {
+  display: flex;
+  gap: 6px;
+  border: 1px solid var(--light-40);
+  border-radius: var(--border-radius);
+  height: 70px;
+  .movie-list__poster {
+    overflow: hidden;
+  }
+  .movie-list__main {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-right: 10px;
+    padding: 4px;
+    p {
+      opacity: 0.6;
+      font-size: 0.875rem;
+    }
+  }
+}
+
+@media screen and (max-width: 990px) {
+  .movie-list {
+    .movie-list__main {
+      h3 {
+        font-size: 1rem;
+      }
+      p {
+        display: none;
+      }
+    }
+  }
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - SEARCH
 .search-field {
   display: flex;

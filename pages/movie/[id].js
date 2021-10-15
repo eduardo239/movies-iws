@@ -23,7 +23,7 @@ import MovieTrailer from '../../components/MovieTrailer';
 export default function Movie() {
   const router = useRouter();
   const { id } = router.query;
-  const { user, profile } = useUser();
+  const { user, profile, updateProfile } = useUser();
   const [message, setMessage] = useState({
     show: false,
     message: '',
@@ -101,6 +101,7 @@ export default function Movie() {
         type: 'alert',
       });
     }
+    updateProfile();
     setTimeout(() => {
       setMessage({ show: false, message: '', type: 'success' });
     }, 2000);
@@ -124,6 +125,7 @@ export default function Movie() {
         type: 'alert',
       });
     }
+    updateProfile();
     setTimeout(() => {
       setMessage({ show: false, message: '', type: 'success' });
     }, 2000);

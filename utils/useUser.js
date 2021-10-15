@@ -49,6 +49,15 @@ export const UserContextProvider = (props) => {
     return { user, error };
   };
 
+  const updateProfile = async () => {
+    let { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+    setProfile(profile);
+  };
+
   const logout = async () => {
     setUser(null);
     setProfile(null);
@@ -60,6 +69,7 @@ export const UserContextProvider = (props) => {
     userSignUp,
     setUser,
     profile,
+    updateProfile,
     user,
     logout,
     signIn: (options) => supabase.auth.signIn(options),
