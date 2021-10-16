@@ -21,6 +21,7 @@ const Login = () => {
       email,
       password,
     });
+
     setError(error?.message ?? null);
     setLoading(false);
   };

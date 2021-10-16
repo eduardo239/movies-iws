@@ -1,6 +1,7 @@
+import { useEffect } from 'react';
+import { useUser } from '../../utils/useUser';
 /* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
-import { useUser } from '../../utils/useUser';
 import homeIcon from '../../assets/eva_home-outline.svg';
 import calendarIcon from '../../assets/eva_calendar-outline.svg';
 import listIcon from '../../assets/eva_list-outline.svg';
@@ -11,7 +12,12 @@ import registerIcon from '../../assets/eva_person-outline.svg';
 import logo from '../../assets/MOVIES-IWS3.svg';
 
 const Navbar = () => {
-  const { user, logout, profile } = useUser();
+  const { user, logout, profile, updateProfile } = useUser();
+
+  useEffect(() => {
+    if (user) updateProfile(user.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   return (
     <div className="menu-nav">
