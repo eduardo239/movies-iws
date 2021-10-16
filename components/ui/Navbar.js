@@ -34,7 +34,8 @@ const Navbar = () => {
         </button>
       </Link>
 
-      {user && (
+      {/* FIXME: ao logar get user profile */}
+      {profile && (
         <Link href={`/user/${profile?.username ?? ''}`} passHref>
           <button className="btn-icon btn-primary">
             {/* @{profile?.username ?? `profile`} */}

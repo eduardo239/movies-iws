@@ -20,7 +20,7 @@ export default function ModalTrailer({ trailer_id, setModal, modal }) {
           <iframe
             width="684"
             height="386"
-            src={`http://www.youtube.com/embed/${trailer_id}`}
+            src={`https://www.youtube.com/embed/${trailer_id}`}
             frameBorder="0"
             allow="autoplay; encrypted-media"
             allowFullScreen

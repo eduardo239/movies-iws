@@ -40,9 +40,9 @@ export default function MovieListItem({ content }) {
         <div className="flex-1">
           <Link href={`/movie/${content.id}`} passHref>
             <a>
-              <h3 className="mb-2">
+              <h4 className="mb-2">
                 {content?.title ? content.title : content.original_name}
-              </h3>
+              </h4>
             </a>
           </Link>
           <p style={{ margin: 0 }}>
