@@ -73,11 +73,7 @@ const Lists = () => {
         </small>
         <h1>Listas dos Usuários</h1>
       </div>
-      {!endLoadMore && (
-        <button className="btn" onClick={loadMore}>
-          loadMore
-        </button>
-      )}
+
       <div>
         {items.map((m) => (
           <section key={m.id} className="list-items">
@@ -97,6 +93,11 @@ const Lists = () => {
           </section>
         ))}
       </div>
+      {!endLoadMore && (
+        <button className="btn btn-primary" onClick={loadMore}>
+          loadMore
+        </button>
+      )}
     </section>
   );
 };
