@@ -3,12 +3,18 @@ import Link from 'next/link';
 import { useUser } from '../utils/useUser';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
+  const [message, setMessage] = useState({
+    error: null,
+    message: '',
+    type: 'success',
+  });
   const { user, signIn } = useUser();
 
   const router = useRouter();
@@ -22,7 +28,7 @@ const Login = () => {
       password,
     });
 
-    setError(error?.message ?? null);
+    setMessage({ ...message, type: 'error', message: error?.message });
     setLoading(false);
   };
 
@@ -39,20 +45,20 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
-  if (!user)
-    return (
-      <section>
-        <Head>
-          {/* <title>{`${app_name} - Login`}</title>
+  return (
+    <section>
+      <Head>
+        {/* <title>{`${app_name} - Login`}</title>
           <meta
             name="description"
             content={`${app_name} - ${app_description}`}
           />
           <link rel="icon" href="/favicon.ico" /> */}
-        </Head>
+      </Head>
 
-        <h1>Login</h1>
+      <h2 className="text-center mb-20">Login</h2>
 
+      <div className="flex-center">
         <form onSubmit={handleLogin}>
           <div className="form-group">
             <label htmlFor="login-email">Email</label>
@@ -79,15 +85,22 @@ const Login = () => {
           <div className="form-group">
             <button className="btn btn-primary w-100">Login</button>
           </div>
-        </form>
 
-        <Link href="/register">
-          <a className="small">Não tem uma conta? Se inscreva</a>
-        </Link>
-        <div>{error && <p>{error}</p>}</div>
-      </section>
-    );
-  return <section className="flex-center-center">loading</section>;
+          <div className="mb-10">
+            <Link href="/register">
+              <a className="small">Não tem uma conta? Se inscreva</a>
+            </Link>
+          </div>
+
+          {loading && <Spinner />}
+
+          {message.message && (
+            <Error type={message.type} message={message.message} />
+          )}
+        </form>
+      </div>
+    </section>
+  );
 };
 
 export default Login;

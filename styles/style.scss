@@ -535,10 +535,18 @@
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - FORM
+form {
+  width: 300px;
+}
 
+@media screen and (max-width: 525px) {
+  form {
+    width: 100%;
+  }
+}
 form .form-group {
   margin-bottom: 1.25rem;
-  min-width: 280px;
+  width: 100%;
 }
 
 .form-group {
@@ -716,6 +724,26 @@ form .form-group {
   align-items: center;
   background-color: var(--opacity-1);
 }
+.message {
+  display: block;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+
+  &.message-error {
+    border-left: 1px solid var(--danger);
+    background: var(--light-00);
+  }
+  &.message-success {
+    border-left: 1px solid var(--primary);
+    background: var(--light-00);
+  }
+  &.message-warning {
+    border-left: 1px solid var(--warning);
+    background: var(--light-00);
+  }
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - FOOTER
 
 @media screen and (max-width: 990px) {
