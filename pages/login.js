@@ -7,6 +7,7 @@ import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 
 const Login = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,8 +17,6 @@ const Login = () => {
     type: 'success',
   });
   const { user, signIn } = useUser();
-
-  const router = useRouter();
 
   const handleLogin = async (e) => {
     e.preventDefault();

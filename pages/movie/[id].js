@@ -19,6 +19,7 @@ import Masonry from 'react-masonry-css';
 import ImageCardTrailer from '../../components/ImageCardTrailer';
 import AddRemoveButtons from '../../components/AddRemoveButtons';
 import MovieTrailer from '../../components/MovieTrailer';
+import loginIcon from '../../assets/eva_log-in-outline.svg';
 
 export default function Movie() {
   const router = useRouter();
@@ -165,16 +166,31 @@ export default function Movie() {
         </div>
 
         {/* BUTTONS */}
-        <div className="movie-grid__c">
-          <div className="movie-grid__buttons w-100 gap-5">
-            <AddRemoveButtons
-              addMovie={addMovie}
-              removeMovie={removeMovie}
-              watchedOK={watchedOK}
-              toSeeOK={toSeeOK}
-            />
+        {user ? (
+          <div className="movie-grid__c">
+            <div className="movie-grid__buttons w-100 gap-5">
+              <AddRemoveButtons
+                addMovie={addMovie}
+                removeMovie={removeMovie}
+                watchedOK={watchedOK}
+                toSeeOK={toSeeOK}
+              />
+            </div>
           </div>
-        </div>
+        ) : (
+          <div className="movie-grid__c p-5">
+            <Error
+              type="warning"
+              message="É necessário fazer o login para adicionar o filme a sua lista."
+            />
+            <Link href="/login" passHref>
+              <button className="btn-icon btn-primary">
+                <img src={loginIcon.src} alt="Login" width="24" height="24" />{' '}
+                <span>Entrar</span>
+              </button>
+            </Link>
+          </div>
+        )}
       </div>
       {/* primeira linha */}
 

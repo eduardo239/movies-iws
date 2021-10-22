@@ -9,11 +9,14 @@ import addIcon from '../../assets/eva_plus-circle-outline.svg';
 import subIcon from '../../assets/eva_minus-circle-outline.svg';
 import { removeItemFromProfile } from '../../utils/movies';
 import { useUser } from '../../utils/useUser';
+import { useRouter } from 'next/router';
 
 const Profile = () => {
+  const router = useRouter();
+
   const [toSee, setToSee] = useState([]);
   const [watched, setWatched] = useState([]);
-  const { profile } = useUser();
+  const { profile, user } = useUser();
 
   useEffect(() => {
     setToSee(profile?.movies_to_see);
@@ -30,94 +33,89 @@ const Profile = () => {
     setWatched(movies_watched);
   };
 
-  return (
-    <>
-      <section>
-        <h5>Usuário: @{profile?.username ?? ''}</h5>
-        <hr />
-        <h3>Filmes para ver</h3>
-        <div className="flex-start gap-10 mb-20">
-          {toSee &&
-            toSee
-              .slice(-4)
-              .map((x) => (
-                <ImageCard key={x.id} content={x}>
-                  <div className="flex-start gap-5">
-                    <button
-                      onClick={() => removeItem(x, 1)}
-                      className="btn-icon-only btn-secondary w-100"
-                    >
-                      <img
-                        src={subIcon.src}
-                        alt="Search"
-                        width="24"
-                        height="24"
-                      />
-                    </button>
-                  </div>
-                </ImageCard>
-              ))
-              .reverse()}
+  useEffect(() => {
+    if (!user) {
+      router.replace('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
-          {toSee?.length > 4 && (
-            <div style={{ alignSelf: 'center' }}>
-              <Link href={`/user/${profile?.username}/to-see`} passHref>
-                <button className="btn-icon btn-primary">
-                  <img
-                    src={addIcon.src}
-                    alt="Ver mais"
-                    width="24"
-                    height="24"
-                  />{' '}
-                  <span>Ver mais..</span>
-                </button>
-              </Link>
-            </div>
-          )}
-        </div>
-        <hr />
-        <h3>Filmes já vistos</h3>
-        <div className="flex-start gap-10 mb-20">
-          {watched &&
-            watched
-              .slice(-4)
-              .map((x) => (
-                <ImageCard key={x.id} content={x}>
-                  <div className="flex-start gap-5">
-                    <button
-                      onClick={() => removeItem(x, 0)}
-                      className="btn-icon-only btn-secondary w-100"
-                    >
-                      <img
-                        src={subIcon.src}
-                        alt="Search"
-                        width="24"
-                        height="24"
-                      />
-                    </button>
-                  </div>
-                </ImageCard>
-              ))
-              .reverse()}
-          {watched?.length > 4 && (
-            <div style={{ alignSelf: 'center' }}>
-              <Link href={`/user/${profile?.username}/watched`} passHref>
-                <button className="btn-icon btn-primary">
-                  <img
-                    src={addIcon.src}
-                    alt="Ver mais"
-                    width="24"
-                    height="24"
-                  />{' '}
-                  <span>Ver mais..</span>
-                </button>
-              </Link>
-            </div>
-          )}
-        </div>
-        <hr />
-      </section>
-    </>
+  return (
+    <section>
+      <h5>Usuário: @{profile?.username ?? ''}</h5>
+      <hr />
+      <h3>Filmes para ver</h3>
+      <div className="flex-start gap-10 mb-20">
+        {toSee &&
+          toSee
+            .slice(-4)
+            .map((x) => (
+              <ImageCard key={x.id} content={x}>
+                <div className="flex-start gap-5">
+                  <button
+                    onClick={() => removeItem(x, 1)}
+                    className="btn-icon-only btn-secondary w-100"
+                  >
+                    <img
+                      src={subIcon.src}
+                      alt="Search"
+                      width="24"
+                      height="24"
+                    />
+                  </button>
+                </div>
+              </ImageCard>
+            ))
+            .reverse()}
+
+        {toSee?.length > 4 && (
+          <div style={{ alignSelf: 'center' }}>
+            <Link href={`/user/${profile?.username}/to-see`} passHref>
+              <button className="btn-icon btn-primary">
+                <img src={addIcon.src} alt="Ver mais" width="24" height="24" />{' '}
+                <span>Ver mais..</span>
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
+      <hr />
+      <h3>Filmes já vistos</h3>
+      <div className="flex-start gap-10 mb-20">
+        {watched &&
+          watched
+            .slice(-4)
+            .map((x) => (
+              <ImageCard key={x.id} content={x}>
+                <div className="flex-start gap-5">
+                  <button
+                    onClick={() => removeItem(x, 0)}
+                    className="btn-icon-only btn-secondary w-100"
+                  >
+                    <img
+                      src={subIcon.src}
+                      alt="Search"
+                      width="24"
+                      height="24"
+                    />
+                  </button>
+                </div>
+              </ImageCard>
+            ))
+            .reverse()}
+        {watched?.length > 4 && (
+          <div style={{ alignSelf: 'center' }}>
+            <Link href={`/user/${profile?.username}/watched`} passHref>
+              <button className="btn-icon btn-primary">
+                <img src={addIcon.src} alt="Ver mais" width="24" height="24" />{' '}
+                <span>Ver mais..</span>
+              </button>
+            </Link>
+          </div>
+        )}
+      </div>
+      <hr />
+    </section>
   );
 };
 

@@ -10,9 +10,16 @@ import userIcon from '../../assets/eva_person-outline.svg';
 import loginIcon from '../../assets/eva_log-in-outline.svg';
 import registerIcon from '../../assets/eva_person-outline.svg';
 import logo from '../../assets/MOVIES-IWS3.svg';
+import { useRouter } from 'next/router';
 
 const Navbar = () => {
+  const router = useRouter();
   const { user, logout, profile, updateProfile } = useUser();
+
+  const userLogout = () => {
+    logout();
+    router.replace('/');
+  };
 
   useEffect(() => {
     if (user) updateProfile(user.id);
@@ -78,7 +85,7 @@ const Navbar = () => {
         <>
           <button
             className="btn-icon btn-primary"
-            onClick={logout}
+            onClick={userLogout}
             style={{ opacity: '0.6' }}
           >
             <img src={logoutIcon.src} alt="Logo" width="24" height="24" />{' '}

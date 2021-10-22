@@ -230,9 +230,12 @@
     display: grid;
     grid-template-columns: auto auto;
   }
+
   .movie-grid__c {
     order: 1;
     grid-column: 1/3;
+
+    display: flex;
   }
   .movie-grid__buttons {
     display: flex;
@@ -257,6 +260,7 @@
   }
   .movie-grid__c {
     order: 3;
+    display: block;
     grid-column: auto;
   }
   .movie-grid__buttons {

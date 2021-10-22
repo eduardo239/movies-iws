@@ -6,6 +6,7 @@ import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 
 const Register = () => {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +17,6 @@ const Register = () => {
     type: 'success',
   });
   const { user, signIn, userSignUp } = useUser();
-  const router = useRouter();
 
   const handleRegister = async (e) => {
     e.preventDefault();
