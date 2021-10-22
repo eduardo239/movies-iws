@@ -1,19 +1,53 @@
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useState } from 'react';
 import { supabase } from '../utils/supabase';
-import Link from 'next/link';
 import { dateFormat } from '../utils';
+import Link from 'next/link';
 import fig1 from '../assets/fig1.png';
 import list from '../assets/eva_list-outline.svg';
 import LazyLoad from 'react-lazyload';
 import poster_default from '../assets/poster.png';
 
-const Lists = ({ lists }) => {
+const Lists = () => {
   const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [endLoadMore, setEndLoadMore] = useState(false);
+
+  const loadMore = async () => {
+    if (!endLoadMore) {
+      let { data: lists, error } = await supabase
+        .from('lists')
+        .select('*')
+        .range(page * limit, page * limit * 2)
+        .order('inserted_at', { ascending: false });
+
+      console.log(lists);
+      if (lists?.length <= 10) {
+        let arr = lists.splice(-1, 1);
+        // bug
+
+        setItems([...items, ...arr]);
+        setEndLoadMore(true);
+      } else {
+        setItems([...items, ...lists]);
+        setPage(page + 1);
+      }
+    }
+  };
 
   useEffect(() => {
-    if (lists && lists.length > 0) setItems(lists);
-  }, [lists]);
+    (async function () {
+      let { data: lists, error } = await supabase
+        .from('lists')
+        .select('*')
+        .limit(10)
+        .order('inserted_at', { ascending: false });
+      if (lists && !error) {
+        if (lists.length > 0) setItems(lists);
+      }
+    })();
+  }, []);
 
   return (
     <section className="w-100">
@@ -39,6 +73,11 @@ const Lists = ({ lists }) => {
         </small>
         <h1>Listas dos Usuários</h1>
       </div>
+      {!endLoadMore && (
+        <button className="btn" onClick={loadMore}>
+          loadMore
+        </button>
+      )}
       <div>
         {items.map((m) => (
           <section key={m.id} className="list-items">
@@ -50,6 +89,7 @@ const Lists = ({ lists }) => {
                 height="40"
               ></img>
             </LazyLoad>
+            {m.id}
             <Link href={`/list/${m.id}`} passHref>
               <a className="flex-one link-list">{m.listname}</a>
             </Link>
@@ -62,16 +102,3 @@ const Lists = ({ lists }) => {
 };
 
 export default Lists;
-
-export async function getStaticProps(context) {
-  let { data: lists, error } = await supabase
-    .from('lists')
-    .select('*')
-    .limit(10)
-    .order('inserted_at', { ascending: false });
-
-  return {
-    revalidate: 420,
-    props: { lists },
-  };
-}
