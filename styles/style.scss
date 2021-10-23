@@ -520,6 +520,7 @@
 .card-item {
   width: 185px;
   border: 1px solid var(--light-40);
+  background-color: var(--light-00);
   display: flex;
   flex-direction: column;
   .card-item__poster-div > div {
@@ -675,6 +676,38 @@ form .form-group {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - MODAL
+// new
+.modal-search {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.9);
+
+  &.modal-open {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+  }
+  &.modal-close {
+    display: none;
+  }
+}
+.modal-2-main {
+  position: relative;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+//
 .modal {
   position: fixed;
   left: 0;
@@ -690,6 +723,7 @@ form .form-group {
   align-items: flex-start;
 
   animation: 0.1s fadeIn ease-in;
+  background: rgba(0, 0, 0, 0.6);
 
   .modal-message__alert,
   .modal-message__success,

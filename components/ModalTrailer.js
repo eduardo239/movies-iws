@@ -30,20 +30,3 @@ export default function ModalTrailer({ trailer_id, setModal, modal }) {
     </section>
   );
 }
-
-//   return (
-//     <div
-//       style={{ display: `${modal ? 'flex' : 'none'}` }}
-//       className={`modal-container`}
-//       onClick={handleClickOutside}
-//     >
-//       <div className="modal-body">
-//         <IconOnly secondary className="close" onClick={() => setModal(!modal)}>
-//           <Close16 />
-//         </IconOnly>
-//         {/* <Spinner></Spinner> */}
-//         {children}
-//       </div>
-//     </div>
-//   );
-// };
