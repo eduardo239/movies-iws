@@ -490,34 +490,32 @@
   }
 }
 // - - - - - - - - - - - - - - - - - - - - - - - - SEARCH
-.search-field {
+.search {
   display: flex;
   align-items: flex-end;
   padding: 1rem 2rem;
-  button {
-    margin-bottom: 20px;
+  position: relative;
+  form {
+    width: 100%;
   }
 }
-@media screen and (max-width: 990px) {
-  .search-field {
-    padding: 0;
-    display: grid;
-    margin-bottom: 1rem;
-  }
-}
+
 .search-result {
+  background: var(--light-00);
+  width: 100%;
   position: absolute;
-  display: flex;
-  background: var(--light-100);
-  box-shadow: var(--shadow-4);
-  padding: 1rem;
-  z-index: 100;
-  top: 70;
+  top: 90px;
   left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
 }
+.modal-search-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - CARD
 .card-item {
   width: 185px;

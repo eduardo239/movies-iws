@@ -72,7 +72,7 @@ const Profile = () => {
           <div style={{ alignSelf: 'center' }}>
             <Link href={`/user/${profile?.username}/to-see`} passHref>
               <button className="btn-icon btn-primary">
-                <img src={addIcon.src} alt="Ver mais" width="24" height="24" />{' '}
+                <img src={addIcon.src} alt="Ver mais" width="24" height="24" />
                 <span>Ver mais..</span>
               </button>
             </Link>

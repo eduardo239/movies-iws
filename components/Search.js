@@ -1,87 +1,54 @@
-/* eslint-disable @next/next/no-img-element */
-import { useEffect, useState } from 'react';
-import useFetch from '../utils/useFetch';
-import Link from 'next/link';
-import Spinner from './Spinner';
-import Error from './Error';
-import poster_default from '../assets/poster.png';
-import LazyLoad from 'react-lazyload';
+import { useState } from 'react';
+import ModalSearch from './ModalSearch';
 
-export default function Search({ setOpacity }) {
-  const [term, setTerm] = useState('');
-  const [items, setItems] = useState([]);
+export default function Search() {
+  const [search, setSearch] = useState('');
+  const [results, setResults] = useState([]);
+  const [modal, toggleModal] = useState(false);
 
-  const { data, isLoading, isError } = useFetch(
-    `https://api.themoviedb.org/3/search/movie?api_key=${
-      process.env.NEXT_PUBLIC_TMDB_KEY
-    }&language=pt-BR&page=1&include_adult=false&query=${term ? term : ''}`
-  );
-
-  const handleClear = () => {
-    setTerm('');
+  const handleSearch = (e) => {
+    e.preventDefault();
   };
 
-  useEffect(() => {
-    if (data?.results?.length > 0) setItems(data.results);
+  // fetch movie by term
+  const fetchMovies = async (term) => {
+    setSearch(term);
+    if (search.length > 1) {
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR&page=1&include_adult=false&query=${search}`;
 
-    if (term.length > 1) {
-      setOpacity(true);
-    } else {
-      setOpacity(false);
+      const response = await fetch(url);
+      const json = await response.json();
+      setResults(json);
+      toggleModal(true);
+    } else if (search.length <= 1) {
+      setResults([]);
+      toggleModal(false);
     }
-  }, [term, data, setOpacity]);
+  };
 
-  if (isError) return <Error />;
   return (
-    <section>
-      <form className="search-field">
-        <div className="form-group flex-1">
-          <label htmlFor="login-email">Search</label>
+    <div className="search">
+      <form onSubmit={handleSearch}>
+        <div className="form-group">
+          <label htmlFor="login-email">Busca</label>
           <input
+            required
             type="text"
-            id="search-input"
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
+            id="search"
+            value={search}
+            onChange={(e) => fetchMovies(e.target.value)}
           />
         </div>
-        {term.length > 0 && (
-          <button className="btn btn-secondary" onClick={handleClear}>
-            Limpar Busca
-          </button>
-        )}
       </form>
-
-      {isLoading ? (
-        <div className="search-result">
-          <Spinner />
-        </div>
-      ) : (
-        <div
-          className={`flex-center gap-10 ${term.length > 0 && 'search-result'}`}
-        >
-          {items?.slice(0, 5).map((m) => (
-            <div key={m.id} className="movie-item">
-              <Link href={`/movie/${m.id}`} passHref>
-                <a>
-                  <LazyLoad offsetVertical={300}>
-                    <img
-                      width="140"
-                      height="210"
-                      alt={m.original_title}
-                      src={`${
-                        m.poster_path
-                          ? 'http://image.tmdb.org/t/p/w185' + m.poster_path
-                          : poster_default.src
-                      }`}
-                    />
-                  </LazyLoad>
-                  <small>{m.original_title}</small>
-                </a>
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
+      <div className="search-result">
+        <ModalSearch
+          shown={modal}
+          data={results}
+          close={() => {
+            toggleModal(false);
+          }}
+        ></ModalSearch>
+      </div>
+    </div>
   );
 }
