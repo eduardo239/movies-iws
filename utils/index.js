@@ -179,3 +179,12 @@ export async function checkIfContain(user_id, item_id) {
     return { toSeeOK: isMTS, watchedOK: isMW };
   }
 }
+
+// splice string if it's too long
+export function spliceString(string, maxLength) {
+  if (string.length > maxLength) {
+    return string.substring(0, maxLength) + '...';
+  } else {
+    return string;
+  }
+}

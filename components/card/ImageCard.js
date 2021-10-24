@@ -1,15 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import LazyLoad from 'react-lazyload';
-import addIcon from '../assets/eva_plus-circle-outline.svg';
-import videoIcon from '../assets/eva_video-outline.svg';
 import Link from 'next/link';
-import poster_default from '../assets/poster.png';
-import Placeholder from './Placeholder';
-import ModalTrailer from './ModalTrailer';
-import ModalMessage from './ModalMessage';
+import poster_default from '../../assets/poster.png';
+import Placeholder from '../../components/Placeholder';
+import ModalTrailer from '../../components/ModalTrailer';
+import ModalMessage from '../../components/ModalMessage';
 
-export default function Image({ content }) {
+export default function Image({ children, content }) {
   const [modal, setModal] = useState(false);
   const [trailerId, setTrailerId] = useState('');
   const [message, setMessage] = useState({
@@ -18,37 +16,37 @@ export default function Image({ content }) {
     type: 'success',
   });
 
-  async function showTrailer(id) {
-    const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`;
+  // async function showTrailer(id) {
+  //   const url = `https://api.themoviedb.org/3/movie/${id}/videos?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`;
 
-    const response = await fetch(url);
-    const json = await response.json();
-    const key = json.results[0]?.key;
+  //   const response = await fetch(url);
+  //   const json = await response.json();
+  //   const key = json.results[0]?.key;
 
-    if (key) {
-      setTrailerId(key);
-      setModal(!modal);
-    } else {
-      setMessage({
-        show: true,
-        message: 'Trailer não encontrado, redirecionando para o youtube.',
-        type: 'warning',
-      });
-      setTimeout(() => {
-        setMessage({ show: false, message: '', type: 'success' });
-        const yUrl = `https://www.youtube.com/results?search_query=trailer+${
-          content.original_title
-            ? content.original_title
-            : content.original_name
-            ? content.original_name
-            : null
-        }`;
+  //   if (key) {
+  //     setTrailerId(key);
+  //     setModal(!modal);
+  //   } else {
+  //     setMessage({
+  //       show: true,
+  //       message: 'Trailer não encontrado, redirecionando para o youtube.',
+  //       type: 'warning',
+  //     });
+  //     setTimeout(() => {
+  //       setMessage({ show: false, message: '', type: 'success' });
+  //       const yUrl = `https://www.youtube.com/results?search_query=trailer+${
+  //         content.original_title
+  //           ? content.original_title
+  //           : content.original_name
+  //           ? content.original_name
+  //           : null
+  //       }`;
 
-        window.open(yUrl, '_blank').focus();
-      }, 2000);
-      // popup youtube
-    }
-  }
+  //       window.open(yUrl, '_blank').focus();
+  //     }, 2000);
+  //     // popup youtube
+  //   }
+  // }
 
   return (
     <>
@@ -106,13 +104,7 @@ export default function Image({ content }) {
                 : ''}
             </small>
           </div>
-
-          <button
-            className="btn-icon btn-secondary w-100"
-            onClick={() => showTrailer(content.id)}
-          >
-            <img src={videoIcon.src} alt="Trailer" /> Trailer
-          </button>
+          {children}
         </div>
       </div>
     </>

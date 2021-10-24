@@ -18,13 +18,19 @@ export default function Search() {
       );
       const data = await res.json();
       setResults(data.results);
-      setShowModal(true);
+      if (results.length > 0) {
+        setShowModal(true);
+      } else {
+        setShowModal(false);
+      }
     } else {
       setShowModal(false);
+      setResults([]);
     }
   };
 
-  const handleReset = () => {
+  const handleReset = (e) => {
+    e.preventDefault();
     setSearch('');
     setShowModal(false);
     setResults([]);

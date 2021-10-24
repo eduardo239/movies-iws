@@ -3,8 +3,9 @@ import Link from 'next/link';
 import LazyLoad from 'react-lazyload';
 import poster_default from '../assets/poster-movie-list.jpg';
 import Placeholder from './Placeholder';
+import subIcon from '../assets/eva_minus-circle-outline.svg';
 
-export default function MovieListItem({ content }) {
+export default function MovieListItem({ content, removeItem }) {
   return (
     <div className="movie-list mb-2">
       <div className="movie-list__poster">
@@ -52,6 +53,14 @@ export default function MovieListItem({ content }) {
         <div style={{ marginLeft: '.5rem' }}>
           <div>
             <small>{content?.release_date.split('-')[0]}</small>
+          </div>
+          <div>
+            <button
+              onClick={() => removeItem(content, 2)}
+              className="btn-icon-only btn-secondary w-100"
+            >
+              <img src={subIcon.src} alt="Search" width="24" height="24" />
+            </button>
           </div>
         </div>
       </div>

@@ -5,7 +5,7 @@ import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
-import ImageCardTrailer from '../components/ImageCardTrailer';
+import ImageCardTrailer from '../components/card/ImageCardTrailer';
 
 export default function Upcoming() {
   const [page, setPage] = useState(1);

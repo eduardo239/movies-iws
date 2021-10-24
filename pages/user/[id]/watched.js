@@ -1,6 +1,7 @@
 import { useUser } from '../../../utils/useUser';
 import { useEffect, useState } from 'react';
 import MovieListItem from '../../../components/MovieListItem';
+import { removeItemFromProfile } from '../../../utils/movies';
 
 export default function WatchedMovies() {
   const [watched, setWatched] = useState([]);
@@ -12,8 +13,19 @@ export default function WatchedMovies() {
 
   const mapMovies = () => {
     return watched
-      .map((x) => <MovieListItem content={x} key={x.id} />)
+      .map((x) => (
+        <MovieListItem content={x} key={x.id} removeItem={removeItem} />
+      ))
       .reverse();
+  };
+
+  const removeItem = async (x, table) => {
+    const { movies_watched } = await removeItemFromProfile(
+      x,
+      profile.user_id,
+      0
+    );
+    setWatched(movies_watched);
   };
 
   return (

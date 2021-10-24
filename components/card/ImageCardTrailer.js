@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import LazyLoad from 'react-lazyload';
-import addIcon from '../assets/eva_plus-circle-outline.svg';
-import videoIcon from '../assets/eva_video-outline.svg';
+import addIcon from '../../assets/eva_plus-circle-outline.svg';
+import videoIcon from '../../assets/eva_video-outline.svg';
 import Link from 'next/link';
-import poster_default from '../assets/poster.png';
-import Placeholder from './Placeholder';
-import ModalTrailer from './ModalTrailer';
-import ModalMessage from './ModalMessage';
+import poster_default from '../../assets/poster.png';
+import Placeholder from '../Placeholder';
+import ModalTrailer from '../ModalTrailer';
+import ModalMessage from '../ModalMessage';
 
-export default function Image({ children, content }) {
+export default function Image({ content }) {
   const [modal, setModal] = useState(false);
   const [trailerId, setTrailerId] = useState('');
   const [message, setMessage] = useState({
@@ -106,7 +106,13 @@ export default function Image({ children, content }) {
                 : ''}
             </small>
           </div>
-          {children}
+
+          <button
+            className="btn-icon btn-secondary w-100"
+            onClick={() => showTrailer(content.id)}
+          >
+            <img src={videoIcon.src} alt="Trailer" /> Trailer
+          </button>
         </div>
       </div>
     </>

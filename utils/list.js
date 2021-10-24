@@ -69,6 +69,7 @@ export async function handleSave(e, name, items, user_id, setMessage) {
       user_id,
       listname: name,
       items,
+      poster: items[0].poster_path,
     };
 
     // insere os dados na tabela
@@ -114,4 +115,12 @@ export async function handleSave(e, name, items, user_id, setMessage) {
       setTimeout(() => setMessage(false), 2000);
     }
   }
+}
+
+export async function handleDelete(id, user_id) {
+  const { data, error } = await supabase
+    .from('lists')
+    .delete()
+    .eq('id', id)
+    .eq('user_id', user_id);
 }

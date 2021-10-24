@@ -1,18 +1,13 @@
 import { useRouter } from 'next/router';
-import { useUser } from '../../utils/useUser';
 import { supabase } from '../../utils/supabase';
 import { useState, useEffect } from 'react';
 import { breakpointColumnsObj } from '../../utils/constants';
 import Masonry from 'react-masonry-css';
-import ImageCardTrailer from '../../components/ImageCardTrailer';
+import ImageCardTrailer from '../../components/card/ImageCardTrailer';
 import Spinner from '../../components/Spinner';
-import Error from '../../components/Error';
 
 export default function Movie({ list }) {
   const router = useRouter();
-  const { id } = router.query;
-  const { user, profile } = useUser();
-  const [message, setMessage] = useState(false);
   const [items, setItems] = useState(false);
 
   useEffect(() => {
@@ -24,8 +19,8 @@ export default function Movie({ list }) {
 
   return (
     <section>
-      <h1>Lista: {list?.listname ?? ''}</h1>
-      <div className="">
+      <h1 className="text-center">Lista: {list?.listname ?? ''}</h1>
+      <div className="flex-center mb-20 ">
         <Masonry
           breakpointCols={breakpointColumnsObj}
           className="my-masonry-grid"

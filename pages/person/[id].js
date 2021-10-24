@@ -1,16 +1,21 @@
+import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { dateFormat, spliceString } from '../../utils';
 /* eslint-disable @next/next/no-img-element */
 import Error from '../../components/Error';
 import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { dateFormat } from '../../utils';
 import LazyLoad from 'react-lazyload';
 import Placeholder from '../../components/Placeholder';
+import likeIcon from '../../assets/eva_heart-outline.svg';
 
 export default function Person() {
   const router = useRouter();
+
   const { id } = router.query;
+  const [seeMore, setSeeMore] = useState(false);
+  const [seeMoreString, setSeeMoreString] = useState('Ler Mais');
 
   const { data, isLoading, isError } = useFetch(
     id
@@ -23,6 +28,15 @@ export default function Person() {
       ? `https://api.themoviedb.org/3/person/${id}/movie_credits?api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}&language=pt-BR`
       : ''
   );
+
+  const showMore = () => {
+    setSeeMore(!seeMore);
+    if (seeMore) {
+      setSeeMoreString('Ler Mais');
+    } else {
+      setSeeMoreString('Ler Menos');
+    }
+  };
 
   const mapMovies = () => {
     return movieCredits?.cast?.map((content) => (
@@ -49,8 +63,11 @@ export default function Person() {
             </span>
           </a>
         </Link>
+
         <div>{content.character}</div>
+
         <div>{dateFormat(content.release_date)}</div>
+
         <div>
           <div
             className={`score ${
@@ -74,7 +91,7 @@ export default function Person() {
   return (
     <section className="w-100">
       {/* POSTER */}
-      <div>
+      <div className="flex-start gap-10">
         <LazyLoad offset={100} height={210} once placeholder={<Placeholder />}>
           <img
             width="140"
@@ -87,12 +104,28 @@ export default function Person() {
             }`}
           />
         </LazyLoad>
+        <div>
+          <button className="btn-icon btn-primary">
+            <img src={likeIcon.src} alt="Add" /> Seguir
+          </button>
+        </div>
       </div>
 
       {/* BUTTONS */}
       <div>
         <h1>{data.name}</h1>
-        <p>{data.biography}</p>
+
+        {!seeMore ? (
+          <p>{spliceString(data.biography, 500)}</p>
+        ) : (
+          <p>{data.biography}</p>
+        )}
+        {data.biography.length > 499 && (
+          <button className="btn-small btn-secondary mb-10" onClick={showMore}>
+            {seeMoreString}
+          </button>
+        )}
+
         <p>
           <small>Local de nascimento: {data.place_of_birth}</small>
           <br />

@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import ImageCardTrailer from './ImageCardTrailer';
+import ImageCardTrailer from './card/ImageCardTrailer';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../utils/constants';
 import closeIcon from '../assets/eva_close-outline.svg';

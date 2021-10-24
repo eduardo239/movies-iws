@@ -1,20 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 import { useState } from 'react';
 import { useUser } from '../../utils/useUser';
-import { supabase } from '../../utils/supabase';
-import { containsObjectId } from '../../utils';
-import Link from 'next/link';
+import { breakpointColumnsObj2 } from '../../utils/constants';
 import Message from '../../components/Message';
-import poster_default from '../../assets/poster.png';
 import searchIcon from '../../assets/eva_search-outline.svg';
 import trashIcon from '../../assets/eva_trash-outlineb.svg';
 import saveIcon from '../../assets/eva_save-outline.svg';
 import addIcon from '../../assets/eva_plus-circle-outline.svg';
 import closeIcon from '../../assets/eva_close-outline.svg';
 import Masonry from 'react-masonry-css';
-import { breakpointColumnsObj2 } from '../../utils/constants';
-import LazyLoad from 'react-lazyload';
-import ImageCard from '../../components/ImageCard';
+import ImageCard from '../../components/card/ImageCard';
 import {
   handleAdd,
   handleRemove,

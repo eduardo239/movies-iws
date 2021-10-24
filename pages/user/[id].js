@@ -3,7 +3,7 @@ import { supabase } from '../../utils/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Message from '../../components/Message';
-import ImageCard from '../../components/ImageCard';
+import ImageCard from '../../components/card/ImageCard';
 import Spinner from '../../components/Spinner';
 import addIcon from '../../assets/eva_plus-circle-outline.svg';
 import subIcon from '../../assets/eva_minus-circle-outline.svg';

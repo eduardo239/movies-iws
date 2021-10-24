@@ -9,17 +9,15 @@ import Spinner from '../../components/Spinner';
 import useFetch from '../../utils/useFetch';
 import Link from 'next/link';
 import video from '../../assets/video.png';
-import star from '../../assets/star.png';
-import eye from '../../assets/eva_eye-outline.svg';
-import calendar from '../../assets/eva_calendar-outline.svg';
 import poster_default from '../../assets/poster.png';
 import ModalMessage from '../../components/ModalMessage';
 import LazyLoad from 'react-lazyload';
 import Masonry from 'react-masonry-css';
-import ImageCardTrailer from '../../components/ImageCardTrailer';
+import ImageCardTrailer from '../../components/card/ImageCardTrailer';
 import AddRemoveButtons from '../../components/AddRemoveButtons';
 import MovieTrailer from '../../components/MovieTrailer';
 import loginIcon from '../../assets/eva_log-in-outline.svg';
+import Person from '../../components/card/Person';
 
 export default function Movie() {
   const router = useRouter();
@@ -140,7 +138,7 @@ export default function Movie() {
       <div className="movie-grid">
         {/* POSTER */}
         <div className="movie-grid__a">
-          <LazyLoad offsetVertical={300}>
+          <LazyLoad>
             <img
               width="261"
               height="386"
@@ -159,7 +157,7 @@ export default function Movie() {
           {videos?.results?.length > 0 ? (
             <MovieTrailer trailer_id={videos.results[0].key} />
           ) : (
-            <LazyLoad offsetVertical={300}>
+            <LazyLoad>
               <img src={video.src} alt="Trailer" width="684" height="386" />
             </LazyLoad>
           )}
@@ -223,29 +221,8 @@ export default function Movie() {
       {/* CAST */}
       <h3 className="mb-10">Cast</h3>
       <div className="mb-20 flex-start cast">
-        {/* TODO: card */}
         {starList.length > 0 &&
-          starList.slice(0, 5).map((p) => (
-            <div key={p.id}>
-              <Link href={`/person/${p.id}`} passHref>
-                <a>
-                  <LazyLoad offsetVertical={300}>
-                    <img
-                      src={`${
-                        p.profile_path
-                          ? `http://image.tmdb.org/t/p/w342${p.profile_path}`
-                          : star.src
-                      }`}
-                      alt={p.original_name}
-                      width="140"
-                      height="210"
-                    />
-                  </LazyLoad>
-                </a>
-              </Link>
-              <p className="p-small">{p.original_name}</p>
-            </div>
-          ))}
+          starList.slice(0, 5).map((x) => <Person data={x} key={x.id} />)}
       </div>
 
       <hr />

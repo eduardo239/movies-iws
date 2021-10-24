@@ -5,7 +5,7 @@ import Spinner from '../components/Spinner';
 import Search from '../components/Search';
 import Masonry from 'react-masonry-css';
 import { breakpointColumnsObj } from '../utils/constants';
-import ImageCardTrailer from '../components/ImageCardTrailer';
+import ImageCardTrailer from '../components/card/ImageCardTrailer';
 import { useUser } from '../utils/useUser';
 
 export default function Home() {

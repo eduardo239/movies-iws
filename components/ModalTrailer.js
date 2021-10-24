@@ -1,7 +1,3 @@
-import Image from 'next/image';
-import checkIcon from '../assets/eva_checkmark-circle-2-outline.svg';
-import alertIcon from '../assets/eva_alert-circle-outline.svg';
-
 export default function ModalTrailer({ trailer_id, setModal, modal }) {
   const handleClickOutside = (e) => {
     let tar = e.target;
